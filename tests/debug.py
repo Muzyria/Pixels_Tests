@@ -6,9 +6,9 @@ import subprocess
 # udid = "dbe407da"
 
 
-def wake_up_device() -> None:
+def cart_burn_sleep_mode() -> None:
     subprocess.run(
-        ['adb', '-s', udid, 'shell', 'input', 'keyevent', 'KEYCODE_WAKEUP'],
+        ['adb', '-s', udid, 'shell', 'am', 'broadcast', '-a', 'com.l1inc.yamatrack3d.action.powermanagement.cart_barn_sleep'],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )
 
