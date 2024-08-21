@@ -8,7 +8,7 @@ from selenium.common.exceptions import WebDriverException
 from framework.appium import Appium
 
 
-class Driver:
+class DriverAppium:
     app_package = ''
     appium_instance = None
 

@@ -2,8 +2,8 @@ import pytest
 
 from pages import IntroPage, LoginPage
 from framework.appium import Appium
-from framework.driver import Driver
-from android_utils import get_driver_options, reset_app
+from framework.driver_appium import DriverAppium
+from android_utils import get_udid, get_driver_appium_options, reset_app
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
@@ -11,9 +11,9 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 
 def login() -> None:
-    reset_app(Driver.app_package)
-    Driver.launch_app()
-    Driver.grant_application_permissions()
+    reset_app(DriverAppium.app_package)
+    DriverAppium.launch_app()
+    DriverAppium.grant_application_permissions()
 
     IntroPage().click_login_button()
     LoginPage().login()
@@ -27,13 +27,13 @@ def appium_service():
 
 
 @pytest.fixture(scope='function', autouse=True)
-def driver(appium_service, request: pytest.FixtureRequest):
-    Driver.start(get_driver_options())
+def driver_appium(appium_service, request: pytest.FixtureRequest):
+    DriverAppium.start(get_driver_appium_options())
     if request.config.option.login:
         login()
 
     else:
-        Driver.terminate_app()
-        Driver.launch_app()
+        DriverAppium.terminate_app()
+        DriverAppium.launch_app()
     yield
-    Driver.finish()
+    DriverAppium.finish()

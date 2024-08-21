@@ -3,7 +3,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 
-from framework.driver import Driver
+from framework.driver_appium import DriverAppium
 
 
 class Page:
@@ -19,7 +19,7 @@ class Page:
 
     @classmethod
     def _wait_for_element(cls, strategy: str, selector: str):
-        return WebDriverWait(Driver.appium_instance, cls.TIMEOUT).until(
+        return WebDriverWait(DriverAppium.appium_instance, cls.TIMEOUT).until(
             expected_conditions.presence_of_element_located((strategy, selector))
         )
 
@@ -29,4 +29,4 @@ class Page:
 
     @staticmethod
     def _get_resource_id(element_id: str) -> str:
-        return f'{Driver.app_package}:id/{element_id}'
+        return f'{DriverAppium.app_package}:id/{element_id}'

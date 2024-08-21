@@ -6,7 +6,7 @@ adb_output = subprocess.getoutput('adb devices')
 udid = ""
 
 
-def get_idid() -> None:
+def get_udid() -> None:
     """Get UDID"""
     if not adb_output or len(adb_output.splitlines()) == 1:
         raise EnvironmentError('No Android device found')
@@ -15,7 +15,7 @@ def get_idid() -> None:
         udid = adb_output.splitlines()[1].split()[0]
 
 
-def get_driver_options() -> UiAutomator2Options:
+def get_driver_appium_options() -> UiAutomator2Options:
     options = UiAutomator2Options()
     options.no_reset = True
     options.udid = udid
@@ -25,7 +25,7 @@ def get_driver_options() -> UiAutomator2Options:
     return options
 
 
-def reset_app(package) -> None:
+def reset_app(package: str) -> None:
     subprocess.run(
         ['adb', '-s', udid, 'shell', 'pm', 'clear', package],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
