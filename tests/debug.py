@@ -1,29 +1,18 @@
-users_dict = {
-    'user_1': {
-        'user_1_1': {
-            'user_1_2': {
-                'user_1_3': 'Maryna Viazovska'
-            }
-        }
-    },
-    'user_2': 'Lina Kostenko',
-    'user_3': {
-        'user_3_1': 'Kateryna Bilokur'
-    }
-}
+import os
+import subprocess
+from android_utils import *
+import subprocess
+
+# udid = "dbe407da"
 
 
-my_list = []
-
-def rec(value: dict):
-    for v in value.values():
-        if isinstance(v, str):
-            my_list.append(v)
-        else:
-            rec(v)
-    return my_list
+def wake_up_device() -> None:
+    subprocess.run(
+        ['adb', '-s', udid, 'shell', 'input', 'keyevent', 'KEYCODE_WAKEUP'],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
 
 
-rec(users_dict)
-
-print(my_list)
+if __name__ == '__main__':
+    get_udid()
+    wake_up_device()

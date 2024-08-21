@@ -13,6 +13,7 @@ def get_udid() -> None:
     else:
         global udid
         udid = adb_output.splitlines()[1].split()[0]
+        print(f"{udid=}")
 
 
 def get_driver_appium_options() -> UiAutomator2Options:
@@ -30,3 +31,28 @@ def reset_app(package: str) -> None:
         ['adb', '-s', udid, 'shell', 'pm', 'clear', package],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )
+
+
+def get_wakefulness_status() -> str:
+    # Выполнение команды adb и получение вывода
+    adb_command = ['adb', '-s', udid, 'shell', 'dumpsys', 'power']
+    result = subprocess.run(adb_command, stdout=subprocess.PIPE, text=True)
+    for line in result.stdout.splitlines():
+        if "mWakefulness=" in line:
+            return line.split('=')[1].strip()
+    return "Status not found"
+
+
+def wake_up_device() -> None:
+    if get_wakefulness_status() == "Dozing":
+        subprocess.run(
+            ['adb', '-s', udid, 'shell', 'input', 'keyevent', 'KEYCODE_WAKEUP'],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+    else:
+        print("Devise is Active")
+
+
+if __name__ == '__main__':
+    get_udid()
+    wake_up_device()

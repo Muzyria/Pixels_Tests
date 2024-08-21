@@ -9,7 +9,7 @@ from framework_appium.appium import Appium
 
 
 class DriverAppium:
-    app_package = ''
+    app_package = "com.l1inc.yamatrack3d"
     appium_instance = None
 
     @classmethod
