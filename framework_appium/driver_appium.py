@@ -5,7 +5,7 @@ from appium.webdriver import Remote
 from appium.webdriver.appium_connection import AppiumConnection
 from selenium.common.exceptions import WebDriverException
 
-from framework.appium import Appium
+from framework_appium.appium import Appium
 
 
 class DriverAppium:

@@ -3,7 +3,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 
-from framework.driver_appium import DriverAppium
+from framework_appium.driver_appium import DriverAppium
 
 
 class Page:

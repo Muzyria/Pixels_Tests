@@ -1,8 +1,8 @@
 import pytest
 
 from pages import IntroPage, LoginPage
-from framework.appium import Appium
-from framework.driver_appium import DriverAppium
+from framework_appium.appium import Appium
+from framework_appium.driver_appium import DriverAppium
 from android_utils import get_udid, get_driver_appium_options, reset_app
 
 
