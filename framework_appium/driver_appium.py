@@ -18,7 +18,7 @@ class DriverAppium:
 
     @classmethod
     def finish(cls) -> None:
-        cls.appium_instance.terminate_app(cls.app_package)
+        # cls.appium_instance.terminate_app(cls.app_package)
         cls.appium_instance.quit()
         cls.appium_instance = None
 

@@ -1,4 +1,6 @@
 import subprocess
+import time
+
 from appium.options.android import UiAutomator2Options
 
 
@@ -26,11 +28,11 @@ def get_driver_appium_options() -> UiAutomator2Options:
     return options
 
 
-def reset_app(package: str) -> None:
-    subprocess.run(
-        ['adb', '-s', udid, 'shell', 'pm', 'clear', package],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-    )
+# def reset_app(package: str) -> None:
+#     subprocess.run(
+#         ['adb', '-s', udid, 'shell', 'pm', 'clear', package],
+#         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+#     )
 
 
 def get_wakefulness_status() -> str:
@@ -39,7 +41,9 @@ def get_wakefulness_status() -> str:
     result = subprocess.run(adb_command, stdout=subprocess.PIPE, text=True)
     for line in result.stdout.splitlines():
         if "mWakefulness=" in line:
-            return line.split('=')[1].strip()
+            result = line.split('=')[1].strip()
+            print(result)
+            return result
     return "Status not found"
 
 
@@ -58,10 +62,15 @@ def cart_burn_sleep_mode() -> None:
         ['adb', '-s', udid, 'shell', 'am', 'broadcast', '-a', 'com.l1inc.yamatrack3d.action.powermanagement.cart_barn_sleep'],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )
+    # Ждем, пока устройство не заснет
+    while not get_wakefulness_status() == "Dozing":
+        print("Ожидание, пока устройство заснет...")
+        time.sleep(2)  # Период ожидания перед следующей проверкой
+    print("Device in Cart Burn Sleep Mode")
 
 
 if __name__ == '__main__':
     get_udid()
-    # wake_up_device()
     cart_burn_sleep_mode()
+
 

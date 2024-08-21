@@ -7,9 +7,9 @@ class LoginPage(Page):
     def __init__(self) -> None:
         super().__init__()
 
-        self.login_input_id = 'authLoginEmail'
-        self.password_input_id = 'authLoginPassword'
-        self.login_button_id = 'authLogin'
+        self.login_input_id = ''
+        self.password_input_id = ''
+        self.login_button_id = ''
 
     def login(self) -> None:
         # login_input_xpath = self.get_input_field_xpath(self.login_input_id)

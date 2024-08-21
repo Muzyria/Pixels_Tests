@@ -3,7 +3,7 @@ import pytest
 from pages_android import IntroPage, LoginPage
 from framework_appium.appium import Appium
 from framework_appium.driver_appium import DriverAppium
-from android_utils import get_udid, get_driver_appium_options, reset_app
+from android_utils import get_udid, get_driver_appium_options
 
 
 # def pytest_addoption(parser: pytest.Parser) -> None:
@@ -28,12 +28,13 @@ def appium_service():
 
 @pytest.fixture(scope='function', autouse=True)
 def driver_appium(appium_service, request: pytest.FixtureRequest):
+    print()
     print("__START DRIVER APPIUM__")
     get_udid()
     DriverAppium.start(get_driver_appium_options())
 
-    DriverAppium.terminate_app()
-    DriverAppium.launch_app()
+    # DriverAppium.terminate_app()
+    # DriverAppium.launch_app()
     yield
     DriverAppium.finish()
 

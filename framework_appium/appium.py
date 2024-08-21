@@ -8,7 +8,6 @@ class Appium:
     # PORT = '48777'
     PORT = '4723'
 
-
     @classmethod
     def start(cls) -> None:
         cls.service.start(

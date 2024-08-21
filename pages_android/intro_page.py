@@ -6,7 +6,7 @@ class IntroPage(Page):
     def __init__(self) -> None:
         super().__init__()
 
-        self.login_button_id = 'authHelloLogin'
+        self.login_button_id = ''
 
     def click_login_button(self) -> None:
         login_button = self.find_element_by_id(self.login_button_id)
