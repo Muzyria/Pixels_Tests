@@ -1,13 +1,18 @@
 import subprocess
-
 from appium.options.android import UiAutomator2Options
 
 
 adb_output = subprocess.getoutput('adb devices')
-if not adb_output or len(adb_output.splitlines()) == 1:
-    raise EnvironmentError('No Android device found')
-else:
-    udid = adb_output.splitlines()[1].split()[0]
+udid = ""
+
+
+def get_idid() -> None:
+    """Get UDID"""
+    if not adb_output or len(adb_output.splitlines()) == 1:
+        raise EnvironmentError('No Android device found')
+    else:
+        global udid
+        udid = adb_output.splitlines()[1].split()[0]
 
 
 def get_driver_options() -> UiAutomator2Options:

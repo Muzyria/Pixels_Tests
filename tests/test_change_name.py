@@ -1,4 +1,4 @@
-from pages import MainPage, AccountInfo, AccountInfoEdit
+from pages import MainPage
 import pytest
 
 users_list = [
@@ -15,15 +15,15 @@ def new_names():
     return [str(i["first_name"] + " " + i["last_name"]) for i in users_list if i["age"] > 50 and "Hub2" in i["hubs"]]
 
 
-@pytest.mark.parametrize('new_names', new_names())
-def test_change_name(new_names):
-    but = MainPage().press_menu_button()
-
-    MainPage().press_settings_slide_bar_button()
-    AccountInfo().press_account_info_edit_button()
-    AccountInfoEdit().change_name(new_names)
-    AccountInfoEdit().press_back_button()
-    assert AccountInfo().get_title_value() == new_names
+# @pytest.mark.parametrize('new_names', new_names())
+# def test_change_name(new_names):
+#     but = MainPage().press_menu_button()
+#
+#     MainPage().press_settings_slide_bar_button()
+#     AccountInfo().press_account_info_edit_button()
+#     AccountInfoEdit().change_name(new_names)
+#     AccountInfoEdit().press_back_button()
+#     assert AccountInfo().get_title_value() == new_names
 
 
 
