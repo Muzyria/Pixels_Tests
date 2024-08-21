@@ -1,4 +1,4 @@
-from pages import MainPage
+from pages_android import MainPage
 import pytest
 
 users_list = [

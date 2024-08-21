@@ -1,4 +1,4 @@
-from pages import Page
+from pages_android import Page
 
 
 class IntroPage(Page):

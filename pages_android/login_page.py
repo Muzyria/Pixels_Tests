@@ -1,4 +1,4 @@
-from pages import Page
+from pages_android import Page
 from credentials import LOGIN, PASSWORD
 
 

@@ -1,6 +1,6 @@
-from pages import Page
+from pages_android import Page
 import pytest
-import pages
+import pages_android
 
 
 @pytest.mark.skip
