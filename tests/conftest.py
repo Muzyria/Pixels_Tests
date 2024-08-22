@@ -36,6 +36,8 @@ def driver_appium(appium_service, request: pytest.FixtureRequest):
     # DriverAppium.terminate_app()
     # DriverAppium.launch_app()
     yield
+    print()
+    print("__FINISH DRIVER APPIUM__")
     DriverAppium.finish()
 
 # @pytest.fixture(scope='function', autouse=True)

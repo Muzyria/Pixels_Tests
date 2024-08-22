@@ -10,15 +10,17 @@ from framework_appium.appium import Appium
 
 class DriverAppium:
     app_package = "com.l1inc.yamatrack3d"
-    appium_instance = None
+    appium_instance: Remote = None
 
     @classmethod
     def start(cls, options: UiAutomator2Options) -> None:
+        print("__start_appium__")
         cls.appium_instance = Remote(AppiumConnection(f'{Appium.HOST}:{Appium.PORT}'), options=options)
 
     @classmethod
     def finish(cls) -> None:
         # cls.appium_instance.terminate_app(cls.app_package)
+        print("__finish_apium__")
         cls.appium_instance.quit()
         cls.appium_instance = None
 
@@ -26,10 +28,12 @@ class DriverAppium:
     def launch_app(cls) -> None:
         cls.appium_instance.activate_app(cls.app_package)
 
-    @classmethod
-    def terminate_app(cls) -> None:
-        with suppress(WebDriverException):
-            cls.appium_instance.terminate_app(cls.app_package)
+
+    # @classmethod
+    # def terminate_app(cls) -> None:
+    #     with suppress(WebDriverException):
+    #         cls.appium_instance.terminate_app(cls.app_package)
+
 
     @classmethod
     def grant_application_permissions(cls) -> None:

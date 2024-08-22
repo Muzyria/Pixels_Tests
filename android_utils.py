@@ -69,8 +69,13 @@ def cart_burn_sleep_mode() -> None:
     print("Device in Cart Burn Sleep Mode")
 
 
+def device_reboot():
+    subprocess.run(['adb', '-s', udid, 'reboot'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+
 if __name__ == '__main__':
     get_udid()
-    cart_burn_sleep_mode()
+    device_reboot()
 
 

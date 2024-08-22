@@ -14,14 +14,22 @@ def test_something():
 
     # assert Page().find_element_by_id('menuDrawer')
 
-
-
-    time.sleep(3)
     get_wakefulness_status()
+    print(DriverAppium.appium_instance.session_id)
     print("put in cart burn")
-    cart_burn_sleep_mode()
-    time.sleep(15)
+    device_reboot()
+
+    DriverAppium.finish()
+    print("wait 120 seconds")
+    time.sleep(120)
+    print("try to connect")
+    get_udid()
+    DriverAppium.start(get_driver_appium_options())
+    print(DriverAppium.appium_instance.session_id)
     print("wake up")
     wake_up_device()
+
+
+
     print("test complite")
 
