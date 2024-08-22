@@ -8,7 +8,10 @@ import pytest
 import pages_android
 
 
-# @pytest.mark.skip
+from framework_chrome.driver_chrome import DriverChrome
+from chrome_utils import get_driver_chrome_options
+
+@pytest.mark.skip
 def test_something():
     print("test something")
 
@@ -28,8 +31,16 @@ def test_something():
     print(DriverAppium.appium_instance.session_id)
     print("wake up")
     wake_up_device()
+    print("test complete")
 
 
-
-    print("test complite")
+def test_something_2():
+    print("test something 2")
+    print(DriverChrome.chrome_instance.session_id)
+    time.sleep(5)
+    DriverChrome.finish()
+    time.sleep(5)
+    DriverChrome.start(get_driver_chrome_options())
+    time.sleep(5)
+    print("test complete")
 
