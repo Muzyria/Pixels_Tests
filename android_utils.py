@@ -58,6 +58,7 @@ def wake_up_device() -> None:
 
 
 def cart_burn_sleep_mode() -> None:
+    """Put device in cart bun sleep"""
     subprocess.run(
         ['adb', '-s', udid, 'shell', 'am', 'broadcast', '-a', 'com.l1inc.yamatrack3d.action.powermanagement.cart_barn_sleep'],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
@@ -69,9 +70,22 @@ def cart_burn_sleep_mode() -> None:
     print("Device in Cart Burn Sleep Mode")
 
 
-def device_reboot():
+def device_reboot() -> None:
+    """Reboot device"""
     subprocess.run(['adb', '-s', udid, 'reboot'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
+
+# def wait_reboot() -> bool:
+#     """finish appium and start appium"""
+#     while True:
+#         result = subprocess.run(["adb", "-s", udid, "shell", "pidof", "com.l1inc.yamatrack3d"], capture_output=True, text=True)
+#         if result.stdout.strip():  # Если приложение запущено
+#             print(f"Приложение com.l1inc.yamatrack3d запущено.")
+#             time.sleep(5)
+#             print("READY ______")
+#             return True
+#         print("Ожидание запуска приложения...")
+#         time.sleep(5)  # Проверяем каждые 5 секунд
 
 
 if __name__ == '__main__':
