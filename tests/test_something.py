@@ -7,9 +7,11 @@ from pages_android import Page
 import pytest
 import pages_android
 
-
 from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
+
+
+from pages_chrome.login_page import LoginPageSyncwise360
 
 @pytest.mark.skip
 def test_something():
@@ -34,6 +36,7 @@ def test_something():
     print("test complete")
 
 
+@pytest.mark.skip
 def test_something_2():
     print("test something 2")
     print(DriverChrome.chrome_instance.session_id)
@@ -44,3 +47,12 @@ def test_something_2():
     time.sleep(5)
     print("test complete")
 
+
+def test_something_login():
+    print("test something LOGIN")
+    LoginPageSyncwise360.open(LoginPageSyncwise360.PAGE_URL)
+    # LoginPageSyncwise360().enter_login()
+    LoginPageSyncwise360().enter_login().enter_password().click_login_button()
+    time.sleep(10)
+
+    print("test complete LOGIN")

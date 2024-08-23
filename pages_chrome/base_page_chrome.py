@@ -8,7 +8,10 @@ from framework_chrome.driver_chrome import DriverChrome
 
 class PageChrome:
     TIMEOUT = 30
-    wait = WebDriverWait(DriverChrome.chrome_instance, TIMEOUT, poll_frequency=1)
+
+    @classmethod
+    def _get_wait(cls) -> WebDriverWait:
+        return WebDriverWait(DriverChrome.chrome_instance, cls.TIMEOUT, poll_frequency=1)
 
     @classmethod
     def open(cls, url: str) -> None:
@@ -25,22 +28,22 @@ class PageChrome:
     #     )
 
     def visibility_of_element_located(self, locator: tuple[str, str]) -> WebElement:
-        return self.wait.until(EC.visibility_of_element_located(locator))
+        return self._get_wait().until(EC.visibility_of_element_located(locator))
 
     def visibility_of_all_elements_located(self, locator: tuple[str, str]) -> list[WebElement]:
-        return self.wait.until(EC.visibility_of_all_elements_located(locator))
+        return self._get_wait().until(EC.visibility_of_all_elements_located(locator))
 
     def presence_of_element_located(self, locator: tuple[str, str]) -> WebElement:
-        return self.wait.until(EC.presence_of_element_located(locator))
+        return self._get_wait().until(EC.presence_of_element_located(locator))
 
     def presence_of_all_elements_located(self, locator: tuple[str, str]) -> list[WebElement]:
-        return self.wait.until(EC.presence_of_all_elements_located(locator))
+        return self._get_wait().until(EC.presence_of_all_elements_located(locator))
 
     def invisibility_of_element_located(self, locator: tuple[str, str]) -> WebElement:
-        return self.wait.until(EC.invisibility_of_element_located(locator))
+        return self._get_wait().until(EC.invisibility_of_element_located(locator))
 
     def element_to_be_clickable(self, locator: tuple[str, str]) -> WebElement:
-        return self.wait.until(EC.element_to_be_clickable(locator))
+        return self._get_wait().until(EC.element_to_be_clickable(locator))
 
     @staticmethod
     def go_to_element(element: WebElement) -> None:

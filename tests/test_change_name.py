@@ -17,13 +17,14 @@ def new_names():
 
 # @pytest.mark.parametrize('new_names', new_names())
 # def test_change_name(new_names):
-#     but = MainPage().press_menu_button()
+#     # but = MainPage().press_menu_button()
 #
 #     MainPage().press_settings_slide_bar_button()
-#     AccountInfo().press_account_info_edit_button()
-#     AccountInfoEdit().change_name(new_names)
-#     AccountInfoEdit().press_back_button()
-#     assert AccountInfo().get_title_value() == new_names
+#
+#     # AccountInfo().press_account_info_edit_button()
+#     # AccountInfoEdit().change_name(new_names)
+#     # AccountInfoEdit().press_back_button()
+#     # assert AccountInfo().get_title_value() == new_names
 
 
 

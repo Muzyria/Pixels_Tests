@@ -1,2 +1,2 @@
-LOGIN = ''
-PASSWORD = ''
+LOGIN = 'igorperetssuperior'
+PASSWORD = 'Qwerty01!'
