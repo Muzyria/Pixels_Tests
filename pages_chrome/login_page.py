@@ -23,5 +23,5 @@ class LoginPageSyncwise360(PageChrome):
         self.element_to_be_clickable(self.PASSWORD_FIELD).send_keys(password)
         return self
 
-    def click_login_button(self):
+    def click_login_button(self) -> None:
         self.element_to_be_clickable(self.BUTTON_LOGIN).click()

@@ -18,3 +18,5 @@ class DriverChrome:
         print("__finish_chrome__")
         cls.chrome_instance.quit()
         cls.chrome_instance = None
+
+

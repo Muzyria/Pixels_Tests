@@ -17,15 +17,22 @@ class PageChrome:
     def open(cls, url: str) -> None:
         DriverChrome.chrome_instance.get(url)
 
+    @classmethod
+    def refresh(cls) -> None:
+        DriverChrome.chrome_instance.refresh()
+
+    @classmethod
+    def back(cls) -> None:
+        DriverChrome.chrome_instance.back()
+
+    @classmethod
+    def forward(cls) -> None:
+        DriverChrome.chrome_instance.forward()
+
     # @classmethod
     # def is_opened(cls):
     #     cls.wait.until(EC.url_to_be(self.PAGE_URL)
 
-    # @classmethod
-    # def _wait_for_element(cls, strategy: str, selector: str):
-    #     return WebDriverWait(DriverAppium.appium_instance, cls.TIMEOUT).until(
-    #         expected_conditions.presence_of_element_located((strategy, selector))
-    #     )
 
     def visibility_of_element_located(self, locator: tuple[str, str]) -> WebElement:
         return self._get_wait().until(EC.visibility_of_element_located(locator))
