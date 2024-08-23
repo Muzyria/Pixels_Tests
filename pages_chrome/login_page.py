@@ -1,10 +1,10 @@
 from pages_chrome import PageChrome
-from .config.links import Links_syncwise360
 from credentials import LOGIN, PASSWORD
+from .config import LinksBetaSyncWise360
 
 
-class LoginPageSyncwise360(PageChrome):
-    PAGE_URL = Links_syncwise360.LOGIN_PAGE
+class LoginPageSyncWise360(PageChrome):
+    PAGE_URL = LinksBetaSyncWise360.LOGIN_PAGE
 
     USERNAME_FIELD = ("xpath", "//input[@id='username']")
     PASSWORD_FIELD = ("xpath", "//input[@id='password']")
@@ -15,11 +15,11 @@ class LoginPageSyncwise360(PageChrome):
     def __init__(self) -> None:
         super().__init__()
 
-    def enter_login(self, login: str = LOGIN) -> "LoginPageSyncwise360":
+    def enter_login(self, login: str = LOGIN) -> 'LoginPageSyncWise360':
         self.element_to_be_clickable(self.USERNAME_FIELD).send_keys(login)
         return self
 
-    def enter_password(self, password: str = PASSWORD) -> "LoginPageSyncwise360":
+    def enter_password(self, password: str = PASSWORD) -> 'LoginPageSyncWise360':
         self.element_to_be_clickable(self.PASSWORD_FIELD).send_keys(password)
         return self
 

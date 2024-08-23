@@ -1,17 +1,14 @@
 import time
-
 from framework_appium.driver_appium import DriverAppium
 from android_utils import *
 
-from pages_android import Page
 import pytest
-import pages_android
 
 from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
 
+from pages_chrome.login_page import LoginPageSyncWise360
 
-from pages_chrome.login_page import LoginPageSyncwise360
 
 @pytest.mark.skip
 def test_something():
@@ -47,13 +44,13 @@ def test_something_2():
     time.sleep(5)
     print("test complete")
 
-
+@pytest.mark.skip
 def test_something_login():
     print("test something LOGIN")
-    LoginPageSyncwise360.open(LoginPageSyncwise360.PAGE_URL)
-    LoginPageSyncwise360().enter_login().enter_password().click_login_button()
+    LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
+    LoginPageSyncWise360().enter_login().enter_password().click_login_button()
     time.sleep(10)
-    LoginPageSyncwise360.refresh()
+    LoginPageSyncWise360.refresh()
     time.sleep(5)
     # DriverChrome.finish()
     #

@@ -3,6 +3,10 @@ import subprocess
 from android_utils import *
 import subprocess
 
+from pages_chrome import config
+
+import pages_chrome
+
 # udid = "192.168.0.100"
 
 
@@ -22,5 +26,5 @@ def cart_mode() -> bool:
 
 
 if __name__ == '__main__':
-    get_udid()
-    print(cart_mode())
+    print(dir(config))
+    print(dir(pages_chrome))

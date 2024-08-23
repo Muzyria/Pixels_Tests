@@ -1,5 +1,5 @@
 
-class Links_syncwise360:
+class LinksBetaSyncWise360:
 
     HOST = "https://beta.syncwise360.com"
     LOGIN_PAGE = f"{HOST}/login"
@@ -21,7 +21,7 @@ class Links_syncwise360:
     TOURNAMENTS_PAGE = f"{HOST}/tournaments"
 
 
-class Links_control:
+class LinksControl:
 
     HOST = "https://control.syncwise360.com"
     LOGIN_PAGE = f"{HOST}/#login"
