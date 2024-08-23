@@ -51,8 +51,13 @@ def test_something_2():
 def test_something_login():
     print("test something LOGIN")
     LoginPageSyncwise360.open(LoginPageSyncwise360.PAGE_URL)
-    # LoginPageSyncwise360().enter_login()
     LoginPageSyncwise360().enter_login().enter_password().click_login_button()
     time.sleep(10)
+    DriverChrome.finish()
 
+    time.sleep(1)
+    DriverChrome.start(get_driver_chrome_options())
+    LoginPageSyncwise360.open(LoginPageSyncwise360.PAGE_URL)
+    LoginPageSyncwise360().enter_login().enter_password().click_login_button()
+    time.sleep(10)
     print("test complete LOGIN")
