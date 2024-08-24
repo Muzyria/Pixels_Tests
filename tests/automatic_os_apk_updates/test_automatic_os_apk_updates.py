@@ -12,7 +12,7 @@ from pages_chrome.login_page_control import LoginPageControl
 class TestAutomaticOsApkUpdates(PageChrome):
     VALUE = None
 
-    def test_first(self) -> None:
+    def test_first(self, request) -> None:
         """
         CASE A: Cart Barn Sleep
         1. With device awake, que an update within Control
@@ -26,25 +26,31 @@ class TestAutomaticOsApkUpdates(PageChrome):
         """
         print("TEST AUTOMATION first")
         print(f"{self.VALUE=}")
+        print(request.config.firmware_version)
         LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
         LoginPageSyncWise360().enter_login().enter_password().click_login_button()
         self.VALUE = 1
+        print(request.config.firmware_version)
         time.sleep(10)
         print(f"{self.VALUE=}")
+        print(request.config.firmware_version)
         print("open control")
         LoginPageControl.open(LoginPageControl.PAGE_URL)
         LoginPageControl().enter_login().enter_password().click_login_button()
         time.sleep(10)
         print(f"{self.VALUE=}")
+        print(request.config.firmware_version)
         print("finish first")
 
     @pytest.mark.skip
-    def test_second(self) -> None:
+    def test_second(self, request) -> None:
         print("TEST AUTOMATION second")
         print(f"{self.VALUE=}")
+        print(request.config.firmware_version)
         LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
         LoginPageSyncWise360().enter_login().enter_password().click_login_button()
 
         time.sleep(10)
         print(f"{self.VALUE=}")
+        print(request.config.firmware_version)
         print("finish second")
