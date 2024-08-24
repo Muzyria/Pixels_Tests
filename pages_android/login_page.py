@@ -1,5 +1,5 @@
 from pages_android import Page
-from credentials import LOGIN, PASSWORD
+from credentials import LOGIN_360, PASSWORD_360
 
 
 class LoginPage(Page):
@@ -17,14 +17,14 @@ class LoginPage(Page):
         #------------
         login_input_field = self.find_element_by_id(self.login_input_id)
         #----------- com.ajaxsystems:id/authLoginEmail
-        self.send_keys(login_input_field, LOGIN)
+        self.send_keys(login_input_field, LOGIN_360)
 
         # password_input_xpath = self.get_input_field_xpath(self.password_input_id)
         # password_input_field = self.find_element_by_xpath(password_input_xpath)
         #------ com.ajaxsystems:id/authLoginPassword
         password_input_field = self.find_element_by_id(self.password_input_id)
         #-------
-        self.send_keys(password_input_field, PASSWORD)
+        self.send_keys(password_input_field, PASSWORD_360)
 
         login_button = self.find_element_by_id(self.login_button_id)
         login_button.click()
