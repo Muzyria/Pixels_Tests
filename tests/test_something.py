@@ -7,7 +7,7 @@ import pytest
 from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
 
-from pages_chrome.login_page import LoginPageSyncWise360
+from pages_chrome.login_page_360 import LoginPageSyncWise360
 
 
 @pytest.mark.skip

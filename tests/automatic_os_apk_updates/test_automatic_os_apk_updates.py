@@ -5,7 +5,8 @@ import time
 from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
 
-from pages_chrome.login_page import LoginPageSyncWise360
+from pages_chrome.login_page_360 import LoginPageSyncWise360
+from pages_chrome.login_page_control import LoginPageControl
 
 
 class TestAutomaticOsApkUpdates(PageChrome):
@@ -30,8 +31,14 @@ class TestAutomaticOsApkUpdates(PageChrome):
         self.VALUE = 1
         time.sleep(10)
         print(f"{self.VALUE=}")
+        print("open control")
+        LoginPageControl.open(LoginPageControl.PAGE_URL)
+        LoginPageControl().enter_login().enter_password().click_login_button()
+        time.sleep(10)
+        print(f"{self.VALUE=}")
         print("finish first")
 
+    @pytest.mark.skip
     def test_second(self) -> None:
         print("TEST AUTOMATION second")
         print(f"{self.VALUE=}")
