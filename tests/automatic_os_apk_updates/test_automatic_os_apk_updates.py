@@ -7,10 +7,11 @@ from chrome_utils import get_driver_chrome_options
 
 from pages_chrome.login_page_360 import LoginPageSyncWise360
 from pages_chrome.login_page_control import LoginPageControl
+from pages_chrome.superior_page_control import SuperiorPageControl
+from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 
 
 class TestAutomaticOsApkUpdates(PageChrome):
-    VALUE = None
 
     def test_first(self, request) -> None:
         """
@@ -24,33 +25,36 @@ class TestAutomaticOsApkUpdates(PageChrome):
         6. Confirm device installs upon waking up from Cart Barn Sleep
         - Confirm updated software version is displayed in APK Asset Details, 360, and Control
         """
+        print()
         print("TEST AUTOMATION first")
-        print(f"{self.VALUE=}")
-        print(request.config.firmware_version)
-        LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
-        LoginPageSyncWise360().enter_login().enter_password().click_login_button()
-        self.VALUE = 1
-        print(request.config.firmware_version)
-        time.sleep(10)
-        print(f"{self.VALUE=}")
-        print(request.config.firmware_version)
         print("open control")
-        LoginPageControl.open(LoginPageControl.PAGE_URL)
+        LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
         LoginPageControl().enter_login().enter_password().click_login_button()
-        time.sleep(10)
-        print(f"{self.VALUE=}")
-        print(request.config.firmware_version)
+        print("check URL")
+        LoginPageControl.is_opened(LoginPageControl.MAIN_PAGE)
+
+        SuperiorPageControl.open(SuperiorPageControl.PAGE_URL)  # open Superior
+        print("check URL")
+        SuperiorPageControl.is_opened(SuperiorPageControl.PAGE_URL)
+
+        SuperiorPageControl().click_button_device_manager()
+        SuperiorPageControl().click_device_id_in_box(request.config.firmware_version["device_id"])
+        # time.sleep(10)
+
+        DeviceDetailsPageControl().click_button_version_ota()
+        time.sleep(2)
+
+        DeviceDetailsPageControl().click_button_save_version_ota()
+        time.sleep(5)
         print("finish first")
 
     @pytest.mark.skip
     def test_second(self, request) -> None:
         print("TEST AUTOMATION second")
-        print(f"{self.VALUE=}")
+
         print(request.config.firmware_version)
         LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
         LoginPageSyncWise360().enter_login().enter_password().click_login_button()
-
         time.sleep(10)
-        print(f"{self.VALUE=}")
         print(request.config.firmware_version)
         print("finish second")

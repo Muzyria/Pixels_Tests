@@ -25,4 +25,5 @@ class LinksControl:
 
     HOST = "https://control.syncwise360.com"
     LOGIN_PAGE = f"{HOST}/#login"
+    MAIN_PAGE = f"{HOST}/#company"
     SUPERIOR_COMPANY_PAGE = f"{HOST}/#company/4442"

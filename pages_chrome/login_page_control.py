@@ -5,6 +5,7 @@ from .config import LinksControl
 
 class LoginPageControl(PageChrome):
     PAGE_URL = LinksControl.LOGIN_PAGE
+    MAIN_PAGE = LinksControl.MAIN_PAGE
 
     USERNAME_FIELD = ("xpath", "//input[@id='username']")
     PASSWORD_FIELD = ("xpath", "//input[@id='password']")

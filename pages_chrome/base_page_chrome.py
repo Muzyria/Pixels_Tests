@@ -29,10 +29,15 @@ class PageChrome:
     def forward(cls) -> None:
         DriverChrome.chrome_instance.forward()
 
-    # @classmethod
-    # def is_opened(cls):
-    #     cls.wait.until(EC.url_to_be(self.PAGE_URL)
+    @classmethod
+    def is_opened(cls, url):
+        cls._get_wait().until(EC.url_to_be(url))
 
+    # def wait_for_page_load(self):
+    #     self._get_wait().until(
+    #         lambda d: d.execute_script("return document.readyState") == "complete"
+    #     )
+    #     print("__PAGE_IS_LOADED__")
 
     def visibility_of_element_located(self, locator: tuple[str, str]) -> WebElement:
         return self._get_wait().until(EC.visibility_of_element_located(locator))
@@ -67,3 +72,7 @@ class PageChrome:
         action = ActionChains(DriverChrome.chrome_instance)
         action.context_click(element)
         action.perform()
+
+    def visibility_of(self, element: WebElement):
+        print("visibility_of")
+        self._get_wait().until(EC.visibility_of(element))
