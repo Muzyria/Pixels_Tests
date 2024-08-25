@@ -13,52 +13,80 @@ from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 
 class TestAutomaticOsApkUpdates(PageChrome):
     @staticmethod
-    def set_os_ota_version(devise_id: str, os_version: str) -> None:
-        print("open control")
+    def login_and_select_device(device_id: str):
         LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
         LoginPageControl().enter_login().enter_password().click_login_button()  # check URL
         LoginPageControl.is_opened(LoginPageControl.MAIN_PAGE)
         SuperiorPageControl.open(SuperiorPageControl.PAGE_URL)  # open Superior
         SuperiorPageControl.is_opened(SuperiorPageControl.PAGE_URL)  # check URL
         SuperiorPageControl().click_button_device_manager()
-        SuperiorPageControl().click_device_id_in_box(devise_id)
+        SuperiorPageControl().click_device_id_in_box(device_id)
         time.sleep(5)
+
+    @staticmethod
+    def set_os_ota_version(device_id: str, os_version: str) -> None:
+        TestAutomaticOsApkUpdates.login_and_select_device(device_id)
         DeviceDetailsPageControl().click_button_edit_version_ota()
         DeviceDetailsPageControl().select_os_version(os_version)
         DeviceDetailsPageControl().click_button_save_version_ota()
-        print(f"set os ota version {os_version} for device {devise_id} complete")
+        print(f"set os ota version {os_version} for device {device_id} complete")
         time.sleep(5)
         LoginPageControl().click_logout_button()
-        time.sleep(5)
+        time.sleep(3)
 
     @staticmethod
-    def set_app_ota_version(devise_id: str, app_version: str) -> None:
-        print("open control")
-        LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
-        LoginPageControl().enter_login().enter_password().click_login_button()  # check URL
-        LoginPageControl.is_opened(LoginPageControl.MAIN_PAGE)
-        SuperiorPageControl.open(SuperiorPageControl.PAGE_URL)  # open Superior
-        SuperiorPageControl.is_opened(SuperiorPageControl.PAGE_URL)  # check URL
-        SuperiorPageControl().click_button_device_manager()
-        SuperiorPageControl().click_device_id_in_box(devise_id)
-        time.sleep(5)
+    def set_app_ota_version(device_id: str, app_version: str) -> None:
+        TestAutomaticOsApkUpdates.login_and_select_device(device_id)
         DeviceDetailsPageControl().click_button_edit_version_ota()
         DeviceDetailsPageControl().select_app_version(app_version)
         DeviceDetailsPageControl().click_button_save_version_ota()
-        print(f"set app ota version {app_version} for device {devise_id} complete")
+        print(f"set app ota version {app_version} for device {device_id} complete")
         time.sleep(5)
         LoginPageControl().click_logout_button()
-        time.sleep(5)
+        time.sleep(3)
 
     @staticmethod
-    def remove_os_ota_version(self,  devise_id: str,) -> None:
-        ...
+    def remove_os_ota_version(device_id: str) -> None:
+        TestAutomaticOsApkUpdates.login_and_select_device(device_id)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        if DeviceDetailsPageControl().check_button_remove_os_is_displayed():
+            DeviceDetailsPageControl().click_button_remove_os_update()
+            time.sleep(2)
+            print()
+            print("REMOVE OS UPDATE IS DONE")
+        else:
+            print()
+            print("REMOVE OS UPDATE IS NOT AVAILABLE")
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
 
     @staticmethod
-    def remove_app_ota_version(self,  devise_id: str,) -> None:
-        ...
+    def remove_app_ota_version(device_id: str) -> None:
+        TestAutomaticOsApkUpdates.login_and_select_device(device_id)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        if DeviceDetailsPageControl().check_button_remove_app_is_displayed():
+            DeviceDetailsPageControl().click_button_remove_app_update()
+            time.sleep(2)
+            print()
+            print("REMOVE APP UPDATE IS DONE")
+        else:
+            print()
+            print("REMOVE APP UPDATE IS NOT AVAILABLE")
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
 
-
+    @staticmethod
+    def get_info_control(device_id: str) -> dict[str: str]:
+        TestAutomaticOsApkUpdates.login_and_select_device(device_id)
+        DeviceDetailsPageControl().click_button_info()
+        # get info
+        info_fw_version = DeviceDetailsPageControl().get_info_fw_version()
+        info_app_version = DeviceDetailsPageControl().get_info_app_version()
+        print(f"{info_fw_version=} {info_app_version=}")
+        # time.sleep(5)
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
+        return {"info_fw_version": info_fw_version, "info_app_version": info_app_version}
 
     def test_first(self, request) -> None:
         """
@@ -74,16 +102,16 @@ class TestAutomaticOsApkUpdates(PageChrome):
         """
         print()
         print("TEST AUTOMATION first")
-        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])
-        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])
+        # self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])
+        # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])
+        # # --------------------------------------------------------------------------------------
+        # self.remove_os_ota_version(request.config.firmware_version["device_id"])
+        # self.remove_app_ota_version(request.config.firmware_version["device_id"])
+        # # --------------------------------------------------------------------------------------
+        # res = self.get_info_control(request.config.firmware_version["device_id"])
+        # print(res)
+        ## ---------------------------------------------------------------------------------------
 
-        #  --------------------------------------------------------------------------------------
-        # DeviceDetailsPageControl().click_button_edit_version_ota()
-        # DeviceDetailsPageControl().click_button_remove_os_update()
-        # time.sleep(2)
-        # DeviceDetailsPageControl().click_button_edit_version_ota()
-        # DeviceDetailsPageControl().click_button_remove_app_update()
-        # time.sleep(5)
 
         print("finish first")
 

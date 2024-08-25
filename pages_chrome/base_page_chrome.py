@@ -34,8 +34,8 @@ class PageChrome:
         cls._get_wait().until(EC.url_to_be(url))
 
     @classmethod
-    def close(cls):
-        DriverChrome.chrome_instance.close()
+    def find_elements(cls, locator):
+        return DriverChrome.chrome_instance.find_elements(*locator)
 
     # def wait_for_page_load(self):
     #     self._get_wait().until(
