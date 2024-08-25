@@ -12,6 +12,53 @@ from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 
 
 class TestAutomaticOsApkUpdates(PageChrome):
+    @staticmethod
+    def set_os_ota_version(devise_id: str, os_version: str) -> None:
+        print("open control")
+        LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
+        LoginPageControl().enter_login().enter_password().click_login_button()  # check URL
+        LoginPageControl.is_opened(LoginPageControl.MAIN_PAGE)
+        SuperiorPageControl.open(SuperiorPageControl.PAGE_URL)  # open Superior
+        SuperiorPageControl.is_opened(SuperiorPageControl.PAGE_URL)  # check URL
+        SuperiorPageControl().click_button_device_manager()
+        SuperiorPageControl().click_device_id_in_box(devise_id)
+        time.sleep(5)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        DeviceDetailsPageControl().select_os_version(os_version)
+        DeviceDetailsPageControl().click_button_save_version_ota()
+        print(f"set os ota version {os_version} for device {devise_id} complete")
+        time.sleep(5)
+        LoginPageControl().click_logout_button()
+        time.sleep(5)
+
+    @staticmethod
+    def set_app_ota_version(devise_id: str, app_version: str) -> None:
+        print("open control")
+        LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
+        LoginPageControl().enter_login().enter_password().click_login_button()  # check URL
+        LoginPageControl.is_opened(LoginPageControl.MAIN_PAGE)
+        SuperiorPageControl.open(SuperiorPageControl.PAGE_URL)  # open Superior
+        SuperiorPageControl.is_opened(SuperiorPageControl.PAGE_URL)  # check URL
+        SuperiorPageControl().click_button_device_manager()
+        SuperiorPageControl().click_device_id_in_box(devise_id)
+        time.sleep(5)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        DeviceDetailsPageControl().select_app_version(app_version)
+        DeviceDetailsPageControl().click_button_save_version_ota()
+        print(f"set app ota version {app_version} for device {devise_id} complete")
+        time.sleep(5)
+        LoginPageControl().click_logout_button()
+        time.sleep(5)
+
+    @staticmethod
+    def remove_os_ota_version(self,  devise_id: str,) -> None:
+        ...
+
+    @staticmethod
+    def remove_app_ota_version(self,  devise_id: str,) -> None:
+        ...
+
+
 
     def test_first(self, request) -> None:
         """
@@ -27,25 +74,17 @@ class TestAutomaticOsApkUpdates(PageChrome):
         """
         print()
         print("TEST AUTOMATION first")
-        print("open control")
-        LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
-        LoginPageControl().enter_login().enter_password().click_login_button()
-        print("check URL")
-        LoginPageControl.is_opened(LoginPageControl.MAIN_PAGE)
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])
 
-        SuperiorPageControl.open(SuperiorPageControl.PAGE_URL)  # open Superior
-        print("check URL")
-        SuperiorPageControl.is_opened(SuperiorPageControl.PAGE_URL)
+        #  --------------------------------------------------------------------------------------
+        # DeviceDetailsPageControl().click_button_edit_version_ota()
+        # DeviceDetailsPageControl().click_button_remove_os_update()
+        # time.sleep(2)
+        # DeviceDetailsPageControl().click_button_edit_version_ota()
+        # DeviceDetailsPageControl().click_button_remove_app_update()
+        # time.sleep(5)
 
-        SuperiorPageControl().click_button_device_manager()
-        SuperiorPageControl().click_device_id_in_box(request.config.firmware_version["device_id"])
-        # time.sleep(10)
-
-        DeviceDetailsPageControl().click_button_version_ota()
-        time.sleep(2)
-
-        DeviceDetailsPageControl().click_button_save_version_ota()
-        time.sleep(5)
         print("finish first")
 
     @pytest.mark.skip

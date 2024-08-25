@@ -10,6 +10,7 @@ class LoginPageControl(PageChrome):
     USERNAME_FIELD = ("xpath", "//input[@id='username']")
     PASSWORD_FIELD = ("xpath", "//input[@id='password']")
     BUTTON_LOGIN = ("xpath", "//button[@id='btn-submit']")
+    BUTTON_LOGOUT = ("xpath", '//div[@id="logout"]')
 
     def __init__(self) -> None:
         super().__init__()
@@ -24,3 +25,6 @@ class LoginPageControl(PageChrome):
 
     def click_login_button(self) -> None:
         self.element_to_be_clickable(self.BUTTON_LOGIN).click()
+
+    def click_logout_button(self) -> None:
+        self.element_to_be_clickable(self.BUTTON_LOGOUT).click()

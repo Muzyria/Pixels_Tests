@@ -33,6 +33,10 @@ class PageChrome:
     def is_opened(cls, url):
         cls._get_wait().until(EC.url_to_be(url))
 
+    @classmethod
+    def close(cls):
+        DriverChrome.chrome_instance.close()
+
     # def wait_for_page_load(self):
     #     self._get_wait().until(
     #         lambda d: d.execute_script("return document.readyState") == "complete"
