@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from framework_appium.driver_appium import DriverAppium
 
 
+
 class Page:
 
     TIMEOUT = 15
@@ -32,4 +33,6 @@ class Page:
         print(f'{DriverAppium.app_package}:id/{element_id}')
         print("com.l1inc.yamatrack3d:id/buttonMenu")
         return f'{DriverAppium.app_package}:id/{element_id}'
+
+
 

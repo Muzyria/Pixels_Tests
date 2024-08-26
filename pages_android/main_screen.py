@@ -1,11 +1,25 @@
 from pages_android import Page
-
+from android_utils import touch_screen_by_coordinate
 
 class MainPage(Page):
     def __init__(self):
         super().__init__()
 
         self.menu_button_id = "buttonMenu"
+        self.flag_button_coordinate = "1000 100"
+
+        self.text_no_active_downloads_id = "textViewNoActiveDownloads"
+
+        # com.l1inc.yamatrack3d:id/autoUpdateCellOs
+        # com.l1inc.yamatrack3d:id/imageButtonComplete
+        # (//android.widget.ImageButton[@resource-id="com.l1inc.yamatrack3d:id/imageButtonComplete"])[2]
+
+        # com.l1inc.yamatrack3d:id/autoUpdateCellApk
+        # (//android.widget.ImageButton[@resource-id="com.l1inc.yamatrack3d:id/imageButtonComplete"])[1]
+        # //android.widget.TextView[@resource-id="com.l1inc.yamatrack3d:id/textViewPercentage"]
+
+
+        # spinner com.l1inc.yamatrack3d:id/imageViewLoading
 
 
     def press_button(self, id_button) -> None:
@@ -16,17 +30,14 @@ class MainPage(Page):
         self.find_element_by_id(self.menu_button_id).click()
         return self
 
-    def press_settings_slide_bar_button(self) -> None:
-        self.press_button(self.settings_slide_bar_button_id)
+    def press_flag_button(self) -> None:
+        touch_screen_by_coordinate(self.flag_button_coordinate)
 
-    def get_info_button(self):
-        my_dict = {}
+    def get_text_no_active_downloads(self):
+        return self.find_element_by_id(self.text_no_active_downloads_id).text
 
-        button = self.find_element_by_id(self.devices_button_id)
-        button_text = button.get_attribute("text")
-        bounds = button.get_attribute("bounds")
-        print(button_text)
-        print(bounds)
+
+
 
 
 

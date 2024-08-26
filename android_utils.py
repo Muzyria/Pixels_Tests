@@ -8,14 +8,30 @@ adb_output = subprocess.getoutput('adb devices')
 udid = ""
 
 
-def get_udid() -> None:
-    """Get UDID"""
-    if not adb_output or len(adb_output.splitlines()) == 1:
-        raise EnvironmentError('No Android device found')
+# def get_udid() -> None:
+#     """Get UDID"""
+#     if not adb_output or len(adb_output.splitlines()) == 1:
+#         raise EnvironmentError('No Android device found')
+#     else:
+#         global udid
+#         udid = adb_output.splitlines()[1].split()[0]
+#         print(f"{udid=}")
+def get_udid(device_ip: str = None) -> None:
+    """Get UDID from usb or set IP address"""
+    if not device_ip:
+        if not adb_output or len(adb_output.splitlines()) == 1:
+            raise EnvironmentError('No Android device found')
+        else:
+            global udid
+            udid = adb_output.splitlines()[1].split()[0]
+            print(f"{udid=}")
     else:
-        global udid
-        udid = adb_output.splitlines()[1].split()[0]
-        print(f"{udid=}")
+        udid = device_ip
+        device_connect()
+
+
+def device_connect() -> None:
+    subprocess.run(['adb', 'connect', udid])
 
 
 def get_driver_appium_options() -> UiAutomator2Options:
@@ -86,6 +102,11 @@ def device_reboot() -> None:
 #             return True
 #         print("Ожидание запуска приложения...")
 #         time.sleep(5)  # Проверяем каждые 5 секунд
+
+
+def touch_screen_by_coordinate(coordinates: str) -> None:
+    subprocess.run(['adb', '-s', udid, 'shell', 'input', 'tap', coordinates])
+
 
 
 if __name__ == '__main__':

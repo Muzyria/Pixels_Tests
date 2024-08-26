@@ -139,10 +139,10 @@ class TestAutomaticOsApkUpdates(PageChrome):
         # print(res)
         # -----------------------------------------------------------------------------------------
         # devise ----------------------------------------------------------------------------------
-        MainPage().press_menu_button()
-
-
-
+        # MainPage().press_menu_button()
+        MainPage().press_flag_button()
+        # res = MainPage().get_text_no_active_downloads()
+        # print(f"{res=}")
         print("finish first")
 
     @pytest.mark.skip

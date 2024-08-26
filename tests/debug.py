@@ -26,5 +26,6 @@ def cart_mode() -> bool:
 
 
 if __name__ == '__main__':
-    print(dir(config))
-    print(dir(pages_chrome))
+    # print(dir(config))
+    # print(dir(pages_chrome))
+    subprocess.run(['adb', '-s', udid, 'shell', 'input', 'tap', '1000 100'])
