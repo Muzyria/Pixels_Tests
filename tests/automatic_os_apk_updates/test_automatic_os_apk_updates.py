@@ -2,6 +2,8 @@ import pytest
 from pages_chrome import PageChrome
 import time
 
+from pages_android.main_screen import MainPage
+
 from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
 
@@ -137,6 +139,8 @@ class TestAutomaticOsApkUpdates(PageChrome):
         # print(res)
         # -----------------------------------------------------------------------------------------
         # devise ----------------------------------------------------------------------------------
+        MainPage().press_menu_button()
+
 
 
         print("finish first")

@@ -29,4 +29,7 @@ class Page:
 
     @staticmethod
     def _get_resource_id(element_id: str) -> str:
+        print(f'{DriverAppium.app_package}:id/{element_id}')
+        print("com.l1inc.yamatrack3d:id/buttonMenu")
         return f'{DriverAppium.app_package}:id/{element_id}'
+
