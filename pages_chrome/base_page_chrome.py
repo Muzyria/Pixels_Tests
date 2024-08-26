@@ -58,6 +58,9 @@ class PageChrome:
     def invisibility_of_element_located(self, locator: tuple[str, str]) -> WebElement:
         return self._get_wait().until(EC.invisibility_of_element_located(locator))
 
+    def invisibility_of_element(self, locator: tuple[str, str]) -> WebElement:
+        return self._get_wait().until(EC.invisibility_of_element(locator))
+
     def element_to_be_clickable(self, locator: tuple[str, str]) -> WebElement:
         return self._get_wait().until(EC.element_to_be_clickable(locator))
 
