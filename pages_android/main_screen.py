@@ -1,6 +1,7 @@
 from pages_android import Page
 from android_utils import touch_screen_by_coordinate
 
+
 class MainPage(Page):
     def __init__(self):
         super().__init__()
