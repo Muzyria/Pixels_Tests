@@ -13,7 +13,6 @@ class AssetDetailsPage(Page):
 
     CANCEL_BUTTON = ('id', 'com.l1inc.yamatrack3d:id/imageButtonCancel')
 
-
     def get_apk_version(self):
         swipe_screen_down_to_up()
         apk_version = self.visibility_of_element_located(self.ASSETS_APK_VERSION).text
