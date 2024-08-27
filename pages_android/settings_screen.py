@@ -12,6 +12,8 @@ class SettingsPage(Page):
     UPDATES_BUTTON = ("xpath", '//android.widget.TextView[@resource-id="com.l1inc.yamatrack3d:id/textViewName" and @text="UPDATES"]')
     FULL_APP_RESET_BUTTON = ("xpath", '//android.widget.TextView[@resource-id="com.l1inc.yamatrack3d:id/textViewName" and @text="FULL APP RESET"]')
 
+    CANCEL_BUTTON = ('id', 'com.l1inc.yamatrack3d:id/imageButtonCancel')
+
     @staticmethod
     def _get_number_button_id(number: str) -> tuple[str, str]:
         return "id", f"com.l1inc.yamatrack3d:id/button{number}"
@@ -27,3 +29,5 @@ class SettingsPage(Page):
     def press_assets_details_button(self):
         self.presence_of_element_located(self.ASSETS_DETAILS_BUTTON).click()
 
+    def press_button_cancel(self):
+        self.presence_of_element_located(self.CANCEL_BUTTON).click()

@@ -113,7 +113,21 @@ class TestAutomaticOsApkUpdates(PageChrome):
         time.sleep(3)
         return {"device_info_os_version": device_info_os_version, "device_info_apk_version": device_info_apk_version}
 
+    # device -------------------------------------------------------------------------------------------------
+    @staticmethod
+    def get_tablet_apk_os_version():
+        MainPage().press_menu_button()
+        MenuPage().press_settings_button()
+        SettingsPage().enter_settings_password()
+        SettingsPage().press_assets_details_button()
+        tablet_os_version = AssetDetailsPage().get_os_version()
+        tablet_apk_version = AssetDetailsPage().get_apk_version()
 
+        print(f'{tablet_os_version=} {tablet_apk_version=}')
+        AssetDetailsPage().press_button_cancel()
+        SettingsPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
+        return {"tablet_os_version": tablet_os_version, "tablet_apk_version": tablet_apk_version}
 
     def test_first(self, request) -> None:
         """
@@ -142,12 +156,7 @@ class TestAutomaticOsApkUpdates(PageChrome):
         # print(res)
         # -----------------------------------------------------------------------------------------
         # devise ----------------------------------------------------------------------------------
-        # MainPage().press_menu_button()
-        # MenuPage().press_settings_button()
-        # SettingsPage().enter_settings_password()
-        # SettingsPage().press_assets_details_button()
-        AssetDetailsPage().get_apk_version()
-        AssetDetailsPage().get_os_version()
+        self.get_tablet_apk_os_version()
 
 
         # MainPage().press_flag_button()

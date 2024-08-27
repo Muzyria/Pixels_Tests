@@ -10,7 +10,9 @@ class AssetDetailsPage(Page):
     # ASSETS_OS_VERSION = ("xpath", '(//android.widget.TextView[@resource-id="com.l1inc.yamatrack3d:id/textViewValue"])[2]')
     ASSETS_APK_VERSION = ("xpath", "//android.widget.TextView[@text='APPLICATION VERSION (APK)']/following-sibling::android.widget.TextView")
     ASSETS_OS_VERSION = ("xpath", "//android.widget.TextView[@text='OS VERSION']/following-sibling::android.widget.TextView")
-    APK_OS_VERSION = ("id", 'com.l1inc.yamatrack3d:id/textViewValue')
+
+    CANCEL_BUTTON = ('id', 'com.l1inc.yamatrack3d:id/imageButtonCancel')
+
 
     def get_apk_version(self):
         swipe_screen_down_to_up()
@@ -24,21 +26,5 @@ class AssetDetailsPage(Page):
         print(f'{os_version=}')
         return os_version
 
-
-    # def get_apk_version(self):
-    #     swipe_screen_down_to_up()
-    #     value_list = self.find_elements(self.APK_OS_VERSION)
-    #     print(f'apk {value_list[0].text=}')
-    #     print(f'os {value_list[1].text=}')
-    #     # return apk_version
-
-
-
-
-
-
-
-
-
-
-
+    def press_button_cancel(self):
+        self.presence_of_element_located(self.CANCEL_BUTTON).click()
