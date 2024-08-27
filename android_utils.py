@@ -104,9 +104,18 @@ def device_reboot() -> None:
 #         time.sleep(5)  # Проверяем каждые 5 секунд
 
 
-def touch_screen_by_coordinate(coordinates: str) -> None:
-    subprocess.run(['adb', '-s', udid, 'shell', 'input', 'tap', coordinates])
+def touch_screen_by_coordinate(x: str|int , y: str|int) -> None:
+    subprocess.run(['adb', '-s', udid, 'shell', 'input', 'tap', f"{x} {y}"])
 
+
+def swipe_screen_down_to_up(x1=500, y1=700, x2=500, y2=100, speed=250) -> None:
+    """exemple x1=100, y1=500, x2=200, y2=500, speed=250"""
+    subprocess.run(['adb', '-s', udid, 'shell', 'input', 'swipe', f"{x1} {y1} {x2} {y2} {speed}"])
+
+
+def swipe_screen_up_to_down(x1=500, y1=100, x2=500, y2=700, speed=250) -> None:
+    """exemple x1=100, y1=500, x2=200, y2=500, speed=250"""
+    subprocess.run(['adb', '-s', udid, 'shell', 'input', 'swipe', f"{x1} {y1} {x2} {y2} {speed}"])
 
 
 if __name__ == '__main__':

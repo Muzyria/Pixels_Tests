@@ -35,6 +35,7 @@ class DriverAppium:
     #         cls.appium_instance.terminate_app(cls.app_package)
 
 
+
     @classmethod
     def grant_application_permissions(cls) -> None:
         permissions = [

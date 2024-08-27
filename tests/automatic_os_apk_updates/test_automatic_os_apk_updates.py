@@ -3,6 +3,9 @@ from pages_chrome import PageChrome
 import time
 
 from pages_android.main_screen import MainPage
+from pages_android.menu_screen import MenuPage
+from pages_android.settings_screen import SettingsPage
+from pages_android.asset_details_screen import AssetDetailsPage
 
 from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
@@ -140,7 +143,14 @@ class TestAutomaticOsApkUpdates(PageChrome):
         # -----------------------------------------------------------------------------------------
         # devise ----------------------------------------------------------------------------------
         # MainPage().press_menu_button()
-        MainPage().press_flag_button()
+        # MenuPage().press_settings_button()
+        # SettingsPage().enter_settings_password()
+        # SettingsPage().press_assets_details_button()
+        AssetDetailsPage().get_apk_version()
+        AssetDetailsPage().get_os_version()
+
+
+        # MainPage().press_flag_button()
         # res = MainPage().get_text_no_active_downloads()
         # print(f"{res=}")
         print("finish first")
