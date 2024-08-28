@@ -172,16 +172,19 @@ class TestAutomaticOsApkUpdates:
         # android_utils.wake_up_device()
         android_utils.device_reboot()
         android_utils.wait_for_the_device_to_boot()
+        time.sleep(60)
 
         DriverAppium.start(android_utils.get_driver_appium_options())
+        # добавить проверку что все скачалось
 
-        DriverAppium.finish()
         # android_utils.cart_burn_sleep_mode()
         # time.sleep(10)
         # android_utils.wake_up_device()
+
+        DriverAppium.finish()
         android_utils.device_reboot()
         android_utils.wait_for_the_device_to_boot()
-        time.sleep(90)
+        time.sleep(120)
         android_utils.wait_for_the_device_to_boot()
 
         DriverAppium.start(android_utils.get_driver_appium_options())
