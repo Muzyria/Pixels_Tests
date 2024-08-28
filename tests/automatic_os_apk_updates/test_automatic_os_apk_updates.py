@@ -160,11 +160,14 @@ class TestAutomaticOsApkUpdates:
         time.sleep(10)
         # step 2
         android_utils.wake_up_device()
+
         MainPage().wait_spinner_to_invisible()
-        time.sleep(1)
+        time.sleep(3)
+        MainPage().check_menu_button()
         # step 3
         MainPage().press_flag_button()
-        MainPage().check_view_percentage_list()
+        # MainPage().check_view_progress_list()
+
         MainPage().check_view_button_complete_list()
         # step 4
 

@@ -14,6 +14,7 @@ class MainPage(Page):
     SPINNER = ("id", 'com.l1inc.yamatrack3d:id/imageViewLoading')
 
     VIEW_PERCENTAGE_LIST = ("id", "com.l1inc.yamatrack3d:id/textViewPercentage")
+    VIEW_PROGRESS_LIST = ("id", "com.l1inc.yamatrack3d:id/progressView")
     VIEW_BUTTON_COMPLETE = ("id", "com.l1inc.yamatrack3d:id/imageButtonComplete")
 
         # com.l1inc.yamatrack3d:id/autoUpdateCellOs
@@ -22,7 +23,8 @@ class MainPage(Page):
 
         # com.l1inc.yamatrack3d:id/autoUpdateCellApk
 
-
+    def check_menu_button(self) -> None:
+        self.visibility_of_element_located(self.MENU_BUTTON_ID)
 
     def press_menu_button(self) -> "MainPage":
         self.presence_of_element_located(self.MENU_BUTTON_ID).click()
@@ -39,8 +41,13 @@ class MainPage(Page):
         print("view_percentage")
         print(res)
 
+    def check_view_progress_list(self):
+        res = self.find_elements(self.VIEW_PERCENTAGE_LIST)
+        print("view_percentage")
+        print(res)
+
     def check_view_button_complete_list(self):
-        res = self.find_elements(self.VIEW_BUTTON_COMPLETE)
+        res = self.visibility_of_all_elements_located(self.VIEW_BUTTON_COMPLETE)
         print("button_complete")
         print(res)
 
