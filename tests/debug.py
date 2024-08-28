@@ -1,8 +1,9 @@
+import time
 
 from android_utils import *
 import subprocess
 
-udid = 'dbe407da'
+# udid = 'dbe407da'
 
 
 def wait_for_device_boot(func):
@@ -20,11 +21,18 @@ def wait_for_device_boot(func):
     return inner
 
 
-@wait_for_device_boot
+
 def device_reboot() -> None:
     """Reboot device"""
     subprocess.run(['adb', '-s', udid, 'reboot'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
+
 if __name__ == '__main__':
-    print(device_reboot())
+    get_udid()
+    # decorated_function = wait_for_device_boot(device_reboot)
+    # decorated_function()
+
+    cart_burn_sleep_mode()
+    time.sleep(20)
+    wake_up_device()

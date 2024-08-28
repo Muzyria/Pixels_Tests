@@ -27,7 +27,7 @@ class SettingsPage(Page):
         self.presence_of_element_located(self.SUBMIT_PASSWORD_BUTTON).click()
 
     def press_assets_details_button(self):
-        self.presence_of_element_located(self.ASSETS_DETAILS_BUTTON).click()
+        self.visibility_of_element_located(self.ASSETS_DETAILS_BUTTON).click()
 
     def press_button_cancel(self):
-        self.presence_of_element_located(self.CANCEL_BUTTON).click()
+        self.visibility_of_element_located(self.CANCEL_BUTTON).click()

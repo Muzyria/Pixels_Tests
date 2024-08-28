@@ -26,4 +26,4 @@ class AssetDetailsPage(Page):
         return os_version
 
     def press_button_cancel(self):
-        self.presence_of_element_located(self.CANCEL_BUTTON).click()
+        self.visibility_of_element_located(self.CANCEL_BUTTON).click()
