@@ -51,6 +51,17 @@ def get_driver_appium_options() -> UiAutomator2Options:
 #     )
 
 
+def wait_for_the_device_to_boot():
+    while True:
+        result = subprocess.run(["adb", "-s", udid, "shell", "pidof", "com.l1inc.yamatrack3d"], capture_output=True, text=True)
+        if result.stdout.strip():  # Если приложение запущено
+            print(f"Приложение com.l1inc.yamatrack3d запущено.")
+            time.sleep(30)
+            return True
+        print("Ожидание запуска приложения...")
+        time.sleep(5)  # Проверяем каждые 5 секунд
+
+
 def get_wakefulness_status() -> str:
     # Выполнение команды adb и получение вывода
     adb_command = ['adb', '-s', udid, 'shell', 'dumpsys', 'power']
@@ -73,6 +84,7 @@ def wake_up_device() -> None:
         print("Devise is Active")
 
 
+# @_wait_for_the_device_to_boot
 def cart_burn_sleep_mode() -> None:
     """Put device in cart bun sleep"""
     subprocess.run(
@@ -82,26 +94,22 @@ def cart_burn_sleep_mode() -> None:
     # Ждем, пока устройство не заснет
     while not get_wakefulness_status() == "Dozing":
         print("Ожидание, пока устройство заснет...")
-        time.sleep(2)  # Период ожидания перед следующей проверкой
+        time.sleep(5)  # Период ожидания перед следующей проверкой
     print("Device in Cart Burn Sleep Mode")
 
+
+def cart_of_hole_sleep_mode() -> None:
+    """Put device in off hole sleep"""
+    subprocess.run(
+        ['adb', '-s', udid, 'shell', 'am', 'broadcast', '-a', 'com.l1inc.yamatrack3d.action.powermanagement.not_on_hole_sleep'],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
+    time.sleep(20)  # Период ожидания
+    print("Device in Off Hole Sleep Mode")
 
 def device_reboot() -> None:
     """Reboot device"""
     subprocess.run(['adb', '-s', udid, 'reboot'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-
-# def wait_reboot() -> bool:
-#     """finish appium and start appium"""
-#     while True:
-#         result = subprocess.run(["adb", "-s", udid, "shell", "pidof", "com.l1inc.yamatrack3d"], capture_output=True, text=True)
-#         if result.stdout.strip():  # Если приложение запущено
-#             print(f"Приложение com.l1inc.yamatrack3d запущено.")
-#             time.sleep(5)
-#             print("READY ______")
-#             return True
-#         print("Ожидание запуска приложения...")
-#         time.sleep(5)  # Проверяем каждые 5 секунд
 
 
 def touch_screen_by_coordinate(x: str|int , y: str|int) -> None:
@@ -121,5 +129,3 @@ def swipe_screen_up_to_down(x1=500, y1=100, x2=500, y2=700, speed=250) -> None:
 if __name__ == '__main__':
     get_udid()
     device_reboot()
-
-

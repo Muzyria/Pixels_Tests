@@ -1,11 +1,15 @@
 import pytest
 from pages_chrome import PageChrome
+from pages_android import Page
 import time
+
+from framework_appium.driver_appium import DriverAppium
 
 from pages_android.main_screen import MainPage
 from pages_android.menu_screen import MenuPage
 from pages_android.settings_screen import SettingsPage
 from pages_android.asset_details_screen import AssetDetailsPage
+
 
 from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
@@ -17,8 +21,10 @@ from pages_chrome.superior_page_control import SuperiorPageControl
 from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 from pages_chrome.assets_page_360 import AssetsSyncWise360
 
+import android_utils
 
-class TestAutomaticOsApkUpdates(PageChrome):
+
+class TestAutomaticOsApkUpdates:
     # control ----------------------------------------------------------------------------------------------
     @staticmethod
     def login_and_select_device_control(device_id: str):
@@ -151,12 +157,35 @@ class TestAutomaticOsApkUpdates(PageChrome):
         # # --------------------------------------------------------------------------------------
         # res = self.get_info_control(request.config.firmware_version["device_id"])
         # print(res)
-        ## ---------------------------------------------------------------------------------------
+        # ---------------------------------------------------------------------------------------
         # res = self.get_device_info_360(request.config.firmware_version["device_name"])
         # print(res)
         # -----------------------------------------------------------------------------------------
         # devise ----------------------------------------------------------------------------------
 
+        print("first check")
+        self.get_tablet_apk_os_version()
+
+        DriverAppium.finish()
+        # android_utils.cart_burn_sleep_mode()
+        # time.sleep(10)
+        # android_utils.wake_up_device()
+        android_utils.device_reboot()
+        android_utils.wait_for_the_device_to_boot()
+
+        DriverAppium.start(android_utils.get_driver_appium_options())
+
+        DriverAppium.finish()
+        # android_utils.cart_burn_sleep_mode()
+        # time.sleep(10)
+        # android_utils.wake_up_device()
+        android_utils.device_reboot()
+        android_utils.wait_for_the_device_to_boot()
+        time.sleep(60)
+        android_utils.wait_for_the_device_to_boot()
+
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        print("second check")
         self.get_tablet_apk_os_version()
 
 
