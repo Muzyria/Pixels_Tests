@@ -181,7 +181,7 @@ class TestAutomaticOsApkUpdates:
         # android_utils.wake_up_device()
         android_utils.device_reboot()
         android_utils.wait_for_the_device_to_boot()
-        time.sleep(60)
+        time.sleep(90)
         android_utils.wait_for_the_device_to_boot()
 
         DriverAppium.start(android_utils.get_driver_appium_options())
