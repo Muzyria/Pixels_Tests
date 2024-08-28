@@ -11,15 +11,18 @@ class MainPage(Page):
 
     TEXT_NO_ACTIVE_DOWNLOADS = ("id", "com.l1inc.yamatrack3d:id/textViewNoActiveDownloads")
 
+    SPINNER = ("id", 'com.l1inc.yamatrack3d:id/imageViewLoading')
+
+    VIEW_PERCENTAGE_LIST = ("id", "com.l1inc.yamatrack3d:id/textViewPercentage")
+    VIEW_BUTTON_COMPLETE = ("id", "com.l1inc.yamatrack3d:id/imageButtonComplete")
+
         # com.l1inc.yamatrack3d:id/autoUpdateCellOs
         # com.l1inc.yamatrack3d:id/imageButtonComplete
         # (//android.widget.ImageButton[@resource-id="com.l1inc.yamatrack3d:id/imageButtonComplete"])[2]
 
         # com.l1inc.yamatrack3d:id/autoUpdateCellApk
-        # (//android.widget.ImageButton[@resource-id="com.l1inc.yamatrack3d:id/imageButtonComplete"])[1]
-        # //android.widget.TextView[@resource-id="com.l1inc.yamatrack3d:id/textViewPercentage"]
 
-        # spinner com.l1inc.yamatrack3d:id/imageViewLoading
+
 
     def press_menu_button(self) -> "MainPage":
         self.presence_of_element_located(self.MENU_BUTTON_ID).click()
@@ -31,8 +34,18 @@ class MainPage(Page):
     def get_text_no_active_downloads(self):
         return self.presence_of_element_located(self.TEXT_NO_ACTIVE_DOWNLOADS).text
 
+    def check_view_percentage_list(self):
+        res = self.find_elements(self.VIEW_PERCENTAGE_LIST)
+        print("view_percentage")
+        print(res)
 
+    def check_view_button_complete_list(self):
+        res = self.find_elements(self.VIEW_BUTTON_COMPLETE)
+        print("button_complete")
+        print(res)
 
-
-
-
+    def wait_spinner_to_invisible(self):
+        self.visibility_of_element_located(self.SPINNER)
+        print("__spinner_is_visible__")
+        self.invisibility_of_element_located(self.SPINNER)
+        print("__spinner_is_invisible__")

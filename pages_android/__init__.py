@@ -1,6 +1,5 @@
 from .base_page_android import Page
-
-# from .intro_page import IntroPage
-# from .login_page import LoginPage
-
 from .main_screen import MainPage
+from .menu_screen import MenuPage
+from .settings_screen import SettingsPage
+from .asset_details_screen import AssetDetailsPage

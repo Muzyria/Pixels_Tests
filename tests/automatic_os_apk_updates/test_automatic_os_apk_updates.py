@@ -50,6 +50,7 @@ class TestAutomaticOsApkUpdates:
 
     @staticmethod
     def set_app_ota_version(device_id: str, app_version: str) -> None:
+        """Set que an update APK on Control"""
         TestAutomaticOsApkUpdates.login_and_select_device_control(device_id)
         DeviceDetailsPageControl().click_button_edit_version_ota()
         DeviceDetailsPageControl().select_app_version(app_version)
@@ -135,18 +136,106 @@ class TestAutomaticOsApkUpdates:
         MenuPage().press_play_golf_button()
         return {"tablet_os_version": tablet_os_version, "tablet_apk_version": tablet_apk_version}
 
-    def test_first(self, request) -> None:
+    def test_1_apk_cart_burn_sleep(self, request) -> None:
         """
-        CASE A: Cart Barn Sleep
-        1. With device awake, que an update within Control
-        2. Confirm device recognizes an update available (via logs within Android studio) when falling into cart barn sleep
-        3. Wake up device, and confirm the Play Golf screen loads
-        4. Confirm download status bar is updating during download
-        - Confirm there is no kind of disruption when download is in process (User shouldn't even know it's occurring, unless icons status is open)
-        5. Confirm when download is complete, icon indicates download was successful
-        6. Confirm device installs upon waking up from Cart Barn Sleep
-        - Confirm updated software version is displayed in APK Asset Details, 360, and Control
+        *Wi-Fi*
+        *APK*
+        *CASE A: Cart Barn Sleep*
+        1. With device awake, que an update within Control - *Confirmed*
+        2. Confirm device recognizes an update available (via logs within Android studio) when falling into cart barn sleep - *Confirmed*
+        3. Wake up device, and confirm the Play Golf screen loads - *Confirmed*
+        4. Confirm download status bar is updating during download - *Confirmed*
+        - Confirm there is no kind of disruption when download is in process (User shouldn't even know it's occurring, unless icons status is open) - *Confirmed*
+        5. Confirm when download is complete, icon indicates download was successful - *Confirmed*
+        6. Confirm device installs upon waking up from Cart Barn Sleep - *Confirmed*
+        - Confirm updated software version is displayed in APK Asset Details, 360, and Control - *Confirmed*
+        9. Put the device into Cart Barn sleep and que another update - *Confirmed*
+        10. Wake up device, and confirm it downloaded the update (check the download icon status on PlayGolf screen) - *Confirmed*
         """
+        print()
+        print(f"START {__name__}")
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
+        # step 1
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        # step 2
+        android_utils.wake_up_device()
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(1)
+        # step 3
+        MainPage().press_flag_button()
+        MainPage().check_view_percentage_list()
+        MainPage().check_view_button_complete_list()
+        # step 4
+
+        # return ____________________________________________________________
+        self.remove_app_ota_version(request.config.firmware_version["device_id"])
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        android_utils.wake_up_device()
+        # ___________________________________________________________________
+        print(f"FINISH {__name__}")
+
+        # self.remove_os_ota_version(request.config.firmware_version["device_id"])
+        # self.remove_app_ota_version(request.config.firmware_version["device_id"])
+        # --------------------------------------------------------------------------------------
+        # res = self.get_info_control(request.config.firmware_version["device_id"])
+        # print(res)
+        # ---------------------------------------------------------------------------------------
+        # res = self.get_device_info_360(request.config.firmware_version["device_name"])
+        # print(res)
+        # -----------------------------------------------------------------------------------------
+        # devise ----------------------------------------------------------------------------------
+
+        # print("first check")
+        # self.get_tablet_apk_os_version()
+        #
+        # DriverAppium.finish()
+        # # android_utils.cart_burn_sleep_mode()
+        # # time.sleep(10)
+        # # android_utils.wake_up_device()
+        # android_utils.device_reboot()
+        # android_utils.wait_for_the_device_to_boot()
+        # time.sleep(60)
+        #
+        # DriverAppium.start(android_utils.get_driver_appium_options())
+        # # добавить проверку что все скачалось
+        #
+        # # android_utils.cart_burn_sleep_mode()
+        # # time.sleep(10)
+        # # android_utils.wake_up_device()
+        #
+        # DriverAppium.finish()
+        # android_utils.device_reboot()
+        # android_utils.wait_for_the_device_to_boot()
+        # time.sleep(120)
+        # android_utils.wait_for_the_device_to_boot()
+        #
+        # DriverAppium.start(android_utils.get_driver_appium_options())
+        # print("second check")
+        # self.get_tablet_apk_os_version()
+        #
+        #
+        # # MainPage().press_flag_button()
+        # # res = MainPage().get_text_no_active_downloads()
+        # # print(f"{res=}")
+        # print("finish first")
+
+    @pytest.mark.skip
+    def test_second(self, request) -> None:
+        """
+                WiFi
+                OS
+                CASE A: Cart Barn Sleep
+                1. With device awake, que an update within Control
+                2. Confirm device recognizes an update available (via logs within Android studio) when falling into cart barn sleep
+                3. Wake up device, and confirm the Play Golf screen loads
+                4. Confirm download status bar is updating during download
+                - Confirm there is no kind of disruption when download is in process (User shouldn't even know it's occurring, unless icons status is open)
+                5. Confirm when download is complete, icon indicates download was successful
+                6. Confirm device installs upon waking up from Cart Barn Sleep
+                - Confirm updated software version is displayed in APK Asset Details, 360, and Control
+                """
         print()
         print("TEST AUTOMATION first")
         # self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])
@@ -191,19 +280,7 @@ class TestAutomaticOsApkUpdates:
         print("second check")
         self.get_tablet_apk_os_version()
 
-
         # MainPage().press_flag_button()
         # res = MainPage().get_text_no_active_downloads()
         # print(f"{res=}")
         print("finish first")
-
-    @pytest.mark.skip
-    def test_second(self, request) -> None:
-        print("TEST AUTOMATION second")
-
-        print(request.config.firmware_version)
-        LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
-        LoginPageSyncWise360().enter_login().enter_password().click_login_button()
-        time.sleep(20)
-        print(request.config.firmware_version)
-        print("finish second")

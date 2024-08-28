@@ -56,7 +56,7 @@ def wait_for_the_device_to_boot():
         result = subprocess.run(["adb", "-s", udid, "shell", "pidof", "com.l1inc.yamatrack3d"], capture_output=True, text=True)
         if result.stdout.strip():  # Если приложение запущено
             print(f"Приложение com.l1inc.yamatrack3d запущено.")
-            time.sleep(30)
+            # time.sleep(5)
             return True
         print("Ожидание запуска приложения...")
         time.sleep(5)  # Проверяем каждые 5 секунд
@@ -75,6 +75,7 @@ def get_wakefulness_status() -> str:
 
 
 def wake_up_device() -> None:
+    """Wake up Device from sleep"""
     if get_wakefulness_status() == "Dozing":
         subprocess.run(
             ['adb', '-s', udid, 'shell', 'input', 'keyevent', 'KEYCODE_WAKEUP'],
