@@ -41,6 +41,7 @@ def get_driver_appium_options() -> UiAutomator2Options:
     options.clear_device_logs_on_start = True
     options.auto_grant_permissions = True
     options.disable_window_animation = True
+    options.new_command_timeout = 300  # Время ожидания между командами в секундах
     return options
 
 

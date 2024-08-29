@@ -180,19 +180,22 @@ class TestAutomaticOsApkUpdates:
         print("next step")
         update_result = self.get_tablet_apk_os_version()  # check version apk on device
         assert request.config.firmware_version["apk_to_update"] == update_result["tablet_apk_version"], "Not Confirmed update APK version"
-        # return ____________________________________________________________
+        # return current version APK
+        print("return current version APK ____________________________________________________________")
+        self.remove_app_ota_version(request.config.firmware_version["device_id"])
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        time.sleep(40)
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        time.sleep(60)
 
-        # self.remove_app_ota_version(request.config.firmware_version["device_id"])
-        # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
-        # android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
-        # android_utils.wake_up_device()
-        #
-        # MainPage().wait_spinner_to_invisible()
-        # time.sleep(3)
-        # MainPage().check_menu_button()
-        #
-        # self.get_tablet_apk_os_version()
-        # ___________________________________________________________________
+        print(request.config.firmware_version)
+        update_result = self.get_tablet_apk_os_version()  # check version apk on device
+        print("---check---")
+        assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
+
         print(f"FINISH {__name__}")
 
         # self.remove_os_ota_version(request.config.firmware_version["device_id"])
