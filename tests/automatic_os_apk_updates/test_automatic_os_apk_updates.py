@@ -176,12 +176,12 @@ class TestAutomaticOsApkUpdates:
         time.sleep(10)
         android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
         MainPage().wait_spinner_to_invisible()
-        time.sleep(40)
+        time.sleep(40)  # wait for update APK
         print("next step")
         update_result = self.get_tablet_apk_os_version()  # check version apk on device
         assert request.config.firmware_version["apk_to_update"] == update_result["tablet_apk_version"], "Not Confirmed update APK version"
-
         # return ____________________________________________________________
+
         # self.remove_app_ota_version(request.config.firmware_version["device_id"])
         # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
         # android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
