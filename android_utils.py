@@ -126,6 +126,29 @@ def swipe_screen_up_to_down(x1=500, y1=100, x2=500, y2=700, speed=250) -> None:
     """exemple x1=100, y1=500, x2=200, y2=500, speed=250"""
     subprocess.run(['adb', '-s', udid, 'shell', 'input', 'swipe', f"{x1} {y1} {x2} {y2} {speed}"])
 
+# connect --------------------------------------------------------------------------------------------------------------
+def is_wifi_connected():
+    # Выполнение команды adb shell ip addr show wlan0
+    result = subprocess.run(["adb", '-s', udid, "shell", "ip", "addr", "show", "wlan0"], capture_output=True, text=True)
+    # Проверка подключения Wi-Fi
+    if "inet " in result.stdout:
+        print("Устройство подключено к Wi-Fi")
+        return True
+    else:
+        print("Устройство не подключено к Wi-Fi")
+        return False
+
+
+def is_cellular_connected():
+    # Выполнение команды adb shell ip addr show rmnet_data0
+    result = subprocess.run(["adb", '-s', udid, "shell", "ip", "addr", "show", "rmnet_data0"], capture_output=True,
+                            text=True)
+    if "inet " in result.stdout:
+        print("Устройство подключено к сотовому интернету")
+        return True
+    else:
+        print("Устройство не подключено к сотовому интернету")
+        return False
 
 if __name__ == '__main__':
     get_udid()
