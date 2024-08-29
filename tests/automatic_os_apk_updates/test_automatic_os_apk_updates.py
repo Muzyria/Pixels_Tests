@@ -160,7 +160,6 @@ class TestAutomaticOsApkUpdates:
         time.sleep(10)
         # step 2
         android_utils.wake_up_device()
-
         MainPage().wait_spinner_to_invisible()
         time.sleep(3)
         MainPage().check_menu_button()
@@ -169,6 +168,7 @@ class TestAutomaticOsApkUpdates:
         # MainPage().check_view_progress_list()
 
         MainPage().check_view_button_complete_list()
+
         # step 4
 
         # return ____________________________________________________________
@@ -176,6 +176,12 @@ class TestAutomaticOsApkUpdates:
         self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
         android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
         android_utils.wake_up_device()
+
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        MainPage().check_menu_button()
+
+        self.get_tablet_apk_os_version()
         # ___________________________________________________________________
         print(f"FINISH {__name__}")
 
@@ -227,7 +233,7 @@ class TestAutomaticOsApkUpdates:
     @pytest.mark.skip
     def test_second(self, request) -> None:
         """
-                WiFi
+                Wi-Fi
                 OS
                 CASE A: Cart Barn Sleep
                 1. With device awake, que an update within Control

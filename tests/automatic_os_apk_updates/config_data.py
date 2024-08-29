@@ -1,5 +1,5 @@
-firmware = {"device_id": "S10150000211018049",
-            "device_name": "49",
+firmware = {"device_id": "S10150000211018050",
+            "device_name": "50",
             "device_os": None,
             "device_apk": None,
             "os_current": "2.20.0",
