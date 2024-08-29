@@ -23,8 +23,9 @@ class MainPage(Page):
 
         # com.l1inc.yamatrack3d:id/autoUpdateCellApk
 
-    def check_menu_button(self) -> None:
+    def check_menu_button(self) -> bool:
         self.visibility_of_element_located(self.MENU_BUTTON_ID)
+        return True
 
     def press_menu_button(self) -> "MainPage":
         self.presence_of_element_located(self.MENU_BUTTON_ID).click()

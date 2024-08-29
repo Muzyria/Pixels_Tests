@@ -52,6 +52,7 @@ def get_driver_appium_options() -> UiAutomator2Options:
 
 
 def wait_for_the_device_to_boot():
+    """Wait for application will be booted"""
     while True:
         result = subprocess.run(["adb", "-s", udid, "shell", "pidof", "com.l1inc.yamatrack3d"], capture_output=True, text=True)
         if result.stdout.strip():  # Если приложение запущено
@@ -63,7 +64,7 @@ def wait_for_the_device_to_boot():
 
 
 def get_wakefulness_status() -> str:
-    # Выполнение команды adb и получение вывода
+    """Check status of sleep. return status from [Dozing, Awake, Asleep]"""
     adb_command = ['adb', '-s', udid, 'shell', 'dumpsys', 'power']
     result = subprocess.run(adb_command, stdout=subprocess.PIPE, text=True)
     for line in result.stdout.splitlines():
@@ -108,6 +109,7 @@ def cart_of_hole_sleep_mode() -> None:
     time.sleep(20)  # Период ожидания
     print("Device in Off Hole Sleep Mode")
 
+
 def device_reboot() -> None:
     """Reboot device"""
     subprocess.run(['adb', '-s', udid, 'reboot'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -127,6 +129,8 @@ def swipe_screen_up_to_down(x1=500, y1=100, x2=500, y2=700, speed=250) -> None:
     subprocess.run(['adb', '-s', udid, 'shell', 'input', 'swipe', f"{x1} {y1} {x2} {y2} {speed}"])
 
 # connect --------------------------------------------------------------------------------------------------------------
+
+
 def is_wifi_connected():
     # Выполнение команды adb shell ip addr show wlan0
     result = subprocess.run(["adb", '-s', udid, "shell", "ip", "addr", "show", "wlan0"], capture_output=True, text=True)
@@ -149,6 +153,7 @@ def is_cellular_connected():
     else:
         print("Устройство не подключено к сотовому интернету")
         return False
+
 
 if __name__ == '__main__':
     get_udid()

@@ -136,6 +136,7 @@ class TestAutomaticOsApkUpdates:
         MenuPage().press_play_golf_button()
         return {"tablet_os_version": tablet_os_version, "tablet_apk_version": tablet_apk_version}
 
+    @pytest.mark.wifi
     def test_1_apk_cart_burn_sleep(self, request) -> None:
         """
         *Wi-Fi*
@@ -152,6 +153,7 @@ class TestAutomaticOsApkUpdates:
         9. Put the device into Cart Barn sleep and que another update - *Confirmed*
         10. Wake up device, and confirm it downloaded the update (check the download icon status on PlayGolf screen) - *Confirmed*
         """
+
         print()
         print(f"START {__name__}")
         self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
@@ -159,29 +161,37 @@ class TestAutomaticOsApkUpdates:
         android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
         time.sleep(10)
         # step 2
-        android_utils.wake_up_device()
+        # step 3
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
         MainPage().wait_spinner_to_invisible()
         time.sleep(3)
-        MainPage().check_menu_button()
-        # step 3
+        assert MainPage().check_menu_button() is True, "Play Golf is not loaded"  # check loads application
+        # step 4
+        # step 5
         MainPage().press_flag_button()
         # MainPage().check_view_progress_list()
-
-        MainPage().check_view_button_complete_list()
-
-        # step 4
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+        # step 6
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(40)
+        print("next step")
+        update_result = self.get_tablet_apk_os_version()  # check version apk on device
+        assert request.config.firmware_version["apk_to_update"] == update_result["tablet_apk_version"], "Not Confirmed update APK version"
 
         # return ____________________________________________________________
-        self.remove_app_ota_version(request.config.firmware_version["device_id"])
-        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
-        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
-        android_utils.wake_up_device()
-
-        MainPage().wait_spinner_to_invisible()
-        time.sleep(3)
-        MainPage().check_menu_button()
-
-        self.get_tablet_apk_os_version()
+        # self.remove_app_ota_version(request.config.firmware_version["device_id"])
+        # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
+        # android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        # android_utils.wake_up_device()
+        #
+        # MainPage().wait_spinner_to_invisible()
+        # time.sleep(3)
+        # MainPage().check_menu_button()
+        #
+        # self.get_tablet_apk_os_version()
         # ___________________________________________________________________
         print(f"FINISH {__name__}")
 
