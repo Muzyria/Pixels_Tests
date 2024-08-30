@@ -177,10 +177,14 @@ class TestAutomaticOsApkUpdates:
         android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
         MainPage().wait_spinner_to_invisible()
         time.sleep(40)  # wait for update APK
-        print("next step")
+        print("next step to check")
         update_result = self.get_tablet_apk_os_version()  # check version apk on device
         assert request.config.firmware_version["apk_to_update"] == update_result["tablet_apk_version"], "Not Confirmed update APK version"
-        # return current version APK
+        update_info_control = self.get_info_control(request.config.firmware_version["device_id"])
+        assert request.config.firmware_version["apk_to_update"] == update_info_control["info_app_version"]
+        update_info_360 = self.get_device_info_360(request.config.firmware_version["device_name"])
+        assert request.config.firmware_version["apk_to_update"] == update_info_360["device_info_apk_version"]
+        # return current version APK ___________________________________________________________________________________
         print("return current version APK ____________________________________________________________")
         self.remove_app_ota_version(request.config.firmware_version["device_id"])
         self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
@@ -191,7 +195,6 @@ class TestAutomaticOsApkUpdates:
         android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
         time.sleep(60)
 
-        print(request.config.firmware_version)
         update_result = self.get_tablet_apk_os_version()  # check version apk on device
         print("---check---")
         assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
