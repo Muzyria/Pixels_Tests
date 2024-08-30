@@ -91,7 +91,7 @@ class TestAutomaticOsApkUpdates:
         time.sleep(3)
 
     @staticmethod
-    def get_info_control(device_id: str) -> dict[str: str]:
+    def get_info_control(device_id: str) -> dict[str, str]:
         TestAutomaticOsApkUpdates.login_and_select_device_control(device_id)
         DeviceDetailsPageControl().click_button_info()
         # get info
@@ -105,7 +105,7 @@ class TestAutomaticOsApkUpdates:
 
     # 360 ----------------------------------------------------------------------------------------------------
     @staticmethod
-    def get_device_info_360(device_name: str) -> dict[str: str]:
+    def get_device_info_360(device_name: str) -> dict[str, str]:
         LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
         LoginPageSyncWise360().enter_login().enter_password().click_login_button()
         CourseMapSyncWise360().click_assets_button()
@@ -147,7 +147,7 @@ class TestAutomaticOsApkUpdates:
 
     # tests --------------------------------------------------------------------------------------------------
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_apk_cart_burn_sleep(self, request) -> None:
         """
@@ -258,7 +258,7 @@ class TestAutomaticOsApkUpdates:
         # # print(f"{res=}")
         # print("finish first")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     @pytest.mark.wifi
     def test_2_apk_off_hole_sleep(self, request) -> None:
         """
