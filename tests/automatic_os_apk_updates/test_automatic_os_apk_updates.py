@@ -136,6 +136,7 @@ class TestAutomaticOsApkUpdates:
         MenuPage().press_play_golf_button()
         return {"tablet_os_version": tablet_os_version, "tablet_apk_version": tablet_apk_version}
 
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_apk_cart_burn_sleep(self, request) -> None:
         """
@@ -246,66 +247,61 @@ class TestAutomaticOsApkUpdates:
         # # print(f"{res=}")
         # print("finish first")
 
-    @pytest.mark.skip
-    def test_second(self, request) -> None:
+    # @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_2_apk_off_hole_sleep(self, request) -> None:
         """
-                Wi-Fi
-                OS
-                CASE A: Cart Barn Sleep
-                1. With device awake, que an update within Control
-                2. Confirm device recognizes an update available (via logs within Android studio) when falling into cart barn sleep
-                3. Wake up device, and confirm the Play Golf screen loads
-                4. Confirm download status bar is updating during download
-                - Confirm there is no kind of disruption when download is in process (User shouldn't even know it's occurring, unless icons status is open)
-                5. Confirm when download is complete, icon indicates download was successful
-                6. Confirm device installs upon waking up from Cart Barn Sleep
-                - Confirm updated software version is displayed in APK Asset Details, 360, and Control
-                """
+        *APK*
+        *CASE B: Off Hole Sleep*
+        1. With device awake, que an update within Control - *Confirmed*
+        2. Confirm device recognizes an update available (via logs within Android studio) when falling into Off Hole sleep - *Confirmed*
+        3. Wake up device, and confirm the Play Golf screen brightens again - *Confirmed*
+        4. Confirm download status bar is updating during download - *Confirmed*
+        - Confirm there is no kind of disruption when download is in process (User shouldn't even know it's occurring, unless icons status is open) - *Confirmed*
+        - Confirm download status bar is updating during download - *Confirmed*
+        - Confirm when download is complete, icon indicates download was successful - *Confirmed*
+        Note: Device will never install an update when waking up from/going into Off Hole sleep (it may when going to sleep, but only if sleep period is very short)
+        """
         print()
-        print("TEST AUTOMATION first")
-        # self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])
-        # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])
-        # # --------------------------------------------------------------------------------------
-        # self.remove_os_ota_version(request.config.firmware_version["device_id"])
-        # self.remove_app_ota_version(request.config.firmware_version["device_id"])
-        # # --------------------------------------------------------------------------------------
-        # res = self.get_info_control(request.config.firmware_version["device_id"])
-        # print(res)
-        # ---------------------------------------------------------------------------------------
-        # res = self.get_device_info_360(request.config.firmware_version["device_name"])
-        # print(res)
-        # -----------------------------------------------------------------------------------------
-        # devise ----------------------------------------------------------------------------------
+        print(f"START {__name__}")
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
+        # step 1
+        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
+        # step 2
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button() is True, "Play Golf is not loaded"  # check loads application
+        # step 3
+        MainPage().press_flag_button()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+        # step 4
+        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button() is True, "Play Golf is not loaded"  # check loads application
+        # step 3
+        MainPage().press_flag_button()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
 
-        print("first check")
-        self.get_tablet_apk_os_version()
+        print("next step to check")
+        update_result = self.get_tablet_apk_os_version()  # check version apk on device
+        assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed ___"
+        update_info_control = self.get_info_control(request.config.firmware_version["device_id"])
+        assert request.config.firmware_version["apk_current"] == update_info_control["info_app_version"]
+        update_info_360 = self.get_device_info_360(request.config.firmware_version["device_name"])
+        assert request.config.firmware_version["apk_current"] == update_info_360["device_info_apk_version"]
+        # return current version APK ___________________________________________________________________________________
+        print("return current version APK ____________________________________________________________")
+        self.remove_app_ota_version(request.config.firmware_version["device_id"])
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
+        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button() is True, "Play Golf is not loaded"  # check loads application
+        MainPage().press_flag_button()
+        assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads APK is not empty"
 
-        DriverAppium.finish()
-        # android_utils.cart_burn_sleep_mode()
-        # time.sleep(10)
-        # android_utils.wake_up_device()
-        android_utils.device_reboot()
-        android_utils.wait_for_the_device_to_boot()
-        time.sleep(60)
-
-        DriverAppium.start(android_utils.get_driver_appium_options())
-        # добавить проверку что все скачалось
-
-        # android_utils.cart_burn_sleep_mode()
-        # time.sleep(10)
-        # android_utils.wake_up_device()
-
-        DriverAppium.finish()
-        android_utils.device_reboot()
-        android_utils.wait_for_the_device_to_boot()
-        time.sleep(120)
-        android_utils.wait_for_the_device_to_boot()
-
-        DriverAppium.start(android_utils.get_driver_appium_options())
-        print("second check")
-        self.get_tablet_apk_os_version()
-
-        # MainPage().press_flag_button()
-        # res = MainPage().get_text_no_active_downloads()
-        # print(f"{res=}")
-        print("finish first")
+        update_result = self.get_tablet_apk_os_version()  # check version apk on device
+        print("---check---")
+        assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
+        print(f"FINISH {__name__}")

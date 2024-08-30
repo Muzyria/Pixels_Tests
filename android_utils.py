@@ -107,7 +107,7 @@ def cart_of_hole_sleep_mode() -> None:
         ['adb', '-s', udid, 'shell', 'am', 'broadcast', '-a', 'com.l1inc.yamatrack3d.action.powermanagement.not_on_hole_sleep'],
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )
-    time.sleep(20)  # Период ожидания
+    # time.sleep(20)  # Период ожидания
     print("Device in Off Hole Sleep Mode")
 
 
