@@ -23,7 +23,7 @@ class MainPage(Page):
 
         # com.l1inc.yamatrack3d:id/autoUpdateCellApk
 
-    def check_menu_button(self) -> bool:
+    def check_menu_button_is_visible(self) -> bool:
         self.visibility_of_element_located(self.MENU_BUTTON_ID)
         return True
 

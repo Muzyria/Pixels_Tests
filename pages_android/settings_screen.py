@@ -12,6 +12,7 @@ class SettingsPage(Page):
     UPDATES_BUTTON = ("xpath", '//android.widget.TextView[@resource-id="com.l1inc.yamatrack3d:id/textViewName" and @text="UPDATES"]')
     FULL_APP_RESET_BUTTON = ("xpath", '//android.widget.TextView[@resource-id="com.l1inc.yamatrack3d:id/textViewName" and @text="FULL APP RESET"]')
 
+    YES_BUTTON = ("id", "com.l1inc.yamatrack3d:id/buttonYes")
     CANCEL_BUTTON = ('id', 'com.l1inc.yamatrack3d:id/imageButtonCancel')
 
     @staticmethod
@@ -28,6 +29,12 @@ class SettingsPage(Page):
 
     def press_assets_details_button(self):
         self.visibility_of_element_located(self.ASSETS_DETAILS_BUTTON).click()
+
+    def press_full_app_reset_button(self):
+        self.visibility_of_element_located(self.FULL_APP_RESET_BUTTON).click()
+
+    def press_button_yes(self):
+        self.visibility_of_element_located(self.YES_BUTTON).click()
 
     def press_button_cancel(self):
         self.visibility_of_element_located(self.CANCEL_BUTTON).click()
