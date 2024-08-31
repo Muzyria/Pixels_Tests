@@ -145,9 +145,60 @@ class TestAutomaticOsApkUpdates:
         SettingsPage().press_full_app_reset_button()
         SettingsPage().press_button_yes()
 
+    # test utility -------------------------------------------------------------------------------------------
+    @staticmethod
+    def check_version_installed_ota(name_check: str, request) -> bool | str:
+        """Check visible version ota on devise, control, 360"""
+        print(f"__STEP_TO_CHECK_VERSION__ {name_check}")
+        if name_check == "APK":
+
+            # check version apk on device
+            update_result = TestAutomaticOsApkUpdates.get_tablet_apk_os_version()  # check version apk on device
+            if not request.config.firmware_version["apk_to_update"] == update_result["tablet_apk_version"]:
+                return "Not Confirmed install APK on device"
+
+            # check version apk on control
+            update_info_control = TestAutomaticOsApkUpdates.get_info_control(request.config.firmware_version["device_id"])  # check version apk on control
+            if not request.config.firmware_version["apk_to_update"] == update_info_control["info_app_version"]:
+                return "Not Confirmed check version APK on control"
+
+            # check version apk on 360
+            update_info_360 = TestAutomaticOsApkUpdates.get_device_info_360(request.config.firmware_version["device_name"])  # check version apk on 360
+            if not request.config.firmware_version["apk_to_update"] == update_info_360["device_info_apk_version"]:
+                return "Not Confirmed check version APK on 360"
+            return True
+
+    @staticmethod
+    def return_current_version_ota_for_tests(name_ota: str, request) -> bool | str:
+        """return current version ota for tests"""
+        if name_ota == "APK":
+            # return current version APK
+            print("return current version APK")
+            TestAutomaticOsApkUpdates.remove_app_ota_version(request.config.firmware_version["device_id"])
+            TestAutomaticOsApkUpdates.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
+            # Full APP Reset and load apk version
+            TestAutomaticOsApkUpdates.device_full_app_reset()  # Full APP Reset and load apk version
+            MainPage().wait_spinner_to_invisible()
+            time.sleep(3)
+            assert MainPage().check_menu_button_is_visible(), "Play Golf is not loaded"  # check loads application
+            MainPage().press_flag_button()
+            MainPage().check_view_button_complete_list()  # check button complete is visible
+            # Full APP Reset and install apk version
+            TestAutomaticOsApkUpdates.device_full_app_reset()  # Full APP Reset and install apk version
+            MainPage().wait_spinner_to_invisible()
+            time.sleep(40)
+            assert MainPage().check_menu_button_is_visible(), "Play Golf is not loaded"  # check install application
+            MainPage().press_flag_button()
+            assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads APK is not empty"
+            # check version apk on device
+            update_result = TestAutomaticOsApkUpdates.get_tablet_apk_os_version()  # check version apk on device
+            if not request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"]:
+                return "Not Confirmed update APK version for current version"
+            return True
+
     # tests --------------------------------------------------------------------------------------------------
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_apk_cart_burn_sleep(self, request) -> None:
         """
@@ -258,7 +309,7 @@ class TestAutomaticOsApkUpdates:
         # # print(f"{res=}")
         # print("finish first")
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_2_apk_off_hole_sleep(self, request) -> None:
         """
@@ -413,37 +464,37 @@ class TestAutomaticOsApkUpdates:
         assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads APK is not empty"
 
         print("next step to check")
-        # check version apk on device
-        update_result = self.get_tablet_apk_os_version()  # check version apk on device
-        assert request.config.firmware_version["apk_to_update"] == update_result["tablet_apk_version"], "Not Confirmed install APK on device"
-        # check version apk on control
-        update_info_control = self.get_info_control(request.config.firmware_version["device_id"])  # check version apk on control
-        assert request.config.firmware_version["apk_to_update"] == update_info_control["info_app_version"], "Not Confirmed check version APK on control"
-        # check version apk on 360
-        update_info_360 = self.get_device_info_360(request.config.firmware_version["device_name"])  # check version apk on 360
-        assert request.config.firmware_version["apk_to_update"] == update_info_360["device_info_apk_version"], "Not Confirmed check version APK on 360"
+        result = self.check_version_installed_ota("APK", request)
+        assert result is True, f"Error: {result}"
 
         # return current version APK ___________________________________________________________________________________
-        print("return current version APK ____________________________________________________________")
-        self.remove_app_ota_version(request.config.firmware_version["device_id"])
-        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
-
-        self.device_full_app_reset()  # Full APP Reset
-        MainPage().wait_spinner_to_invisible()
-        time.sleep(3)
-        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
-        MainPage().press_flag_button()
-        MainPage().check_view_button_complete_list()  # check button complete is visible
-
-        self.device_full_app_reset()  # Full APP Reset
-        MainPage().wait_spinner_to_invisible()
-        time.sleep(40)
-        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check install application
-        MainPage().press_flag_button()
-        assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads APK is not empty"
-
-        update_result = self.get_tablet_apk_os_version()  # check version apk on device
-        print("---check---")
-        assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
+        self.return_current_version_ota_for_tests("APK", request)
+        # print("return current version APK ____________________________________________________________")
+        # self.remove_app_ota_version(request.config.firmware_version["device_id"])
+        # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
+        #
+        # self.device_full_app_reset()  # Full APP Reset
+        # MainPage().wait_spinner_to_invisible()
+        # time.sleep(3)
+        # assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # MainPage().press_flag_button()
+        # MainPage().check_view_button_complete_list()  # check button complete is visible
+        #
+        # self.device_full_app_reset()  # Full APP Reset
+        # MainPage().wait_spinner_to_invisible()
+        # time.sleep(40)
+        # assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check install application
+        # MainPage().press_flag_button()
+        # assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads APK is not empty"
+        #
+        # update_result = self.get_tablet_apk_os_version()  # check version apk on device
+        # print("---check---")
+        # assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
         print(f"FINISH {__name__}")
+
+    @pytest.mark.skip("BECAUSE DEBUG")
+    @pytest.mark.parametrize("times", list(range(10)))
+    def test_debug(self, request, times) -> None:
+        update_info_360 = self.get_device_info_360(request.config.firmware_version["device_name"])  # check version apk on 360
+        assert request.config.firmware_version["apk_current"] == update_info_360["device_info_apk_version"], "Not Confirmed check version APK on 360"
 
