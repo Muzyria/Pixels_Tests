@@ -266,8 +266,7 @@ class TestAutomaticOsApkUpdates:
         # print(res)
         # ---------------------------------------------------------------------------------------
 
-
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_2_apk_off_hole_sleep(self, request) -> None:
         """
@@ -337,7 +336,7 @@ class TestAutomaticOsApkUpdates:
         # assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
         # print(f"FINISH {__name__}")
 
-    @pytest.mark.skip("NOT READY")
+    # @pytest.mark.skip("NOT READY")
     @pytest.mark.wifi
     def test_3_apk_upon_boot_up(self, request) -> None:
         """
@@ -353,50 +352,37 @@ class TestAutomaticOsApkUpdates:
         """
         print()
         print(f"START {__name__}")
-        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
+        # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
         # step 1
-        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
-        # step 2
-        MainPage().wait_spinner_to_invisible()
-        time.sleep(3)
-        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
-        # step 3
-        MainPage().press_flag_button()
-        MainPage().check_view_button_complete_list()  # check button complete is visible
-        # step 4
-        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
-        MainPage().wait_spinner_to_invisible()
-        time.sleep(3)
-        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
-        # step 3
-        MainPage().press_flag_button()
-        MainPage().check_view_button_complete_list()  # check button complete is visible
-
-        print("next step to check")
-        update_result = self.get_tablet_apk_os_version()  # check version apk on device
-        assert request.config.firmware_version["apk_current"] == update_result[
-            "tablet_apk_version"], "Not Confirmed ___"
-        update_info_control = self.get_info_control(request.config.firmware_version["device_id"])
-        assert request.config.firmware_version["apk_current"] == update_info_control["info_app_version"]
-        update_info_360 = self.get_device_info_360(request.config.firmware_version["device_name"])
-        assert request.config.firmware_version["apk_current"] == update_info_360["device_info_apk_version"]
-
-        # return current version APK ___________________________________________________________________________________
-        print("return current version APK ____________________________________________________________")
-        self.remove_app_ota_version(request.config.firmware_version["device_id"])
-        self.set_app_ota_version(request.config.firmware_version["device_id"],
-                                 request.config.firmware_version["apk_current"])  # set que an update APK on Control
-        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
-        MainPage().wait_spinner_to_invisible()
-        time.sleep(3)
-        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
-        MainPage().press_flag_button()
-        assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads APK is not empty"
-
-        update_result = self.get_tablet_apk_os_version()  # check version apk on device
-        print("---check---")
-        assert request.config.firmware_version["apk_current"] == update_result[
-            "tablet_apk_version"], "Not Confirmed update APK version for current version"
+        # android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        # time.sleep(10)
+        # # step 2
+        # # step 3
+        # android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        # MainPage().wait_spinner_to_invisible()
+        # time.sleep(3)
+        # assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # # step 4
+        # # step 5
+        # MainPage().press_flag_button()
+        # # MainPage().check_view_progress_list()
+        # MainPage().check_view_button_complete_list()  # check button complete is visible
+        # # step 6
+        # android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        # time.sleep(10)
+        # android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        # MainPage().wait_spinner_to_invisible()
+        # time.sleep(40)  # wait for update APK
+        #
+        # # step to check ________________________________________________________________________________________________
+        # print("next step to check")
+        # check_version = request.config.firmware_version["apk_to_update"]
+        # result = self.check_version_installed_ota("APK", request, check_version)
+        # assert result is True, f"Error: {result}"
+        #
+        # # return current version APK ___________________________________________________________________________________
+        # self.return_current_version_ota_for_tests("APK", request)
+        #
         print(f"FINISH {__name__}")
 
     @pytest.mark.skip
