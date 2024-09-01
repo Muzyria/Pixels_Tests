@@ -1,3 +1,5 @@
+import time
+
 from pages_chrome import PageChrome
 from credentials import LOGIN_360, PASSWORD_360
 from .config import LinksBetaSyncWise360
@@ -40,5 +42,6 @@ class LoginPageSyncWise360(PageChrome):
 
     def click_logout_button(self):
         self.visibility_of_element_located(self.PROFILE_ICON).click()
+        time.sleep(1)
         self.visibility_of_element_located(self.LOGOUT_BUTTON).click()
 
