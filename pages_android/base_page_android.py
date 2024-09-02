@@ -79,27 +79,14 @@ class Page:
     def find_elements(locator):
         return DriverAppium.appium_instance.find_elements(*locator)
 
-    # @staticmethod
-    # def long_press_key(key: int | str) -> None:
-    #     """
-    #     MAIN_BUTTON = 3 #
-    #     """
-    #     DriverAppium.appium_instance.long_press_keycode(key)
-
-
-
     @staticmethod
-    def long_press_key(key: int) -> None:
+    def long_press_key(key: int | str) -> None:
         """
-        Выполняет длительное нажатие на аппаратную кнопку устройства.
-
-        :param key: Код кнопки, например, MAIN_BUTTON = 3
+        MAIN_BUTTON = 3 #
         """
-        actions = ActionBuilder(DriverAppium.appium_instance)
+        for _ in range(500):
+            DriverAppium.appium_instance.long_press_keycode(key)
 
-        actions.pointer_action.click_and_hold(key)
-        # Выполняем действия
-        actions.perform()
 
     @staticmethod
     def press_key(key: int | str) -> None:
