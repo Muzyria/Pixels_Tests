@@ -1,7 +1,11 @@
 from appium.webdriver import WebElement
-from appium.webdriver.common.appiumby import AppiumBy
+# from appium.webdriver.common.appiumby import AppiumBy
+
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+
+# from appium.webdriver.common.touch_action import TouchAction
 
 from framework_appium.driver_appium import DriverAppium
 
@@ -69,6 +73,26 @@ class Page:
     def find_elements(locator):
         return DriverAppium.appium_instance.find_elements(*locator)
 
+    @staticmethod
+    def long_press_key(key: int | str) -> None:
+        """
+        MAIN_BUTTON = 3 #
+        """
+        DriverAppium.appium_instance.long_press_keycode(key)
+        # DriverAppium.appium_instance.press_button(key)
+
+    @staticmethod
+    def press_key(key: int | str) -> None:
+        """
+        MENU = 187
+        EMERGENCY = 4
+        MAIN_BUTTON = 3 #
+        VOLUME = 24, 25
+        BLUETOOTH = 131
+        """
+        DriverAppium.appium_instance.press_keycode(key)
+
+
     # ------------------------------------------------------------------------------------------------------------------
 
     # def touch_action(self, coordinate):
@@ -104,11 +128,6 @@ class Page:
     #     """
     #     self.appium_driver.press_keycode(key)
     #
-    # def long_press_key(self, key):
-    #     """
-    #     MAIN_MENU = 26
-    #     """
-    #     self.appium_driver.long_press_keycode(key)
     #
     # def take_screenshot(self, file_name, extra_name=''):     # Пример использования: self.take_screenshot('screenshot.png')
     #     path_directory = 'screenshots/'

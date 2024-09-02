@@ -78,7 +78,7 @@ def get_wakefulness_status() -> str:
 
 def wake_up_device() -> None:
     """Wake up Device from sleep"""
-    if get_wakefulness_status() == "Dozing":
+    if get_wakefulness_status() in ("Dozing", "Asleep"):
         subprocess.run(
             ['adb', '-s', udid, 'shell', 'input', 'keyevent', 'KEYCODE_WAKEUP'],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
@@ -95,7 +95,7 @@ def cart_burn_sleep_mode() -> None:
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )
     # Ждем, пока устройство не заснет
-    while not get_wakefulness_status() == "Dozing":
+    while not get_wakefulness_status() in ("Dozing", "Asleep"):
         print("Ожидание, пока устройство заснет...")
         time.sleep(5)  # Период ожидания перед следующей проверкой
     print("Device in Cart Burn Sleep Mode")
