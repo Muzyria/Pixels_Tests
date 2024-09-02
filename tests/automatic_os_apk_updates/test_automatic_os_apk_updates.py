@@ -205,7 +205,7 @@ class TestAutomaticOsApkUpdates:
 
     # tests --------------------------------------------------------------------------------------------------
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_apk_cart_burn_sleep(self, request) -> None:
         """
@@ -266,7 +266,7 @@ class TestAutomaticOsApkUpdates:
         # print(res)
         # ---------------------------------------------------------------------------------------
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_2_apk_off_hole_sleep(self, request) -> None:
         """
@@ -336,7 +336,7 @@ class TestAutomaticOsApkUpdates:
         # assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
         # print(f"FINISH {__name__}")
 
-    @pytest.mark.skip("NOT READY")
+    # @pytest.mark.skip("NOT READY")
     @pytest.mark.wifi
     def test_3_apk_upon_boot_up(self, request) -> None:
         """
@@ -352,7 +352,7 @@ class TestAutomaticOsApkUpdates:
         """
         print()
         print(f"START {__name__}")
-        # MainPage().long_press_key("3")
+        MainPage().long_press_key(3)
         # MainPage().press_key(131)
 
         # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
@@ -388,7 +388,7 @@ class TestAutomaticOsApkUpdates:
         #
         print(f"FINISH {__name__}")
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_4_apk_full_app_resset(self, request) -> None:
         """

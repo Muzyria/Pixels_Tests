@@ -1,3 +1,6 @@
+import subprocess
+import time
+
 from appium.webdriver import WebElement
 # from appium.webdriver.common.appiumby import AppiumBy
 
@@ -6,6 +9,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 # from appium.webdriver.common.touch_action import TouchAction
+from selenium.webdriver.common.actions.action_builder import ActionBuilder
+from selenium.webdriver.common.actions.pointer_input import PointerInput
+
 
 from framework_appium.driver_appium import DriverAppium
 
@@ -73,13 +79,27 @@ class Page:
     def find_elements(locator):
         return DriverAppium.appium_instance.find_elements(*locator)
 
+    # @staticmethod
+    # def long_press_key(key: int | str) -> None:
+    #     """
+    #     MAIN_BUTTON = 3 #
+    #     """
+    #     DriverAppium.appium_instance.long_press_keycode(key)
+
+
+
     @staticmethod
-    def long_press_key(key: int | str) -> None:
+    def long_press_key(key: int) -> None:
         """
-        MAIN_BUTTON = 3 #
+        Выполняет длительное нажатие на аппаратную кнопку устройства.
+
+        :param key: Код кнопки, например, MAIN_BUTTON = 3
         """
-        DriverAppium.appium_instance.long_press_keycode(key)
-        # DriverAppium.appium_instance.press_button(key)
+        actions = ActionBuilder(DriverAppium.appium_instance)
+
+        actions.pointer_action.click_and_hold(key)
+        # Выполняем действия
+        actions.perform()
 
     @staticmethod
     def press_key(key: int | str) -> None:
