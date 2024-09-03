@@ -352,8 +352,9 @@ class TestAutomaticOsApkUpdates:
         """
         print()
         print(f"START {__name__}")
+        # MainPage().wait_map_activity()
         MainPage().long_press_key(3)
-        # MainPage().press_key(3)
+
 
         # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
         # step 1

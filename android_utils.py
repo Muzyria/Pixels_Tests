@@ -51,6 +51,19 @@ def get_driver_appium_options() -> UiAutomator2Options:
 #         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
 #     )
 
+def get_current_activity() -> str | None:
+    """return name activity"""
+    result = subprocess.run(["adb", "-s", udid, "shell", "dumpsys", "activity", "activities"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
+    # Поиск строки с информацией о текущей активности
+    for line in result.stdout.splitlines():
+        if "mResumedActivity" in line:
+            # Извлечение полного имени активности
+            activity_info = line.split()[-2]  # Предпоследний элемент строки
+            # Преобразование активности в правильный формат
+            activity_name = activity_info.replace('{', '').replace('}', '').split('/')[1]
+            return activity_name
+    return None  # Возвращает None, если активность не найдена
+
 
 def wait_for_the_device_to_boot():
     """Wait for application will be booted"""

@@ -6,6 +6,8 @@ class MainPage(Page):
     def __init__(self):
         super().__init__()
 
+    NAME_ACTIVITY = ".activities.MapActivity10Inch_"
+
     MENU_BUTTON_ID = ("id","com.l1inc.yamatrack3d:id/buttonMenu")
     FLAG_BUTTON_COORDINATE = ('1000', '100')
 
@@ -57,3 +59,8 @@ class MainPage(Page):
         print("__spinner_is_visible__")
         self.invisibility_of_element_located(self.SPINNER)
         print("__spinner_is_invisible__")
+
+    def wait_map_activity(self):
+        assert self.wait_activity(".activities.MapActivity10Inch_", 120), "MAP_ACTIVITY_IS_NOT_LOADED"
+        print("__MAP_ACTIVITY_IS_LOADED__")
+

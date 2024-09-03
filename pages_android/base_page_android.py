@@ -2,6 +2,7 @@ import subprocess
 import time
 
 from appium.webdriver import WebElement
+
 # from appium.webdriver.common.appiumby import AppiumBy
 
 
@@ -11,6 +12,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 # from appium.webdriver.common.touch_action import TouchAction
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.actions import interaction
 
 
 from framework_appium.driver_appium import DriverAppium
@@ -80,13 +83,22 @@ class Page:
         return DriverAppium.appium_instance.find_elements(*locator)
 
     @staticmethod
+    def wait_activity(name_activity: str, timeout: int) -> bool:
+        """Wait for an activity"""
+        return DriverAppium.appium_instance.wait_activity(name_activity, timeout)
+
+    @staticmethod
+    def swipe(x1=500, y1=700, x2=500, y2=100, speed=250):
+        DriverAppium.appium_instance.swipe(x1, y1, x2, y2, speed)
+
+    @staticmethod
     def long_press_key(key: int | str) -> None:
         """
         MAIN_BUTTON = 3 #
         """
-        for _ in range(500):
+        # DriverAppium.appium_instance.long_press_keycode(key)
+        for _ in range(10):
             DriverAppium.appium_instance.long_press_keycode(key)
-
 
     @staticmethod
     def press_key(key: int | str) -> None:
@@ -98,6 +110,7 @@ class Page:
         BLUETOOTH = 131
         """
         DriverAppium.appium_instance.press_keycode(key)
+
 
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -168,3 +181,16 @@ class Page:
     #     except(Exception):
     #         print('Элемент не найден')
     #         return False
+
+
+    def long(self, keycode,  duration=300):
+        args = {'keycode': keycode}
+        touch_input = PointerInput(interaction.POINTER_TOUCH, 'touch')
+
+        actions = ActionChains(DriverAppium.appium_instance)
+        actions.w3c_actions = ActionBuilder(self, mouse=touch_input)
+
+        actions.w3c_actions.pointer_action.pointer_down(args)
+
+        actions.w3c_actions.pointer_action.release()
+        actions.perform()
