@@ -73,6 +73,20 @@ class Page:
     def element_to_be_clickable(self, locator: tuple[str, str]) -> WebElement:
         return self._wait().until(EC.element_to_be_clickable(locator))
 
+    @staticmethod
+    def get_name_current_activity() -> str:
+        """return name activity"""
+        return DriverAppium.appium_instance.current_activity
+
+    @staticmethod
+    def det_network_connection() -> int:
+        """return name connection
+        1	Airplane mode включен
+        0	Только мобильные данные
+        3	Только Wi-Fi
+        2	Все сети отключены (Airplane mode выключен)
+        """
+        return DriverAppium.appium_instance.network_connection
 
     @staticmethod
     def find_element(locator):
@@ -97,8 +111,11 @@ class Page:
         MAIN_BUTTON = 3 #
         """
         # DriverAppium.appium_instance.long_press_keycode(key)
-        for _ in range(10):
-            DriverAppium.appium_instance.long_press_keycode(key)
+
+        # DriverAppium.appium_instance.toggle_wifi()
+        DriverAppium.appium_instance.get_screenshot_as_png()
+
+
 
     @staticmethod
     def press_key(key: int | str) -> None:
