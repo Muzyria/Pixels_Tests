@@ -110,12 +110,8 @@ class Page:
         """
         MAIN_BUTTON = 3 #
         """
-        # DriverAppium.appium_instance.long_press_keycode(key)
-
+        DriverAppium.appium_instance.long_press_keycode(key)
         # DriverAppium.appium_instance.toggle_wifi()
-        DriverAppium.appium_instance.get_screenshot_as_png()
-
-
 
     @staticmethod
     def press_key(key: int | str) -> None:
@@ -127,7 +123,6 @@ class Page:
         BLUETOOTH = 131
         """
         DriverAppium.appium_instance.press_keycode(key)
-
 
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -198,16 +193,3 @@ class Page:
     #     except(Exception):
     #         print('Элемент не найден')
     #         return False
-
-
-    def long(self, keycode,  duration=300):
-        args = {'keycode': keycode}
-        touch_input = PointerInput(interaction.POINTER_TOUCH, 'touch')
-
-        actions = ActionChains(DriverAppium.appium_instance)
-        actions.w3c_actions = ActionBuilder(self, mouse=touch_input)
-
-        actions.w3c_actions.pointer_action.pointer_down(args)
-
-        actions.w3c_actions.pointer_action.release()
-        actions.perform()

@@ -101,7 +101,7 @@ class TestAutomaticOsApkUpdates:
 
         LoginPageControl().click_logout_button()
         time.sleep(3)
-        return {"info_fw_version": info_fw_version, "info_app_version": info_app_version}
+        return {"info_os_version": info_fw_version, "info_app_version": info_app_version}
 
     # 360 ----------------------------------------------------------------------------------------------------
     @staticmethod
@@ -147,7 +147,7 @@ class TestAutomaticOsApkUpdates:
 
     # test utility -------------------------------------------------------------------------------------------
     @staticmethod
-    def check_version_installed_ota(name_check: str, request, check_version_apk: str = None) -> bool | str:
+    def check_version_installed_ota(name_check: str, request, check_version_apk: str = None, check_version_os: str = None) -> bool | str:
         """Check visible version ota on devise, control, 360"""
         print(f"__STEP_TO_CHECK_VERSION__ {name_check}")
         if name_check == "APK":
@@ -166,6 +166,24 @@ class TestAutomaticOsApkUpdates:
             update_info_360 = TestAutomaticOsApkUpdates.get_device_info_360(request.config.firmware_version["device_name"])  # check version apk on 360
             if not check_version_apk == update_info_360["device_info_apk_version"]:
                 return "Not Confirmed check version APK on 360"
+            return True
+
+        if name_check == "OS":
+
+            # check version os on device
+            update_result = TestAutomaticOsApkUpdates.get_tablet_apk_os_version()  # check version os on device
+            if not check_version_os == update_result["tablet_os_version"]:
+                return "Not Confirmed install OS on device"
+
+            # check version os on control
+            update_info_control = TestAutomaticOsApkUpdates.get_info_control(request.config.firmware_version["device_id"])  # check version os on control
+            if not check_version_os == update_info_control["info_os_version"]:
+                return "Not Confirmed check version OS on control"
+
+            # check version os on 360
+            update_info_360 = TestAutomaticOsApkUpdates.get_device_info_360(request.config.firmware_version["device_name"])  # check version os on 360
+            if not check_version_os == update_info_360["device_info_os_version"]:
+                return "Not Confirmed check version OS on 360"
             return True
 
     @staticmethod
@@ -203,8 +221,48 @@ class TestAutomaticOsApkUpdates:
                 return "Not Confirmed update APK version for current version"
             return True
 
+        if name_ota == "OS":
+            # return current version OS
+            print("return current version OS")
+            TestAutomaticOsApkUpdates.remove_os_ota_version(request.config.firmware_version["device_id"])
+            TestAutomaticOsApkUpdates.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_current"])  # set que an update OS on Control
+            # Full APP Reset and load apk version
+            TestAutomaticOsApkUpdates.device_full_app_reset()  # Full APP Reset and load os version
+            MainPage().wait_spinner_to_invisible()
+            time.sleep(3)
+            assert MainPage().check_menu_button_is_visible(), "Play Golf is not loaded"  # check loads application
+            MainPage().press_flag_button()
+            # if of hole logic
+            if off_hole_logic:
+                assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads OS is not empty"
+                return True
+
+            MainPage().check_view_button_complete_list()  # check button complete is visible
+            # Full APP Reset and install os version
+            TestAutomaticOsApkUpdates.device_full_app_reset()  # Full APP Reset and install os version
+            MainPage().wait_spinner_to_invisible()
+
+            # Install OS
+            DriverAppium.finish()
+            time.sleep(260)  # wait for update OS (avr 300s)
+            android_utils.wait_for_the_device_to_boot()
+            print("TRY TO CHECK BOOT DEVICE")
+            DriverAppium.start(android_utils.get_driver_appium_options())
+            MainPage().wait_map_activity()
+
+            assert MainPage().check_menu_button_is_visible(), "Play Golf is not loaded"  # check install application
+            MainPage().press_flag_button()
+            assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads OS is not empty"
+            # check version os on device
+            update_result = TestAutomaticOsApkUpdates.get_tablet_apk_os_version()  # check version os on device
+            if not request.config.firmware_version["os_current"] == update_result["tablet_os_version"]:
+                return "Not Confirmed update APK version for current version"
+            return True
+
+
     # tests --------------------------------------------------------------------------------------------------
 
+    # APK ----------------------------------------------------------------------------------------------------
     @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_apk_cart_burn_sleep(self, request) -> None:
@@ -251,7 +309,7 @@ class TestAutomaticOsApkUpdates:
         # step to check ________________________________________________________________________________________________
         print("next step to check")
         check_version = request.config.firmware_version["apk_to_update"]
-        result = self.check_version_installed_ota("APK", request, check_version)
+        result = self.check_version_installed_ota("APK", request, check_version_apk=check_version)
         assert result is True, f"Error: {result}"
 
         # return current version APK ___________________________________________________________________________________
@@ -304,7 +362,7 @@ class TestAutomaticOsApkUpdates:
 
         print("next step to check")
         check_version = request.config.firmware_version["apk_current"]
-        result = self.check_version_installed_ota("APK", request, check_version)
+        result = self.check_version_installed_ota("APK", request, check_version_apk=check_version)
         assert result is True, f"Error: {result}"
 
         # update_result = self.get_tablet_apk_os_version()  # check version apk on device
@@ -336,7 +394,7 @@ class TestAutomaticOsApkUpdates:
         # assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
         # print(f"FINISH {__name__}")
 
-    # @pytest.mark.skip("NOT READY")
+    @pytest.mark.skip("NOT READY")
     @pytest.mark.wifi
     def test_3_apk_upon_boot_up(self, request) -> None:
         """
@@ -425,13 +483,83 @@ class TestAutomaticOsApkUpdates:
         # step to check ________________________________________________________________________________________________
         print("next step to check")
         check_version = request.config.firmware_version["apk_to_update"]
-        result = self.check_version_installed_ota("APK", request, check_version)
+        result = self.check_version_installed_ota("APK", request, check_version_apk=check_version)
         assert result is True, f"Error: {result}"
 
         # return current version APK ___________________________________________________________________________________
         self.return_current_version_ota_for_tests("APK", request)
 
         print(f"FINISH {__name__}")
+
+    # OS -------------------------------------------------------------------------------------------------------
+
+    # @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_1_os_cart_burn_sleep(self, request) -> None:
+        """
+        *Wi-Fi*
+        *OS*
+        *CASE A: Cart Barn Sleep*
+        1. With device awake, que an update within Control - *Confirmed*
+        2. Confirm device recognizes an update available (via logs within Android studio) when falling into cart barn sleep - *Confirmed*
+        3. Wake up device, and confirm the Play Golf screen loads - *Confirmed*
+        4. Confirm download status bar is updating during download - *Confirmed*
+        - Confirm there is no kind of disruption when download is in process (User shouldn't even know it's occurring, unless icons status is open) - *Confirmed*
+        5. Confirm when download is complete, icon indicates download was successful - *Confirmed*
+        6. Confirm device installs upon waking up from Cart Barn Sleep - *Confirmed*
+        - Confirm updated software version is displayed in APK Asset Details, 360, and Control - *Confirmed*
+        ----------------------------------------------------------------------------------------------------------------
+        9. Put the device into Cart Barn sleep and que another update - *Confirmed*
+        10. Wake up device, and confirm it downloaded the update (check the download icon status on PlayGolf screen) - *Confirmed*
+        11. Exit YamaTrack app and check the UUA app (Applies only for OS) - *Confirmed*
+        - If the download is successful, confirm the UUA does not RE-DOWNLOAD the update (confirm within logs). ER = the device should just install the update
+        - Confirm within APK Asset Details, 360, and Control - updated software version is displayed - *Confirmed*
+        - Confirm after installing the update, exiting UUA and then returning to UUA, no updates are available - *Confirmed*
+        """
+
+        print()
+        print(f"START {__name__}")
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
+        # step 1
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        # step 2
+        # step 3
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        MainPage().wait_spinner_to_invisible()
+        MainPage().wait_map_activity()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # step 4
+        # step 5
+        MainPage().press_flag_button()
+        # MainPage().check_view_progress_list()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+        # step 6
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        MainPage().wait_spinner_to_invisible()
+
+        # Install OS
+        DriverAppium.finish()
+        time.sleep(260)  # wait for update OS (avr 300s)
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+
+        # step to check ________________________________________________________________________________________________
+        print("next step to check")
+        check_version = request.config.firmware_version["os_to_update"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
+
+        # return current version OS ____________________________________________________________________________________
+        self.return_current_version_ota_for_tests("OS", request)
+
+        print(f"FINISH {__name__}")
+
 
     @pytest.mark.skip("BECAUSE DEBUG")
     @pytest.mark.parametrize("times", list(range(10)))
