@@ -129,7 +129,6 @@ class Page:
         path_directory = 'tests/automatic_os_apk_updates/screenshots/'
         try:
             DriverAppium.appium_instance.save_screenshot(f"{path_directory}{file_name}{extra_name}.jpg")
-            DriverAppium.appium_instance.screens
             print(f"Screenshot is saved: {file_name}")
         except Exception as e:
             print(f"Error when creating a screenshot: {e}")
