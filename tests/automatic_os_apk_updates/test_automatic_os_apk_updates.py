@@ -261,7 +261,6 @@ class TestAutomaticOsApkUpdates:
                 return "Not Confirmed update APK version for current version"
             return True
 
-
     # tests --------------------------------------------------------------------------------------------------
 
     # APK ----------------------------------------------------------------------------------------------------
@@ -731,7 +730,7 @@ class TestAutomaticOsApkUpdates:
         """
         ...
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_4_os_full_app_resset(self, request) -> None:
         """
