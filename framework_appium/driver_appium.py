@@ -25,16 +25,20 @@ class DriverAppium:
         cls.appium_instance = None
 
     @classmethod
-    def launch_app(cls) -> None:
-        cls.appium_instance.activate_app(cls.app_package)
+    def launch_app(cls, app_package: str = None) -> None:
+        if app_package:
+            cls.appium_instance.activate_app(app_package)
+        else:
+            cls.appium_instance.activate_app(cls.app_package)
 
-
-    # @classmethod
-    # def terminate_app(cls) -> None:
-    #     with suppress(WebDriverException):
-    #         cls.appium_instance.terminate_app(cls.app_package)
-
-
+    @classmethod
+    def terminate_app(cls, app_package: str = None) -> None:
+        if app_package:
+            with suppress(WebDriverException):
+                cls.appium_instance.terminate_app(app_package)
+        else:
+            with suppress(WebDriverException):
+                cls.appium_instance.terminate_app(cls.app_package)
 
     @classmethod
     def grant_application_permissions(cls) -> None:

@@ -493,9 +493,9 @@ class TestAutomaticOsApkUpdates:
 
     # OS -------------------------------------------------------------------------------------------------------
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
-    def test_1_os_cart_burn_sleep(self, request) -> None:
+    def test_1_os_cart_burn_sleep_part_1(self, request) -> None:
         """
         *Wi-Fi*
         *OS*
@@ -560,10 +560,72 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {__name__}")
 
+    @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_1_os_cart_burn_sleep_part_2(self, request) -> None:
+        """
+        *Wi-Fi*
+        *OS*
+        *CASE A: Cart Barn Sleep*
+        ----------------------------------------------------------------------------------------------------------------
+        9. Put the device into Cart Barn sleep and que another update - *Confirmed*
+        10. Wake up device, and confirm it downloaded the update (check the download icon status on PlayGolf screen) - *Confirmed*
+        11. Exit YamaTrack app and check the UUA app (Applies only for OS) - *Confirmed*
+        - If the download is successful, confirm the UUA does not RE-DOWNLOAD the update (confirm within logs). ER = the device should just install the update
+        - Confirm within APK Asset Details, 360, and Control - updated software version is displayed - *Confirmed*
+        - Confirm after installing the update, exiting UUA and then returning to UUA, no updates are available - *Confirmed*
+        """
 
-    @pytest.mark.skip("BECAUSE DEBUG")
-    @pytest.mark.parametrize("times", list(range(10)))
-    def test_debug(self, request, times) -> None:
-        update_info_360 = self.get_device_info_360(request.config.firmware_version["device_name"])  # check version apk on 360
-        assert request.config.firmware_version["apk_current"] == update_info_360["device_info_apk_version"], "Not Confirmed check version APK on 360"
+        print()
+        print(f"START {__name__}")
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
+        # step 1
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        # step 2
+        # step 3
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        MainPage().wait_spinner_to_invisible()
+        MainPage().wait_map_activity()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # step 4
+        # step 5
+        MainPage().press_flag_button()
+        # MainPage().check_view_progress_list()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+        # step 6
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        MainPage().wait_spinner_to_invisible()
+
+        # Install OS
+        DriverAppium.finish()
+        time.sleep(260)  # wait for update OS (avr 300s)
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+
+        # step to check ________________________________________________________________________________________________
+        print("next step to check")
+        check_version = request.config.firmware_version["os_to_update"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
+
+        # return current version OS ____________________________________________________________________________________
+        self.return_current_version_ota_for_tests("OS", request)
+
+        print(f"FINISH {__name__}")
+
+
+    # @pytest.mark.skip("BECAUSE DEBUG")
+    # @pytest.mark.parametrize("times", list(range(10)))
+    def test_debug(self, request) -> None:
+        app_package_uu = "com.l1inc.yamatrack_util_2"
+        print("DEBUG TEST")
+        DriverAppium.terminate_app()
+        print("launc UU")
+        DriverAppium.launch_app(app_package_uu)
 

@@ -11,4 +11,6 @@ if __name__ == '__main__':
     get_udid()
     # android_utils.get_wakefulness_status()
     # android_utils.wake_up_device()
+    s = android_utils.get_current_activity()
+    print(s)
 
