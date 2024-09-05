@@ -1,7 +1,7 @@
 from pages_android import Page
 
 
-class UUUpdateFirmwarePage(Page):
+class UUAUpdateFirmwarePage(Page):
     def __init__(self):
         super().__init__()
 
@@ -14,7 +14,11 @@ class UUUpdateFirmwarePage(Page):
 
     UPDATE_DETAILED_MESSAGE_TEXT = ("id", "com.l1inc.yamatrack_util_2:id/textViewUpdateDetailedMessage")
 
-    def press_button_update_now(self) -> "UUUpdateFirmwarePage":
+    def wait_update_firmware_activity(self):
+        assert self.wait_activity(self.NAME_ACTIVITY, 120), "UPDATE_FIRMWARE_ACTIVITY_IS_NOT_LOADED"
+        print("__UPDATE_FIRMWARE_ACTIVITY_IS_LOADED__")
+
+    def press_button_update_now(self) -> "UUAUpdateFirmwarePage":
         self.element_to_be_clickable(self.BUTTON_UPDATE_NOW).click()
         return self
 

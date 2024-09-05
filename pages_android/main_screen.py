@@ -61,6 +61,6 @@ class MainPage(Page):
         print("__spinner_is_invisible__")
 
     def wait_map_activity(self):
-        assert self.wait_activity(".activities.MapActivity10Inch_", 120), "MAP_ACTIVITY_IS_NOT_LOADED"
+        assert self.wait_activity(self.NAME_ACTIVITY, 120), "MAP_ACTIVITY_IS_NOT_LOADED"
         print("__MAP_ACTIVITY_IS_LOADED__")
 

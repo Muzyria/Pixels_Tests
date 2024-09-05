@@ -9,6 +9,8 @@ from pages_android.main_screen import MainPage
 from pages_android.menu_screen import MenuPage
 from pages_android.settings_screen import SettingsPage
 from pages_android.asset_details_screen import AssetDetailsPage
+from pages_android.uua_main_screen import UUAMainPage
+from pages_android.uua_update_firmware_screen import UUAUpdateFirmwarePage
 
 
 from framework_chrome.driver_chrome import DriverChrome
@@ -560,7 +562,7 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {__name__}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_os_cart_burn_sleep_part_2(self, request) -> None:
         """
@@ -575,30 +577,34 @@ class TestAutomaticOsApkUpdates:
         - Confirm within APK Asset Details, 360, and Control - updated software version is displayed - *Confirmed*
         - Confirm after installing the update, exiting UUA and then returning to UUA, no updates are available - *Confirmed*
         """
-
+        app_package_uua = "com.l1inc.yamatrack_util_2"
         print()
         print(f"START {__name__}")
-        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
-        # step 1
         android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
         time.sleep(10)
-        # step 2
-        # step 3
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
+        # step 9
         android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
         MainPage().wait_spinner_to_invisible()
         MainPage().wait_map_activity()
         time.sleep(3)
         assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
-        # step 4
-        # step 5
         MainPage().press_flag_button()
         # MainPage().check_view_progress_list()
         MainPage().check_view_button_complete_list()  # check button complete is visible
-        # step 6
-        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
-        time.sleep(10)
-        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
-        MainPage().wait_spinner_to_invisible()
+        # step 10
+
+        # close YamaTrack and open UUA
+        DriverAppium.terminate_app()  # close YamaTrack
+        DriverAppium.launch_app(app_package_uua)
+
+        UUAMainPage().wait_install_activity()
+        UUAMainPage().press_button_cancel()
+
+        UUAMainPage().press_button_update_firmware()
+
+        UUAUpdateFirmwarePage().wait_update_firmware_activity()
+        UUAUpdateFirmwarePage().press_button_update_now()
 
         # Install OS
         DriverAppium.finish()
@@ -613,19 +619,38 @@ class TestAutomaticOsApkUpdates:
         check_version = request.config.firmware_version["os_to_update"]
         result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
         assert result is True, f"Error: {result}"
+        # --------------------------------------------------------------------------------------------------------------
+        # Confirm after installing the update, exiting UUA and then returning to UUA, no updates are available
+        # close YamaTrack and open UUA
+        DriverAppium.terminate_app()  # close YamaTrack
+        DriverAppium.launch_app(app_package_uua)
+
+        UUAMainPage().wait_install_activity()
+        UUAMainPage().press_button_cancel()
+
+        UUAMainPage().press_button_update_firmware()
+
+        UUAUpdateFirmwarePage().wait_update_firmware_activity()
+        assert UUAUpdateFirmwarePage().get_text_update_message() == "YOUR DEVICE IS UPDATED"
+        assert UUAUpdateFirmwarePage().get_text_update_status() == "NO UPDATES AVAILABLE"
+
+        # close UUA and open YamaTrack
+        DriverAppium.terminate_app(app_package_uua)
+        DriverAppium.launch_app()
+        MainPage().wait_map_activity()
+        time.sleep(3)
 
         # return current version OS ____________________________________________________________________________________
         self.return_current_version_ota_for_tests("OS", request)
 
         print(f"FINISH {__name__}")
 
-
-    # @pytest.mark.skip("BECAUSE DEBUG")
+    @pytest.mark.skip("BECAUSE DEBUG")
     # @pytest.mark.parametrize("times", list(range(10)))
     def test_debug(self, request) -> None:
-        app_package_uu = "com.l1inc.yamatrack_util_2"
+        app_package_uua = "com.l1inc.yamatrack_util_2"
         print("DEBUG TEST")
         DriverAppium.terminate_app()
         print("launc UU")
-        DriverAppium.launch_app(app_package_uu)
+        DriverAppium.launch_app(app_package_uua)
 
