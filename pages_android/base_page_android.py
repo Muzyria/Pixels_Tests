@@ -124,6 +124,15 @@ class Page:
         """
         DriverAppium.appium_instance.press_keycode(key)
 
+    @staticmethod
+    def save_screenshot(file_name, extra_name=''):     # Пример использования: self.save_screenshot('screenshot')
+        path_directory = 'tests/automatic_os_apk_updates/screenshots/'
+        try:
+            DriverAppium.appium_instance.save_screenshot(f"{path_directory}{file_name}{extra_name}.jpg")
+            DriverAppium.appium_instance.screens
+            print(f"Screenshot is saved: {file_name}")
+        except Exception as e:
+            print(f"Error when creating a screenshot: {e}")
 
     # ------------------------------------------------------------------------------------------------------------------
 
@@ -150,24 +159,6 @@ class Page:
     #     self.appium_driver.swipe(start_x, end_y, start_x, start_y, duration)  # Прокрутка вверх
     #     time.sleep(1)
     #
-    # def press_key(self, key):
-    #     """
-    #     MENU = 187
-    #     EMERGENCY = 4
-    #     MAIN_BUTTON = 3 #
-    #     VOLUME = 24, 25
-    #     BLUETOOTH = 131
-    #     """
-    #     self.appium_driver.press_keycode(key)
-    #
-    #
-    # def take_screenshot(self, file_name, extra_name=''):     # Пример использования: self.take_screenshot('screenshot.png')
-    #     path_directory = 'screenshots/'
-    #     try:
-    #         self.appium_driver.save_screenshot(f"{path_directory}{file_name}{extra_name}.jpg")
-    #         print(f"Скриншот сохранен: {file_name}")
-    #     except Exception as e:
-    #         print(f"Ошибка при создании скриншота: {e}")
     #
     # def take_element_screenshot(self, locator, file_name, extra_name=''): # Пример использования:  # self.take_element_screenshot((MobileBy.ID, 'element_id'), 'element_screenshot.png')
     #     path_directory = 'screenshots/'

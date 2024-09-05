@@ -562,7 +562,7 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {__name__}")
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_os_cart_burn_sleep_part_2(self, request) -> None:
         """
@@ -633,6 +633,7 @@ class TestAutomaticOsApkUpdates:
         UUAUpdateFirmwarePage().wait_update_firmware_activity()
         assert UUAUpdateFirmwarePage().get_text_update_message() == "YOUR DEVICE IS UPDATED"
         assert UUAUpdateFirmwarePage().get_text_update_status() == "NO UPDATES AVAILABLE"
+        # UUAUpdateFirmwarePage.save_screenshot("YOUR_DEVICE_IS_UPDATED.png")
 
         # close UUA and open YamaTrack
         DriverAppium.terminate_app(app_package_uua)
@@ -645,12 +646,21 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {__name__}")
 
-    @pytest.mark.skip("BECAUSE DEBUG")
+    # @pytest.mark.skip("BECAUSE DEBUG")
     # @pytest.mark.parametrize("times", list(range(10)))
     def test_debug(self, request) -> None:
         app_package_uua = "com.l1inc.yamatrack_util_2"
         print("DEBUG TEST")
         DriverAppium.terminate_app()
-        print("launc UU")
+        print("launc UUA")
         DriverAppium.launch_app(app_package_uua)
+        UUAMainPage().wait_install_activity()
+        UUAMainPage().press_button_cancel()
+
+        UUAMainPage.save_screenshot("my_")
+
+
+
+
+
 
