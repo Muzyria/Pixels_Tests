@@ -367,34 +367,10 @@ class TestAutomaticOsApkUpdates:
         result = self.check_version_installed_ota("APK", request, check_version_apk=check_version)
         assert result is True, f"Error: {result}"
 
-        # update_result = self.get_tablet_apk_os_version()  # check version apk on device
-        # assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed ___"
-        # update_info_control = self.get_info_control(request.config.firmware_version["device_id"])
-        # assert request.config.firmware_version["apk_current"] == update_info_control["info_app_version"]
-        # update_info_360 = self.get_device_info_360(request.config.firmware_version["device_name"])
-        # assert request.config.firmware_version["apk_current"] == update_info_360["device_info_apk_version"]
         # return current version APK ___________________________________________________________________________________
-
-        # return current version APK ___________________________________________________________________________________
-        # ----------------------------
         self.return_current_version_ota_for_tests("APK", request, off_hole_logic=True)
 
         print(f"FINISH {__name__}")
-        # -----------------------------
-        # print("return current version APK ____________________________________________________________")
-        # self.remove_app_ota_version(request.config.firmware_version["device_id"])
-        # self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_current"])  # set que an update APK on Control
-        # android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
-        # MainPage().wait_spinner_to_invisible()
-        # time.sleep(3)
-        # assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
-        # MainPage().press_flag_button()
-        # assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads APK is not empty"
-        #
-        # update_result = self.get_tablet_apk_os_version()  # check version apk on device
-        # print("---check---")
-        # assert request.config.firmware_version["apk_current"] == update_result["tablet_apk_version"], "Not Confirmed update APK version for current version"
-        # print(f"FINISH {__name__}")
 
     @pytest.mark.skip("NOT READY")
     @pytest.mark.wifi
@@ -633,7 +609,7 @@ class TestAutomaticOsApkUpdates:
         UUAUpdateFirmwarePage().wait_update_firmware_activity()
         assert UUAUpdateFirmwarePage().get_text_update_message() == "YOUR DEVICE IS UPDATED"
         assert UUAUpdateFirmwarePage().get_text_update_status() == "NO UPDATES AVAILABLE"
-        # UUAUpdateFirmwarePage.save_screenshot("YOUR_DEVICE_IS_UPDATED.png")
+        UUAUpdateFirmwarePage.save_screenshot("test_1_os_cart_burn_sleep_part_2_UUA")
 
         # close UUA and open YamaTrack
         DriverAppium.terminate_app(app_package_uua)
@@ -646,7 +622,164 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {__name__}")
 
-    # @pytest.mark.skip("BECAUSE DEBUG")
+    @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_2_os_off_hole_sleep(self, request) -> None:
+        """
+        *OS*
+        *CASE B: Off Hole Sleep*
+        1. With device awake, que an update within Control - *Confirmed*
+        2. Confirm device recognizes an update available (via logs within Android studio) when falling into Off Hole sleep - *Confirmed*
+        3. Wake up device, and confirm the Play Golf screen brightens again - *Confirmed*
+        4. Confirm download status bar is updating during download - *Confirmed*
+        - Confirm there is no kind of disruption when download is in process (User shouldn't even know it's occurring, unless icons status is open) - *Confirmed*
+        - Confirm download status bar is updating during download - *Confirmed*
+        - Confirm when download is complete, icon indicates download was successful - *Confirmed*
+        Note: Device will never install an update when waking up from/going into Off Hole sleep (it may when going to sleep, but only if sleep period is very short)
+        5. Exit YamaTrack app and check the UUA app (Applies only for OS) - *Confirmed*
+        - If the download is successful, confirm the UUA does not RE-DOWNLOAD the update (confirm within logs). ER = the device should just install the update
+        - Confirm within APK Asset Details, 360, and Control - updated software version is displayed - *Confirmed*
+        - Confirm after installing the update, exiting UUA and then returning to UUA, no updates are available - *Confirmed*
+        """
+        app_package_uua = "com.l1inc.yamatrack_util_2"
+        print()
+        print(f"START {__name__}")
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update APK on Control
+        # step 1
+        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
+        # step 2
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # step 3
+        MainPage().press_flag_button()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+        # step 4
+        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # # step 3
+        MainPage().press_flag_button()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+
+        # close YamaTrack and open UUA
+        DriverAppium.terminate_app()  # close YamaTrack
+        DriverAppium.launch_app(app_package_uua)
+
+        UUAMainPage().wait_install_activity()
+        UUAMainPage().press_button_cancel()
+
+        UUAMainPage().press_button_update_firmware()
+
+        UUAUpdateFirmwarePage().wait_update_firmware_activity()
+        UUAUpdateFirmwarePage().press_button_update_now()
+
+        # Install OS
+        DriverAppium.finish()
+        time.sleep(260)  # wait for update OS (avr 300s)
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+
+        # step to check ________________________________________________________________________________________________
+        print("next step to check")
+        check_version = request.config.firmware_version["os_to_update"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
+        # --------------------------------------------------------------------------------------------------------------
+        # Confirm after installing the update, exiting UUA and then returning to UUA, no updates are available
+        # close YamaTrack and open UUA
+        DriverAppium.terminate_app()  # close YamaTrack
+        DriverAppium.launch_app(app_package_uua)
+
+        UUAMainPage().wait_install_activity()
+        UUAMainPage().press_button_cancel()
+
+        UUAMainPage().press_button_update_firmware()
+
+        UUAUpdateFirmwarePage().wait_update_firmware_activity()
+        assert UUAUpdateFirmwarePage().get_text_update_message() == "YOUR DEVICE IS UPDATED"
+        assert UUAUpdateFirmwarePage().get_text_update_status() == "NO UPDATES AVAILABLE"
+        UUAUpdateFirmwarePage.save_screenshot("test_2_os_off_hole_sleep_UUA")
+
+        # close UUA and open YamaTrack
+        DriverAppium.terminate_app(app_package_uua)
+        DriverAppium.launch_app()
+        MainPage().wait_map_activity()
+        time.sleep(3)
+
+        # return current version OS ____________________________________________________________________________________
+        self.return_current_version_ota_for_tests("OS", request)
+
+        print(f"FINISH {__name__}")
+
+    @pytest.mark.skip("NOT READY")
+    @pytest.mark.wifi
+    def test_3_os_upon_boot_up(self, request) -> None:
+        """
+        *OS*
+        *CASE C: Upon Boot Up*
+        1. With device in ship mode/powered off, que an update - *Confirmed at 14:18*
+        2. Confirm device recognizes an update available (via logs, or by tapping the flag to display the download icon status) when powering on - *Confirmed*
+        3. Confirm there is no visible interference with the Play Golf/APK while download is taking place - *Confirmed*
+        4. Confirm download status bar is updating during download - Note: ER=Unknown for this specific step, I don't believe this will apply - *Confirmed*
+        5. Confirm when download is complete, icon indicates download was successful - *Confirmed*
+        6. Confirm device installs download upon falling/waking up from sleep - *Confirmed*
+        - Confirm updated software version is displayed in APK Asset Details, 360, and Control - *Confirmed at 14:34*
+        """
+        ...
+
+    # @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_4_os_full_app_resset(self, request) -> None:
+        """
+        *OS*
+        *CASE D: Full App Reset*
+        1. With device awake, que an update in Control - *Confirmed*
+        2. Select Full App Reset within the APK, Menu options. - *Confirmed*
+        3. Confirm the app resets, and checks/loads any updates. Note this process may be a little longer than normal as it is downloading and installing the updated SW version. - *Confirmed*
+        4. Confirm app loads completely on Play Golf screen, and does not again reattempt to install software update at a later time. - *Confirmed*
+        5. Confirm the device installed the updated software version - *Confirmed*
+        - Confirm updated software version is displayed in APK Asset Details, 360, and Control - *Confirmed*
+        """
+        print()
+        print(f"START {__name__}")
+        self.set_os_ota_version(request.config.firmware_version["device_id"],  request.config.firmware_version["os_to_update"])  # set que an update OS on Control
+        # step 1
+        self.device_full_app_reset()  # Full APP Reset
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible(), "Play Golf is not loaded"  # check loads application
+        # step 2
+        MainPage().press_flag_button()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+        # step 4
+        self.device_full_app_reset()  # Full APP Reset
+        MainPage().wait_spinner_to_invisible()
+
+        # Install OS
+        DriverAppium.finish()
+        time.sleep(260)  # wait for update OS (avr 300s)
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+
+        # step to check ________________________________________________________________________________________________
+        print("next step to check")
+        check_version = request.config.firmware_version["os_to_update"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
+
+        # return current version OS ____________________________________________________________________________________
+        self.return_current_version_ota_for_tests("OS", request)
+
+        print(f"FINISH {__name__}")
+
+    # debug ------------------------------------------------------------------------------------------------------------
+    @pytest.mark.skip("BECAUSE DEBUG")
     # @pytest.mark.parametrize("times", list(range(10)))
     def test_debug(self, request) -> None:
         app_package_uua = "com.l1inc.yamatrack_util_2"
@@ -658,9 +791,3 @@ class TestAutomaticOsApkUpdates:
         UUAMainPage().press_button_cancel()
 
         UUAMainPage.save_screenshot("my_")
-
-
-
-
-
-
