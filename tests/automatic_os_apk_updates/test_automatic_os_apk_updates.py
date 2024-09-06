@@ -284,7 +284,7 @@ class TestAutomaticOsApkUpdates:
         """
 
         print()
-        print(f"START {__name__}")
+        print(f"START {request.node.name}")
         self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
         # step 1
         android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
@@ -316,7 +316,7 @@ class TestAutomaticOsApkUpdates:
         # return current version APK ___________________________________________________________________________________
         self.return_current_version_ota_for_tests("APK", request)
 
-        print(f"FINISH {__name__}")
+        print(f"FINISH {request.node.name}")
 
     @pytest.mark.skip
     @pytest.mark.wifi
@@ -334,7 +334,7 @@ class TestAutomaticOsApkUpdates:
         Note: Device will never install an update when waking up from/going into Off Hole sleep (it may when going to sleep, but only if sleep period is very short)
         """
         print()
-        print(f"START {__name__}")
+        print(f"START {request.node.name}")
         self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
         # step 1
         android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
@@ -362,9 +362,9 @@ class TestAutomaticOsApkUpdates:
         # return current version APK ___________________________________________________________________________________
         self.return_current_version_ota_for_tests("APK", request, off_hole_logic=True)
 
-        print(f"FINISH {__name__}")
+        print(f"FINISH {request.node.name}")
 
-    # @pytest.mark.skip("NOT READY")
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_3_apk_upon_boot_up(self, request) -> None:
         """
@@ -379,7 +379,7 @@ class TestAutomaticOsApkUpdates:
         - Confirm updated software version is displayed in APK Asset Details, 360, and Control - *Confirmed*
         """
         print()
-        print(f"START {__name__}")
+        print(f"START {request.node.name}")
         self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
         # step 1
 
@@ -421,7 +421,7 @@ class TestAutomaticOsApkUpdates:
         # return current version APK ___________________________________________________________________________________
         self.return_current_version_ota_for_tests("APK", request)
 
-        print(f"FINISH {__name__}")
+        print(f"FINISH {request.node.name}")
 
     @pytest.mark.skip
     @pytest.mark.wifi
@@ -437,7 +437,7 @@ class TestAutomaticOsApkUpdates:
         - Confirm updated software version is displayed in APK Asset Details, 360, and Control - *Confirmed*
         """
         print()
-        print(f"START {__name__}")
+        print(f"START {request.node.name}")
         self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
         # step 1
         self.device_full_app_reset()  # Full APP Reset
@@ -465,7 +465,7 @@ class TestAutomaticOsApkUpdates:
         # return current version APK ___________________________________________________________________________________
         self.return_current_version_ota_for_tests("APK", request)
 
-        print(f"FINISH {__name__}")
+        print(f"FINISH {request.node.name}")
 
     # OS -------------------------------------------------------------------------------------------------------
 
@@ -494,7 +494,7 @@ class TestAutomaticOsApkUpdates:
         """
 
         print()
-        print(f"START {__name__}")
+        print(f"START {request.node.name}")
         self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
         # step 1
         android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
@@ -534,7 +534,7 @@ class TestAutomaticOsApkUpdates:
         # return current version OS ____________________________________________________________________________________
         self.return_current_version_ota_for_tests("OS", request)
 
-        print(f"FINISH {__name__}")
+        print(f"FINISH {request.node.name}")
 
     @pytest.mark.skip
     @pytest.mark.wifi
@@ -553,7 +553,7 @@ class TestAutomaticOsApkUpdates:
         """
         app_package_uua = "com.l1inc.yamatrack_util_2"
         print()
-        print(f"START {__name__}")
+        print(f"START {request.node.name}")
         android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
         time.sleep(10)
         self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
@@ -618,7 +618,7 @@ class TestAutomaticOsApkUpdates:
         # return current version OS ____________________________________________________________________________________
         self.return_current_version_ota_for_tests("OS", request)
 
-        print(f"FINISH {__name__}")
+        print(f"FINISH {request.node.name}")
 
     @pytest.mark.skip
     @pytest.mark.wifi
@@ -641,7 +641,7 @@ class TestAutomaticOsApkUpdates:
         """
         app_package_uua = "com.l1inc.yamatrack_util_2"
         print()
-        print(f"START {__name__}")
+        print(f"START {request.node.name}")
         self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update APK on Control
         # step 1
         android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
@@ -711,7 +711,7 @@ class TestAutomaticOsApkUpdates:
         # return current version OS ____________________________________________________________________________________
         self.return_current_version_ota_for_tests("OS", request)
 
-        print(f"FINISH {__name__}")
+        print(f"FINISH {request.node.name}")
 
     @pytest.mark.skip("NOT READY")
     @pytest.mark.wifi
@@ -743,7 +743,7 @@ class TestAutomaticOsApkUpdates:
         - Confirm updated software version is displayed in APK Asset Details, 360, and Control - *Confirmed*
         """
         print()
-        print(f"START {__name__}")
+        print(f"START {request.node.name}")
         self.set_os_ota_version(request.config.firmware_version["device_id"],  request.config.firmware_version["os_to_update"])  # set que an update OS on Control
         # step 1
         self.device_full_app_reset()  # Full APP Reset
@@ -774,7 +774,7 @@ class TestAutomaticOsApkUpdates:
         # return current version OS ____________________________________________________________________________________
         self.return_current_version_ota_for_tests("OS", request)
 
-        print(f"FINISH {__name__}")
+        print(f"FINISH {request.node.name}")
 
     # debug ------------------------------------------------------------------------------------------------------------
     @pytest.mark.skip("BECAUSE DEBUG")
