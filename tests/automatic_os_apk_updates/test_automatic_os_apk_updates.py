@@ -12,7 +12,6 @@ from pages_android.asset_details_screen import AssetDetailsPage
 from pages_android.uua_main_screen import UUAMainPage
 from pages_android.uua_update_firmware_screen import UUAUpdateFirmwarePage
 
-
 from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
 
