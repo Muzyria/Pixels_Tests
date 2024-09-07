@@ -1,3 +1,5 @@
+import time
+
 from pages_android import Page
 from android_utils import touch_screen_by_coordinate
 
@@ -53,6 +55,19 @@ class MainPage(Page):
         res = self.visibility_of_all_elements_located(self.VIEW_BUTTON_COMPLETE)
         print("button_complete")
         print(res)
+        return res
+
+    def wait_for_button_complete_list_os_and_apk(self):
+        count = 0
+        while len(self.visibility_of_all_elements_located(self.VIEW_BUTTON_COMPLETE)) != 2:
+            time.sleep(5)
+            print("OS and APK are loading")
+            count += 1
+            if count == 25:
+                print("OS and APK is not loading")
+                break
+        print("OS and APK loading complete")
+        return self.visibility_of_all_elements_located(self.VIEW_BUTTON_COMPLETE)
 
     def wait_spinner_to_invisible(self):
         self.visibility_of_element_located(self.SPINNER)

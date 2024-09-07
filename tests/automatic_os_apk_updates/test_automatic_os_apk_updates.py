@@ -712,7 +712,7 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    # @pytest.mark.skip("NOT READY")
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_3_os_upon_boot_up(self, request) -> None:
         """
@@ -824,6 +824,101 @@ class TestAutomaticOsApkUpdates:
         self.return_current_version_ota_for_tests("OS", request)
 
         print(f"FINISH {request.node.name}")
+
+    # Simultaneous OS/APK Updates --------------------------------------------------------------------------------------
+    """
+    *CASE E: Simultaneous OS/APK Updates*
+    1. With device awake, que BOTH an OS/APK update within Control - *Confirmed*
+    2. Confirm device recognizes OS and APK updates upon
+    - Falling into Cart Barn Sleep *Confirmed*
+    - Falling into Off Hole Sleep *Confirmed*
+    - Waking up from Cart Barn Sleep - *Confirmed at 14:59 First downloaded OS then APK*
+    - Waking up from Off Hole Sleep - *Confirmed at 15:12 First downloaded OS then APK*
+    - Boot up - *Confirmed at First downloaded OS then APK*
+    3. Verify what update takes precedence (OS v. APK) ER = OS , APK
+    4. Confirm Update icon status updates accordingly - *Confirmed*
+    5. Confirm the downloaded update installs upon
+    - Falling into Cart Barn Sleep *Confirmed*
+    - Falling into Off Hole Sleep *Confirmed*
+    - Waking up from Cart Barn Sleep - *Confirmed at 15:13 First installed OS then APK*
+    - Waking up from Off Hole Sleep - *NOT Confirmed - It's Expected*
+    - Boot up - *Confirmed at 15:45 First installed OS then APK*
+    6. Note if there is any difference in precedence in what installs first (OS v. APK)
+    """
+
+    # @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_1_os_and_apk_cart_burn_sleep(self, request) -> None:
+        """
+        *Wi-Fi*
+        *OS/APK*
+        *CASE A: Cart Barn Sleep*
+        1. With device awake, que BOTH an OS/APK update within Control - *Confirmed*
+        2. Confirm device recognizes OS and APK updates upon
+        - Falling into Cart Barn Sleep *Confirmed*
+        - Waking up from Cart Barn Sleep - *Confirmed First downloaded OS then APK*
+        3. Verify what update takes precedence (OS v. APK) ER = OS , APK
+        4. Confirm Update icon status updates accordingly - *Confirmed*
+        5. Confirm the downloaded update installs upon
+        - Falling into Cart Barn Sleep *Confirmed*
+        - Waking up from Cart Barn Sleep - *Confirmed First installed OS then APK*
+        6. Note if there is any difference in precedence in what installs first (OS v. APK)
+        """
+
+        print()
+        print(f"START {request.node.name}")
+
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
+        # step 1
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        # step
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        MainPage().wait_spinner_to_invisible()
+        MainPage().wait_map_activity()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # step
+        MainPage().press_flag_button()
+        # # MainPage().check_view_progress_list()
+        view_loads = MainPage().wait_for_button_complete_list_os_and_apk()  # check buttons complete OS and APK is visible
+        assert len(view_loads) == 2
+
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        MainPage().wait_spinner_to_invisible()
+        # step
+
+        # Install OS nad APK
+        DriverAppium.finish()
+        time.sleep(260)  # wait for update OS (avr 300s)
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+
+        time.sleep(40)  # wait for install APK
+        MainPage().wait_map_activity()
+
+        # step to check ________________________________________________________________________________________________
+        print("next step to check")
+        check_version = request.config.firmware_version["os_to_update"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
+
+        check_version = request.config.firmware_version["apk_to_update"]
+        result = self.check_version_installed_ota("APK", request, check_version_apk=check_version)
+        assert result is True, f"Error: {result}"
+        # --------------------------------------------------------------------------------------------------------------
+
+        # return current version OS and APK ____________________________________________________________________________
+        self.return_current_version_ota_for_tests("OS", request)
+        self.return_current_version_ota_for_tests("APK", request)
+
+        print(f"FINISH {request.node.name}")
+
 
     # debug ------------------------------------------------------------------------------------------------------------
     @pytest.mark.skip("BECAUSE DEBUG")
