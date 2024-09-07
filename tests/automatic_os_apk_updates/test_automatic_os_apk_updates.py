@@ -712,7 +712,7 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip("NOT READY")
+    # @pytest.mark.skip("NOT READY")
     @pytest.mark.wifi
     def test_3_os_upon_boot_up(self, request) -> None:
         """
@@ -726,7 +726,57 @@ class TestAutomaticOsApkUpdates:
         6. Confirm device installs download upon falling/waking up from sleep - *Confirmed*
         - Confirm updated software version is displayed in APK Asset Details, 360, and Control - *Confirmed at 14:34*
         """
-        ...
+        print()
+        print(f"START {request.node.name}")
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update APK on Control
+        # step 1
+
+        # Device Reboot
+        DriverAppium.finish()
+        android_utils.device_reboot()  # Device Reboot
+        time.sleep(70)  # wait for device reboot
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+        # step 2
+        # step 3
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # step 4
+        # step 5
+        MainPage().press_flag_button()
+        # MainPage().check_view_progress_list()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+        # step 6
+
+        # Device Reboot
+        DriverAppium.finish()
+        android_utils.device_reboot()  # Device Reboot
+        time.sleep(70)  # wait for device reboot
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+        # time.sleep(40)
+
+        # Install OS
+        DriverAppium.finish()
+        time.sleep(260)  # wait for update OS (avr 300s)
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+
+        # step to check ________________________________________________________________________________________________
+        print("next step to check")
+        check_version = request.config.firmware_version["os_to_update"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
+
+        # return current version OS ____________________________________________________________________________________
+        self.return_current_version_ota_for_tests("OS", request)
+
+        print(f"FINISH {request.node.name}")
 
     @pytest.mark.skip
     @pytest.mark.wifi
