@@ -1066,16 +1066,21 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
+    # TOLERANCE TEST CASES ---------------------------------------------------------------------------------------------
+
     # debug ------------------------------------------------------------------------------------------------------------
     @pytest.mark.skip("BECAUSE DEBUG")
     # @pytest.mark.parametrize("times", list(range(10)))
     def test_debug(self, request) -> None:
-        app_package_uua = "com.l1inc.yamatrack_util_2"
-        print("DEBUG TEST")
-        DriverAppium.terminate_app()
-        print("launc UUA")
-        DriverAppium.launch_app(app_package_uua)
-        UUAMainPage().wait_install_activity()
-        UUAMainPage().press_button_cancel()
+        # app_package_uua = "com.l1inc.yamatrack_util_2"
+        # print("DEBUG TEST")
+        # DriverAppium.terminate_app()
+        # print("launc UUA")
+        # DriverAppium.launch_app(app_package_uua)
+        # UUAMainPage().wait_install_activity()
+        # UUAMainPage().press_button_cancel()
+        #
+        # UUAMainPage.save_screenshot("my_")
 
-        UUAMainPage.save_screenshot("my_")
+        DriverAppium.appium_instance.toggle_wifi()
+
