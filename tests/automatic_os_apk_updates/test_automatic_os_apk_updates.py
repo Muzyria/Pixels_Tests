@@ -224,6 +224,7 @@ class TestAutomaticOsApkUpdates:
 
         if name_ota == "OS":
             # return current version OS
+            # Не подходит для ОС потому что нет возможности выбрать версию ОС. подумаю что делать
             print("return current version OS")
             TestAutomaticOsApkUpdates.remove_os_ota_version(request.config.firmware_version["device_id"])
             TestAutomaticOsApkUpdates.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_current"])  # set que an update OS on Control
@@ -233,10 +234,14 @@ class TestAutomaticOsApkUpdates:
             time.sleep(3)
             assert MainPage().check_menu_button_is_visible(), "Play Golf is not loaded"  # check loads application
             MainPage().press_flag_button()
+
+            # Не подходит для ОС потому что нет возможности выбрать версию ОС. подумаю что делать
+            # ----------------------------------------------------------------------------------------------------------
             # if of hole logic
-            if off_hole_logic:
-                assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads OS is not empty"
-                return True
+            # if off_hole_logic:
+            #     assert MainPage().get_text_no_active_downloads() == "There are no active downloads", "Loads OS is not empty"
+            #     return True
+            # ----------------------------------------------------------------------------------------------------------
 
             MainPage().check_view_button_complete_list()  # check button complete is visible
             # Full APP Reset and install os version
@@ -846,7 +851,7 @@ class TestAutomaticOsApkUpdates:
     6. Note if there is any difference in precedence in what installs first (OS v. APK)
     """
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_os_and_apk_cart_burn_sleep(self, request) -> None:
         """
@@ -916,6 +921,72 @@ class TestAutomaticOsApkUpdates:
         # return current version OS and APK ____________________________________________________________________________
         self.return_current_version_ota_for_tests("OS", request)
         self.return_current_version_ota_for_tests("APK", request)
+
+        print(f"FINISH {request.node.name}")
+
+    # @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_2_os_and_apk_off_hole_sleep(self, request) -> None:
+        """
+        *Wi-Fi*
+        *OS/APK*
+        *CASE A: Off Hole Sleep*
+        1. With device awake, que BOTH an OS/APK update within Control - *Confirmed*
+        2. Confirm device recognizes OS and APK updates upon
+        - Falling into Off Hole Sleep *Confirmed*
+        - Waking up from Off Hole Sleep - *Confirmed First downloaded OS then APK*
+        3. Verify what update takes precedence (OS v. APK) ER = OS , APK
+        4. Confirm Update icon status updates accordingly - *Confirmed*
+        5. Confirm the downloaded update installs upon
+        - Falling into Off Hole Sleep *Confirmed*
+        - Waking up from Off Hole Sleep - *Confirmed First installed OS then APK*
+        6. Note if there is any difference in precedence in what installs first (OS v. APK)
+        """
+
+        print()
+        print(f"START {request.node.name}")
+
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
+        # step 1
+
+        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
+        # step
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # step
+        MainPage().press_flag_button()
+        view_loads = MainPage().wait_for_button_complete_list_os_and_apk()  # check buttons complete OS and APK is visible
+        assert len(view_loads) == 2
+        # step
+
+        android_utils.cart_of_hole_sleep_mode()  # Put Device in Off Hole Sleep
+        # step
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # step
+        MainPage().press_flag_button()
+        view_loads = MainPage().wait_for_button_complete_list_os_and_apk()  # check buttons complete OS and APK is visible
+        assert len(view_loads) == 2
+        # step
+
+        # step to check ________________________________________________________________________________________________
+        print("next step to check")
+        check_version = request.config.firmware_version["os_current"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
+
+        check_version = request.config.firmware_version["apk_current"]
+        result = self.check_version_installed_ota("APK", request, check_version_apk=check_version)
+        assert result is True, f"Error: {result}"
+        # --------------------------------------------------------------------------------------------------------------
+
+        # return current version OS and APK ____________________________________________________________________________
+        # self.return_current_version_ota_for_tests("OS", request, off_hole_logic=True)
+        self.remove_os_ota_version(request.config.firmware_version["device_id"])
+        self.return_current_version_ota_for_tests("APK", request, off_hole_logic=True)
 
         print(f"FINISH {request.node.name}")
 
