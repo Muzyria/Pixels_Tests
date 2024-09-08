@@ -924,7 +924,7 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_2_os_and_apk_off_hole_sleep(self, request) -> None:
         """
@@ -990,6 +990,81 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
+    @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_3_os_and_apk_boot_up(self, request) -> None:
+        """
+        *Wi-Fi*
+        *OS/APK*
+        *CASE A: Boot Up*
+        1. With device awake, que BOTH an OS/APK update within Control - *Confirmed*
+        - Boot up - *Confirmed at First downloaded OS then APK*
+        3. Verify what update takes precedence (OS v. APK) ER = OS , APK
+        4. Confirm Update icon status updates accordingly - *Confirmed*
+        5. Confirm the downloaded update installs upon
+        - Boot up - *Confirmed at 15:45 First installed OS then APK*
+        6. Note if there is any difference in precedence in what installs first (OS v. APK)
+        """
+
+        print()
+        print(f"START {request.node.name}")
+
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
+        # step 1
+
+        # Device Reboot
+        DriverAppium.finish()
+        android_utils.device_reboot()  # Device Reboot
+        time.sleep(70)  # wait for device reboot
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+        # step
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+        # step
+        MainPage().press_flag_button()
+        view_loads = MainPage().wait_for_button_complete_list_os_and_apk()  # check buttons complete OS and APK is visible
+        assert len(view_loads) == 2
+
+        # Device Reboot
+        DriverAppium.finish()
+        android_utils.device_reboot()  # Device Reboot
+        time.sleep(70)  # wait for device reboot
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+        # time.sleep(40)
+
+        # Install OS nad APK
+        DriverAppium.finish()
+        time.sleep(260)  # wait for update OS (avr 300s)
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+
+        time.sleep(40)  # wait for install APK
+        MainPage().wait_map_activity()
+
+        # step to check ________________________________________________________________________________________________
+        print("next step to check")
+        check_version = request.config.firmware_version["os_to_update"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
+
+        check_version = request.config.firmware_version["apk_to_update"]
+        result = self.check_version_installed_ota("APK", request, check_version_apk=check_version)
+        assert result is True, f"Error: {result}"
+        # --------------------------------------------------------------------------------------------------------------
+
+        # return current version OS and APK ____________________________________________________________________________
+        self.return_current_version_ota_for_tests("OS", request)
+        self.return_current_version_ota_for_tests("APK", request)
+
+        print(f"FINISH {request.node.name}")
 
     # debug ------------------------------------------------------------------------------------------------------------
     @pytest.mark.skip("BECAUSE DEBUG")
