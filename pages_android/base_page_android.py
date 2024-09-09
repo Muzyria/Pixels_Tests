@@ -79,12 +79,20 @@ class Page:
         return DriverAppium.appium_instance.current_activity
 
     @staticmethod
-    def det_network_connection() -> int:
+    def toggle_wifi():
+        DriverAppium.appium_instance.toggle_wifi()
+        print("toggle wifi")
+
+    @staticmethod
+    def get_network_connection() -> int:
         """return name connection
-        1	Airplane mode включен
-        0	Только мобильные данные
-        3	Только Wi-Fi
-        2	Все сети отключены (Airplane mode выключен)
+        0 — нет соединения.
+        1 — только самолетный режим.
+        2 — только Wi-Fi.
+        4 — только мобильные данные.
+        5 - самолетный режим и зпрет передачи по мобильным данным
+        6 — Wi-Fi и мобильные данные.
+        7 — Wi-Fi, мобильные данные с запретом передачи и самолетный режим включены одновременно.
         """
         return DriverAppium.appium_instance.network_connection
 

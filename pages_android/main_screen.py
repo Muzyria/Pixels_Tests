@@ -19,6 +19,8 @@ class MainPage(Page):
 
     VIEW_PERCENTAGE_LIST = ("id", "com.l1inc.yamatrack3d:id/textViewPercentage")
     VIEW_PROGRESS_LIST = ("id", "com.l1inc.yamatrack3d:id/progressView")
+    VIEW_BUTTON_ERROR = ("id", "com.l1inc.yamatrack3d:id/imageButtonError")
+
     VIEW_BUTTON_COMPLETE = ("id", "com.l1inc.yamatrack3d:id/imageButtonComplete")
 
         # com.l1inc.yamatrack3d:id/autoUpdateCellOs
@@ -50,6 +52,12 @@ class MainPage(Page):
         res = self.find_elements(self.VIEW_PERCENTAGE_LIST)
         print("view_percentage")
         print(res)
+
+    def check_view_button_error_list(self):
+        res = self.visibility_of_all_elements_located(self.VIEW_BUTTON_ERROR)
+        print("button_error")
+        print(res)
+        return res
 
     def check_view_button_complete_list(self):
         res = self.visibility_of_all_elements_located(self.VIEW_BUTTON_COMPLETE)
