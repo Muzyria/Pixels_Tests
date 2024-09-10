@@ -1069,7 +1069,7 @@ class TestAutomaticOsApkUpdates:
     # TOLERANCE TEST CASES ---------------------------------------------------------------------------------------------
     # APK --------------------------------------------------------------------------------------------------------------
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_apk_download_is_unsuccessful(self, request) -> None:
         """
@@ -1089,7 +1089,64 @@ class TestAutomaticOsApkUpdates:
         # time.sleep(10)
         # step 1
 
-        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update OS on Control
+
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+        MainPage().wait_spinner_to_invisible()
+        # time.sleep(4)
+        MainPage.toggle_wifi()  # toggle wifi
+        # step 2
+
+        # MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+
+        MainPage().press_flag_button()
+        MainPage().check_view_button_error_list()  # check button error is visible
+
+        MainPage.toggle_wifi()  # toggle wifi
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        time.sleep(10)
+        # step 3
+
+        android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
+
+        MainPage().wait_spinner_to_invisible()
+        time.sleep(3)
+        assert MainPage().check_menu_button_is_visible() is True, "Play Golf is not loaded"  # check loads application
+
+        MainPage().press_flag_button()
+        MainPage().check_view_button_complete_list()  # check button complete is visible
+        # step 4
+
+        # return current version OS ___________________________________________________________________________________
+        self.remove_os_ota_version(request.config.firmware_version["device_id"])
+        self.device_full_app_reset()
+        print(f"FINISH {request.node.name}")
+
+    # OS ---------------------------------------------------------------------------------------------------------------
+
+    @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_1_os_download_is_unsuccessful(self, request) -> None:
+        """
+        *Wi-Fi*
+        *OS*
+        CASE A: Download Is Unsuccessful*
+        1. Start with device in Cart Barn sleep and que an update within Control - *Confirmed*
+        2. Wake up device and quickly place into Faraday cage to try to stop download - *Confirmed*
+        - Confirm if Update status indicates download was unsuccessful
+        3. Take device out of Faraday cage, establish cell connect, and allow device to go to Cart Barn Sleep - *Confirmed*
+        4. Wake device up and confirm if download/install occurred - ER=device should technically have downloaded, and installed update upon falling asleep, then waking up
+        """
+
+        print()
+        print(f"START {request.node.name}")
+        android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
+        # time.sleep(10)
+        # step 1
+
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
 
         android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
         MainPage().wait_spinner_to_invisible()
@@ -1129,8 +1186,6 @@ class TestAutomaticOsApkUpdates:
         self.return_current_version_ota_for_tests("APK", request, off_hole_logic=True)
 
         print(f"FINISH {request.node.name}")
-
-    # OS ---------------------------------------------------------------------------------------------------------------
 
     # debug ------------------------------------------------------------------------------------------------------------
     @pytest.mark.skip("BECAUSE DEBUG")
