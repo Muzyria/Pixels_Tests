@@ -9,6 +9,7 @@ from pages_android.main_screen import MainPage
 from pages_android.menu_screen import MenuPage
 from pages_android.settings_screen import SettingsPage
 from pages_android.asset_details_screen import AssetDetailsPage
+
 from pages_android.uua_main_screen import UUAMainPage
 from pages_android.uua_update_firmware_screen import UUAUpdateFirmwarePage
 
@@ -17,10 +18,12 @@ from chrome_utils import get_driver_chrome_options
 
 from pages_chrome.login_page_360 import LoginPageSyncWise360
 from pages_chrome.coursemap_page_360 import CourseMapSyncWise360
+from pages_chrome.assets_page_360 import AssetsSyncWise360
+
 from pages_chrome.login_page_control import LoginPageControl
 from pages_chrome.superior_page_control import SuperiorPageControl
 from pages_chrome.device_details_page_control import DeviceDetailsPageControl
-from pages_chrome.assets_page_360 import AssetsSyncWise360
+
 
 import android_utils
 

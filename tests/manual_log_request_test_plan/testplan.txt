@@ -1,0 +1,98 @@
+Basic Functionality
+Case A: Request Logs
+Cell
+1) Confirm in Settings Menu new option to “Request Logs”
+2) Confirm UI
+3) Confirm press to “Request Logs” opens page “Request Logs Files”
+4) Confirm On button tap action it will display zipping progress with ZIPPING FILES IN PROGRESS below Status text view
+5) Confirm display download progress with DOWNLOADING FILES IN PROGRESS status message
+6) Confirm then once it completes everything, it will display LOGS SUCCESSFULLY PROCESSED message
+7) Check Control to verify when logs become available
+8) Review logs to confirm they reflect logs for the requested All days
+
+WiFi
+1) Confirm in Settings Menu new option to “Request Logs”
+2) Confirm UI
+3) Confirm press to “Request Logs” opens page “Request Logs Files”
+4) Confirm On button tap action it will display zipping progress with ZIPPING FILES IN PROGRESS below Status text view
+5) Confirm display download progress with DOWNLOADING FILES IN PROGRESS status message
+6) Confirm then once it completes everything, it will display LOGS SUCCESSFULLY PROCESSED message
+7) Check Control to verify when logs become available
+8) Review logs to confirm they reflect logs for the requested All days
+
+Case B: Request Logs, Exit Menu
+Cell
+1) Press "Request Logs"
+2) After process begins exit menu
+3) Re-enter menu and confirm unable to select "Request Logs"
+4) Confirm APK shows current progress/status of Log process
+5) Confirm logs are uploaded to Control
+6) Review logs to confirm they reflect logs for the requested All days
+
+WiFi
+1) Press "Request Logs"
+2) After process begins exit menu
+3) Re-enter menu and confirm unable to select "Request Logs"
+4) Confirm APK shows current progress/status of Log process
+5) Confirm logs are uploaded to Control
+6) Review logs to confirm they reflect logs for the requested All days
+
+Case C: Network Disconnected
+Cell
+1) Press "Request Logs"
+2) Confirm zipping progress
+3) Confirm zipping progress completed
+4) Allow device to begin download process, cut network connection (Faraday Cage, Airplane mode, etc)
+5) Confirm if logs appear in Control
+6) Review logs to confirm they reflect logs for he requested All days
+
+WiFi
+1) Press "Request Logs"
+2) Confirm zipping progress
+3) Confirm zipping progress completed
+4) Allow device to begin download process, cut network connection (Faraday Cage, Airplane mode, etc)
+5) Confirm if logs appear in Control
+6) Review logs to confirm they reflect logs for he requested All days
+
+Corner Cases
+Case D: Cut Power to Device
+Cell
+1) Press "Request Logs"
+2) Confirm Request Log process begins
+3) During middle of process turn off device Disconnect battery
+4) Turn device on
+5) Enter "Request Logs" menu
+6) Confirm if Request Log process is still going
+7) Confirm if logs appear in Control
+8) Review logs to confirm they reflect logs for he requested All days
+
+Wifi
+1) Press "Request Logs"
+2) Confirm Request Log process begins
+3) During middle of process turn off device Disconnect battery
+4) Turn device on
+5) Enter "Request Logs" menu Enter
+6) Confirm if Request Log process is still executing
+7) Confirm if logs appear in Control
+8) Review logs to confirm they reflect logs for he requested All days
+
+Case E: Exit Application During Request Log Process
+Cell
+1) Press "Request Logs"
+2) Confirm Request Log process begins
+3) During middle of process exit application via Asset Details Exit APK
+4) Open YamaTrack Open
+5) Enter Request Logs menu Enter at 16:54
+6) Confirm if Request Logs process is still executing Confirm Request Logs process still executing
+7) Confirm if logs appear in Control
+8) Review logs to confirm they reflect logs for he requested All days
+
+WIFI
+1) Press "Request Logs"
+2) Confirm Request Log process begins
+3) During middle of process exit application via Asset Details Exit APK
+4) Open YamaTrack Open
+5) Enter Request Logs menu Enter at 16:54
+6) Confirm if Request Logs process is still executing Confirm Request Logs process still executing
+7) Confirm if logs appear in Control
+8) Review logs to confirm they reflect logs for he requested All days
