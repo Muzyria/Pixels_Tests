@@ -40,8 +40,13 @@ class TestManualLogRequest:
         self.open_request_log_files()
         RequestLogFilesPage().press_request_logs_button()
 
+        assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
         RequestLogFilesPage().wait_zipping_files()
+        assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
         RequestLogFilesPage().wait_downloading_files()
+
+        assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
+
         # --------------------------------------------------------------------------------------------------------------
         RequestLogFilesPage().press_button_cancel()
         MenuPage().press_play_golf_button()
