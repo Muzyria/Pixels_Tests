@@ -1092,7 +1092,8 @@ class TestAutomaticOsApkUpdates:
         self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
 
         android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
-        MainPage().wait_map_activity()
+        MainPage().wait_spinner_to_invisible()
+        # time.sleep(4)
         MainPage.toggle_wifi()  # toggle wifi
         # step 2
 
@@ -1123,9 +1124,9 @@ class TestAutomaticOsApkUpdates:
         # check_version = request.config.firmware_version["apk_to_update"]
         # result = self.check_version_installed_ota("APK", request, check_version_apk=check_version)
         # assert result is True, f"Error: {result}"
-        #
-        # # return current version APK ___________________________________________________________________________________
-        # self.return_current_version_ota_for_tests("APK", request)
+
+        # return current version APK ___________________________________________________________________________________
+        self.return_current_version_ota_for_tests("APK", request, off_hole_logic=True)
 
         print(f"FINISH {request.node.name}")
 

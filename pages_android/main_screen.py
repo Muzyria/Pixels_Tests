@@ -83,6 +83,10 @@ class MainPage(Page):
         self.invisibility_of_element_located(self.SPINNER)
         print("__spinner_is_invisible__")
 
+    def wait_spinner_to_visible(self):
+        self.visibility_of_element_located(self.SPINNER)
+        print("__spinner_is_visible__")
+
     def wait_map_activity(self):
         assert self.wait_activity(self.NAME_ACTIVITY, 120), "MAP_ACTIVITY_IS_NOT_LOADED"
         print("__MAP_ACTIVITY_IS_LOADED__")
