@@ -1,4 +1,5 @@
 import pytest
+from ..config_data import firmware
 
 from framework_appium.appium import Appium
 from framework_appium.driver_appium import DriverAppium
@@ -8,10 +9,10 @@ from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
 
 
-# def pytest_configure(config):
-#     # Выполняется один раз перед всеми тестами
-#     config.firmware_version = firmware
-#     print(f"Устанавливаем глобальную прошивку: {config.firmware_version}")
+def pytest_configure(config):
+    # Выполняется один раз перед всеми тестами
+    config.firmware_version = firmware
+    print(f"Устанавливаем глобальную прошивку: {config.firmware_version}")
 
 
 # def pytest_addoption(parser: pytest.Parser) -> None:

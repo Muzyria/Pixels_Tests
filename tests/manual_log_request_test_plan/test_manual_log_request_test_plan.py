@@ -17,6 +17,18 @@ from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 class TestManualLogRequest:
 
     @staticmethod
+    def login_and_select_device_control(device_id: str):
+        LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
+        LoginPageControl().enter_login().enter_password().click_login_button()  # check URL
+        LoginPageControl.is_opened(LoginPageControl.MAIN_PAGE)
+        SuperiorPageControl.open(SuperiorPageControl.PAGE_URL)  # open Superior
+        SuperiorPageControl.is_opened(SuperiorPageControl.PAGE_URL)  # check URL
+        SuperiorPageControl().click_button_device_manager()
+        SuperiorPageControl().click_device_id_in_box(device_id)
+        time.sleep(5)
+
+    # device -----------------------------------------------------------------------------------------------------------
+    @staticmethod
     def open_request_log_files():
         MainPage().press_menu_button()
         MenuPage().press_settings_button()
@@ -59,5 +71,8 @@ class TestManualLogRequest:
         request.cls.lost_logs.append(2)
         print(request.node.list_logs)
         print(f"FINISH {request.node.name}")
+
+    def test_(self, request):
+        print(request.config.firmware_version["device_id"])
 
 

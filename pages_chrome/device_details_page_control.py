@@ -9,6 +9,10 @@ class DeviceDetailsPageControl(PageChrome):
     LIST_APP_VERSION = ("xpath", '//select[@name="appVersion"]')
     BUTTON_REMOVE_APP_UPDATE = ("xpath", '//div[@class="bt delete-app-update"]')
     BUTTON_REMOVE_OS_UPDATE = ("xpath", '//div[@class="bt delete-os-update"]')
+
+    # device log
+    LIST_DEVICE_LOGS = ("xpath", '//table[@class="style4 center device-logs-tbl"]//tbody')
+
     # info
     BUTTON_INFO = ("xpath", '//div[text()="Info"]')
     TEXT_FW_VERSION = ("xpath", "//div[text()='FW Version']/following-sibling::div[@class='desc']")

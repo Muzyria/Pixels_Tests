@@ -1,4 +1,5 @@
-from config_data import firmware
+# from config_data import firmware
+from ..config_data import firmware
 import pytest
 
 from framework_appium.appium import Appium
