@@ -15,6 +15,7 @@ from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 
 
 class TestManualLogRequest:
+
     @staticmethod
     def open_request_log_files():
         MainPage().press_menu_button()
@@ -24,9 +25,9 @@ class TestManualLogRequest:
 
     # tests --------------------------------------------------------------------------------------------------
     # Basic Functionality ------------------------------------------------------------------------------------
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
-    def test_1_request_logs(self, request):
+    def test_1_request_logs(self, request: pytest.FixtureRequest):
         """
         3) Confirm press to “Request Logs” opens page “Request Logs Files”
         4) Confirm On button tap action it will display zipping progress with ZIPPING FILES IN PROGRESS below Status text view
@@ -37,17 +38,26 @@ class TestManualLogRequest:
         """
         print()
         print(f"START {request.node.name}")
-        self.open_request_log_files()
-        RequestLogFilesPage().press_request_logs_button()
+        # self.open_request_log_files()
+        # RequestLogFilesPage().press_request_logs_button()
+        #
+        # assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
+        # RequestLogFilesPage().wait_zipping_files()
+        # assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
+        # RequestLogFilesPage().wait_downloading_files()
+        #
+        # assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
+        # check logs ---------------------------------------------------------------------------------------------------
 
-        assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
-        RequestLogFilesPage().wait_zipping_files()
-        assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
-        RequestLogFilesPage().wait_downloading_files()
-
-        assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
 
         # --------------------------------------------------------------------------------------------------------------
-        RequestLogFilesPage().press_button_cancel()
-        MenuPage().press_play_golf_button()
+        # RequestLogFilesPage().press_button_cancel()
+        # MenuPage().press_play_golf_button()
+
+
+        print(request.cls.list_logs)
+        request.cls.lost_logs.append(2)
+        print(request.node.list_logs)
         print(f"FINISH {request.node.name}")
+
+

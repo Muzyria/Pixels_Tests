@@ -18,6 +18,13 @@ from chrome_utils import get_driver_chrome_options
 #     parser.addoption('--login', action='store_true', default=False, help='Reset app and login before tests session')
 
 
+@pytest.fixture(scope="class", autouse=True)
+def setup(request: pytest.FixtureRequest):
+    print()
+    print("SETUP_METHOD")
+    request.cls.log_files = []
+
+
 @pytest.fixture(scope='session')
 def appium_service():
     Appium.start()
