@@ -37,9 +37,9 @@ class TestManualLogRequest:
 
     # tests --------------------------------------------------------------------------------------------------
     # Basic Functionality ------------------------------------------------------------------------------------
-    @pytest.mark.skip
+    # @pytest.mark.skip
     @pytest.mark.wifi
-    def test_1_request_logs(self, request: pytest.FixtureRequest):
+    def test_1_request_logs(self, request):
         """
         3) Confirm press to “Request Logs” opens page “Request Logs Files”
         4) Confirm On button tap action it will display zipping progress with ZIPPING FILES IN PROGRESS below Status text view
@@ -61,18 +61,29 @@ class TestManualLogRequest:
         # assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
         # check logs ---------------------------------------------------------------------------------------------------
 
+        self.login_and_select_device_control(request.config.firmware_version["device_id"])
+        DeviceDetailsPageControl().click_button_logs()
+        logs_list = DeviceDetailsPageControl().get_device_logs_list()
+
+        for i in logs_list:
+            res = i.text
+            print(res[:19])
+
+        time.sleep(5)
+
+
 
         # --------------------------------------------------------------------------------------------------------------
         # RequestLogFilesPage().press_button_cancel()
         # MenuPage().press_play_golf_button()
 
 
-        print(request.cls.list_logs)
-        request.cls.lost_logs.append(2)
-        print(request.node.list_logs)
+
         print(f"FINISH {request.node.name}")
 
-    def test_(self, request):
+    @pytest.mark.skip
+    def test_debug(self, request):
         print(request.config.firmware_version["device_id"])
+
 
 

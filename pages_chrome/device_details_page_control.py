@@ -11,7 +11,8 @@ class DeviceDetailsPageControl(PageChrome):
     BUTTON_REMOVE_OS_UPDATE = ("xpath", '//div[@class="bt delete-os-update"]')
 
     # device log
-    LIST_DEVICE_LOGS = ("xpath", '//table[@class="style4 center device-logs-tbl"]//tbody')
+    BUTTON_LOGS = ("xpath", '//div[text()="Logs"]')
+    LIST_DEVICE_LOGS = ("xpath", '//table[@class="style4 center device-logs-tbl"]//tbody/tr/td[@class="left"]')
 
     # info
     BUTTON_INFO = ("xpath", '//div[text()="Info"]')
@@ -74,5 +75,15 @@ class DeviceDetailsPageControl(PageChrome):
 
     def get_info_app_version(self):
         return self.visibility_of_element_located(self.TEXT_APP_VERSION).text
+
+    # get device logs --------------------------------------------------------------------------------------------------
+    def click_button_logs(self):
+        self.element_to_be_clickable(self.BUTTON_LOGS).click()
+
+    def get_device_logs_list(self):
+        logs_list = self.visibility_of_all_elements_located(self.LIST_DEVICE_LOGS)
+
+        return logs_list
+
 
 

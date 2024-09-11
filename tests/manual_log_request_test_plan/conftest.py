@@ -26,26 +26,26 @@ def setup(request: pytest.FixtureRequest):
     request.cls.log_files = []
 
 
-@pytest.fixture(scope='session')
-def appium_service():
-    Appium.start()
-    yield
-    Appium.stop()
-
-
-@pytest.fixture(scope='function', autouse=True)
-def driver_appium(appium_service, request: pytest.FixtureRequest):
-    print()
-    print("__START DRIVER APPIUM__")
-    get_udid()
-    DriverAppium.start(get_driver_appium_options())
-
-    # DriverAppium.terminate_app()
-    # DriverAppium.launch_app()
-    yield
-    print()
-    print("__FINISH DRIVER APPIUM__")
-    DriverAppium.finish()
+# @pytest.fixture(scope='session')
+# def appium_service():
+#     Appium.start()
+#     yield
+#     Appium.stop()
+#
+#
+# @pytest.fixture(scope='function', autouse=True)
+# def driver_appium(appium_service, request: pytest.FixtureRequest):
+#     print()
+#     print("__START DRIVER APPIUM__")
+#     get_udid()
+#     DriverAppium.start(get_driver_appium_options())
+#
+#     # DriverAppium.terminate_app()
+#     # DriverAppium.launch_app()
+#     yield
+#     print()
+#     print("__FINISH DRIVER APPIUM__")
+#     DriverAppium.finish()
 
 
 @pytest.fixture(scope='function', autouse=True)
