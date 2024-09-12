@@ -17,6 +17,17 @@ from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 class TestManualLogRequest:
 
     @staticmethod
+    def get_start_list_logs(request):
+        TestManualLogRequest.login_and_select_device_control(request.config.firmware_version["device_id"])
+        DeviceDetailsPageControl().click_button_logs()
+        logs_list = DeviceDetailsPageControl().get_device_logs_list()
+        res_dict = {k: v.text[:19] for k, v in enumerate(logs_list, 1)}
+        request.cls.log_files.update(res_dict)
+
+        LoginPageControl().click_logout_button()
+        # time.sleep(3)
+
+    @staticmethod
     def login_and_select_device_control(device_id: str):
         LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
         LoginPageControl().enter_login().enter_password().click_login_button()  # check URL
@@ -50,40 +61,38 @@ class TestManualLogRequest:
         """
         print()
         print(f"START {request.node.name}")
-        # self.open_request_log_files()
-        # RequestLogFilesPage().press_request_logs_button()
-        #
-        # assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
-        # RequestLogFilesPage().wait_zipping_files()
-        # assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
-        # RequestLogFilesPage().wait_downloading_files()
-        #
-        # assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
+        self.get_start_list_logs(request)
+        start_count_items_logs = len(request.cls.log_files)
+
+        self.open_request_log_files()
+        RequestLogFilesPage().press_request_logs_button()
+
+        assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
+        RequestLogFilesPage().wait_zipping_files()
+        assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
+        RequestLogFilesPage().wait_downloading_files()
+
+        assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
+
         # check logs ---------------------------------------------------------------------------------------------------
 
-        self.login_and_select_device_control(request.config.firmware_version["device_id"])
-        DeviceDetailsPageControl().click_button_logs()
-        logs_list = DeviceDetailsPageControl().get_device_logs_list()
-
-        for i in logs_list:
-            res = i.text
-            print(res[:19])
-
-        time.sleep(5)
-
-
+        self.get_start_list_logs(request)
+        assert len(request.cls.log_files) == start_count_items_logs + 1
 
         # --------------------------------------------------------------------------------------------------------------
-        # RequestLogFilesPage().press_button_cancel()
-        # MenuPage().press_play_golf_button()
+        RequestLogFilesPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
 
-
+        request.cls.log_files = {}
 
         print(f"FINISH {request.node.name}")
 
     @pytest.mark.skip
     def test_debug(self, request):
-        print(request.config.firmware_version["device_id"])
+        print()
+        print(f"START {request.node.name}")
 
+        print(request.cls.log_files)
+        print(len(request.cls.log_files))
 
-
+        print(f"FINISH {request.node.name}")
