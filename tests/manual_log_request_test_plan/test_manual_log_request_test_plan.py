@@ -3,6 +3,8 @@ import time
 import pytest
 import android_utils
 
+from framework_appium.driver_appium import DriverAppium
+
 from pages_android.main_screen import MainPage
 from pages_android.menu_screen import MenuPage
 from pages_android.settings_screen import SettingsPage
@@ -133,7 +135,7 @@ class TestManualLogRequest:
 
         print(f"FINISH {request.node.name}")
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_3_request_logs_network_disconnected(self, request):
         """
@@ -180,6 +182,129 @@ class TestManualLogRequest:
         MenuPage().press_play_golf_button()
 
         request.cls.log_files = {}
+
+        print(f"FINISH {request.node.name}")
+
+    @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_4_request_logs_cut_power_to_device(self, request):
+        """
+        1) Press "Request Logs"
+        2) Confirm Request Log process begins
+        3) During middle of process turn off device Disconnect battery
+        4) Turn device on
+        5) Enter "Request Logs" menu
+        6) Confirm if Request Log process is still going
+        7) Confirm if logs appear in Control
+        8) Review logs to confirm they reflect logs for he requested All days
+        """
+        print()
+        print(f"START {request.node.name}")
+        self.get_start_list_logs(request)
+        start_count_items_logs = len(request.cls.log_files)
+
+        self.open_request_log_files()
+        RequestLogFilesPage().press_request_logs_button()
+        # step 1
+        assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
+
+        # step 2
+
+        # reboot device
+        DriverAppium.finish()
+        android_utils.device_reboot()  # Device Reboot
+        time.sleep(70)  # wait for device reboot
+        android_utils.wait_for_the_device_to_boot()
+        print("TRY TO CHECK BOOT DEVICE")
+        DriverAppium.start(android_utils.get_driver_appium_options())
+        MainPage().wait_map_activity()
+        # step 3
+        # step 4
+
+        self.open_request_log_files()
+
+        RequestLogFilesPage().wait_zipping_files()
+
+        assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
+        RequestLogFilesPage().wait_downloading_files()
+
+        assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
+
+        # check logs ---------------------------------------------------------------------------------------------------
+
+        self.get_start_list_logs(request)
+        assert len(request.cls.log_files) == start_count_items_logs + 1
+
+        # --------------------------------------------------------------------------------------------------------------
+        RequestLogFilesPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
+
+        request.cls.log_files = {}
+
+        print(f"FINISH {request.node.name}")
+
+    @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_5_request_logs_exit_application(self, request):
+        """
+        1) Press "Request Logs"
+        2) Confirm Request Log process begins
+        3) During middle of process exit application via Asset Details Exit APK
+        4) Open YamaTrack Open
+        5) Enter Request Logs menu
+        6) Confirm if Request Logs process is still executing Confirm Request Logs process still executing
+        7) Confirm if logs appear in Control
+        8) Review logs to confirm they reflect logs for he requested All days
+        """
+        print()
+        print(f"START {request.node.name}")
+        self.get_start_list_logs(request)
+        start_count_items_logs = len(request.cls.log_files)
+
+        self.open_request_log_files()
+        RequestLogFilesPage().press_request_logs_button()
+        # step 1
+        assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
+
+        # step 2
+
+        # Close application
+        RequestLogFilesPage().press_button_cancel()
+        MenuPage().press_settings_button()
+        SettingsPage().enter_settings_password()
+        SettingsPage().press_exit_application_button()
+        SettingsPage().press_button_yes()
+
+        print("APPLICATION IS CLOSED")
+
+        # Open application
+        DriverAppium.launch_app()
+        MainPage().wait_map_activity()
+        self.open_request_log_files()
+
+        assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
+        RequestLogFilesPage().wait_downloading_files()
+
+        assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
+
+        # check logs ---------------------------------------------------------------------------------------------------
+
+        self.get_start_list_logs(request)
+        assert len(request.cls.log_files) == start_count_items_logs + 1
+
+        # --------------------------------------------------------------------------------------------------------------
+        RequestLogFilesPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
+
+        request.cls.log_files = {}
+
+        # wait for double downloads ------------------------------------------------------------------------------------
+        self.open_request_log_files()
+        RequestLogFilesPage().wait_zipping_files()
+        RequestLogFilesPage().wait_downloading_files()
+        RequestLogFilesPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
+        # --------------------------------------------------------------------------------------------------------------
 
         print(f"FINISH {request.node.name}")
 
