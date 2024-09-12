@@ -48,7 +48,7 @@ class TestManualLogRequest:
 
     # tests --------------------------------------------------------------------------------------------------
     # Basic Functionality ------------------------------------------------------------------------------------
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_request_logs(self, request):
         """
@@ -88,11 +88,108 @@ class TestManualLogRequest:
         print(f"FINISH {request.node.name}")
 
     @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_2_request_logs_exit_menu(self, request):
+        """
+        1) Press "Request Logs"
+        2) After process begins exit menu
+        3) Re-enter menu and confirm unable to select "Request Logs"
+        4) Confirm APK shows current progress/status of Log process
+        5) Confirm logs are uploaded to Control
+        6) Review logs to confirm they reflect logs for the requested All days
+        """
+        print()
+        print(f"START {request.node.name}")
+        self.get_start_list_logs(request)
+        start_count_items_logs = len(request.cls.log_files)
+
+        self.open_request_log_files()
+        RequestLogFilesPage().press_request_logs_button()
+        # step 1
+
+        RequestLogFilesPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
+        # step 2
+
+        self.open_request_log_files()
+
+        assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
+        RequestLogFilesPage().wait_zipping_files()
+        assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
+        RequestLogFilesPage().wait_downloading_files()
+
+        assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
+
+        # check logs ---------------------------------------------------------------------------------------------------
+
+        self.get_start_list_logs(request)
+        assert len(request.cls.log_files) == start_count_items_logs + 1
+
+        # --------------------------------------------------------------------------------------------------------------
+        RequestLogFilesPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
+
+        request.cls.log_files = {}
+
+        print(f"FINISH {request.node.name}")
+
+    # @pytest.mark.skip
+    @pytest.mark.wifi
+    def test_3_request_logs_network_disconnected(self, request):
+        """
+        1) Press "Request Logs"
+        2) Confirm zipping progress
+        3) Confirm zipping progress completed
+        4) Allow device to begin download process, cut network connection (Faraday Cage, Airplane mode, etc)
+        5) Confirm if logs appear in Control
+        6) Review logs to confirm they reflect logs for he requested All days
+        """
+        print()
+        print(f"START {request.node.name}")
+        self.get_start_list_logs(request)
+        start_count_items_logs = len(request.cls.log_files)
+
+        self.open_request_log_files()
+        RequestLogFilesPage().press_request_logs_button()
+        # step 1
+
+        assert RequestLogFilesPage().get_text_view_status() == "ZIPPING FILES IN PROGRESS"
+        # step 2
+        RequestLogFilesPage().wait_zipping_files()
+        # step 3
+
+        time.sleep(3)
+        RequestLogFilesPage.toggle_wifi()  # OFF WIFI
+        print("Wi-Fi OFF")
+        time.sleep(10)
+        RequestLogFilesPage.toggle_wifi()  # ON WIFI
+        print("Wi-Fi ON")
+
+        assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
+        RequestLogFilesPage().wait_downloading_files()
+
+        assert RequestLogFilesPage().get_text_view_updated_message() == "LOGS SUCCESSFULLY\nPROCESSED"
+
+        # check logs ---------------------------------------------------------------------------------------------------
+
+        self.get_start_list_logs(request)
+        assert len(request.cls.log_files) == start_count_items_logs + 1
+
+        # --------------------------------------------------------------------------------------------------------------
+        RequestLogFilesPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
+
+        request.cls.log_files = {}
+
+        print(f"FINISH {request.node.name}")
+
+    @pytest.mark.skip
     def test_debug(self, request):
         print()
         print(f"START {request.node.name}")
 
         print(request.cls.log_files)
         print(len(request.cls.log_files))
+        MainPage.toggle_wifi()
 
         print(f"FINISH {request.node.name}")
