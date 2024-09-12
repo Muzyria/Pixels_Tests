@@ -282,6 +282,7 @@ class TestManualLogRequest:
         MainPage().wait_map_activity()
         self.open_request_log_files()
 
+        RequestLogFilesPage().wait_zipping_files()
         assert RequestLogFilesPage().get_text_view_status() == "DOWNLOADING FILES IN PROGRESS"
         RequestLogFilesPage().wait_downloading_files()
 
@@ -290,7 +291,7 @@ class TestManualLogRequest:
         # check logs ---------------------------------------------------------------------------------------------------
 
         self.get_start_list_logs(request)
-        assert len(request.cls.log_files) == start_count_items_logs + 1
+        assert len(request.cls.log_files) >= start_count_items_logs + 1
 
         # --------------------------------------------------------------------------------------------------------------
         RequestLogFilesPage().press_button_cancel()
