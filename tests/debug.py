@@ -14,3 +14,4 @@ if __name__ == '__main__':
     s = android_utils.get_current_activity()
     print(s)
 
+    android_utils.touch_screen_by_coordinate(200, 400)

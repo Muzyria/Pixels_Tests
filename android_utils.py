@@ -129,7 +129,7 @@ def device_reboot() -> None:
     subprocess.run(['adb', '-s', udid, 'reboot'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
-def touch_screen_by_coordinate(x: str|int , y: str|int) -> None:
+def touch_screen_by_coordinate(x: str | int, y: str | int) -> None:
     subprocess.run(['adb', '-s', udid, 'shell', 'input', 'tap', f"{x} {y}"])
 
 

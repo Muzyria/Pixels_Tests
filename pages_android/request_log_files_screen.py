@@ -1,6 +1,7 @@
 import time
 
 from pages_android import Page
+import android_utils
 
 
 class RequestLogFilesPage(Page):
@@ -39,6 +40,7 @@ class RequestLogFilesPage(Page):
 
     def wait_zipping_files(self):
         while self.get_text_view_status() == "ZIPPING FILES IN PROGRESS":
+            android_utils.touch_screen_by_coordinate(200, 200)
             time.sleep(5)
             print(f"ZIPPING FILES IN PROGRESS")
         print("ZIPPING FILES IS COMPLETE")
@@ -46,6 +48,7 @@ class RequestLogFilesPage(Page):
 
     def wait_downloading_files(self):
         while self.get_text_view_status() == "DOWNLOADING FILES IN PROGRESS":
+            android_utils.touch_screen_by_coordinate(200, 200)
             time.sleep(5)
             print(f"DOWNLOADING FILES IN PROGRESS")
         print("DOWNLOADING FILES IS COMPLETE")

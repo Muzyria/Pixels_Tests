@@ -10,8 +10,8 @@ firmware = {"device_id": "S10150000211018049",
 
 # ---------------------------------------------
 
-# firmware = {"device_id": "L101140017180605A5",
-#             "device_name": "A5",
+# firmware = {"device_id": "L10115001805220010",
+#             "device_name": "10",
 #             "device_os": None,
 #             "device_apk": None,
 #             "os_current": "2.20.0",
