@@ -8,8 +8,17 @@ from framework_appium.driver_appium import DriverAppium
 from pages_android.main_screen import MainPage
 from pages_android.menu_screen import MenuPage
 from pages_android.settings_screen import SettingsPage
-from pages_android.request_log_files_screen import RequestLogFilesPage
+from pages_android.asset_details_screen import AssetDetailsPage
 
+from pages_android.uua_main_screen import UUAMainPage
+from pages_android.uua_update_firmware_screen import UUAUpdateFirmwarePage
+
+from framework_chrome.driver_chrome import DriverChrome
+from chrome_utils import get_driver_chrome_options
+
+from pages_chrome.login_page_360 import LoginPageSyncWise360
+from pages_chrome.coursemap_page_360 import CourseMapSyncWise360
+from pages_chrome.assets_page_360 import AssetsSyncWise360
 
 from pages_chrome.login_page_control import LoginPageControl
 from pages_chrome.superior_page_control import SuperiorPageControl
@@ -19,7 +28,7 @@ from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 class DeviceScripts:
     @staticmethod
     def reboot_device_and_restart_appium(wait_time: int = 70) -> None:
-        """Device Reboot and restart appium (for update GPS use time 300)"""
+        """Device Reboot and restart appium (for update GPS use time 300 and 120)"""
         # Device Reboot
         DriverAppium.finish()
         android_utils.device_reboot()  # Device Reboot
@@ -37,20 +46,20 @@ class DeviceScripts:
         SettingsPage().press_full_app_reset_button()
         SettingsPage().press_button_yes()
 
-    # @staticmethod
-    # def get_tablet_apk_os_version():
-    #     MainPage().press_menu_button()
-    #     MenuPage().press_settings_button()
-    #     SettingsPage().enter_settings_password()
-    #     SettingsPage().press_assets_details_button()
-    #     tablet_os_version = AssetDetailsPage().get_os_version()
-    #     tablet_apk_version = AssetDetailsPage().get_apk_version()
-    #
-    #     print(f'{tablet_os_version=} {tablet_apk_version=}')
-    #     AssetDetailsPage().press_button_cancel()
-    #     SettingsPage().press_button_cancel()
-    #     MenuPage().press_play_golf_button()
-    #     return {"tablet_os_version": tablet_os_version, "tablet_apk_version": tablet_apk_version}
+    @staticmethod
+    def get_tablet_info():
+        MainPage().press_menu_button()
+        MenuPage().press_settings_button()
+        SettingsPage().enter_settings_password()
+        SettingsPage().press_assets_details_button()
+        tablet_os_version = AssetDetailsPage().get_os_version()
+        tablet_apk_version = AssetDetailsPage().get_apk_version()
+
+        print(f'{tablet_os_version=} {tablet_apk_version=}')
+        AssetDetailsPage().press_button_cancel()
+        SettingsPage().press_button_cancel()
+        MenuPage().press_play_golf_button()
+        return {"tablet_os_version": tablet_os_version, "tablet_apk_version": tablet_apk_version}
 
 
 

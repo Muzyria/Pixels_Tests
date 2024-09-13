@@ -43,6 +43,7 @@ class TestSmokeUpdateGPSModule:
         print()
         print(f"START {request.node.name}")
 
-        DeviceScripts.reboot_device_and_restart_appium()
+        DeviceScripts.reboot_device_and_restart_appium(120)
+        DeviceScripts.get_tablet_info()
 
         print(f"FINISH {request.node.name}")
