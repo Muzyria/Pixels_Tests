@@ -1,0 +1,60 @@
+A) Flow LC79H
+
+1) Connect GPS module LC79H (GPS FW 1 - please note current FW version) to the device and confirm:
+- module detected - *Confirmed*
+- confirm GPS FW version in Asset Details Yamatrack - *Confirmed LC79HALNR11A01S*
+- confirm GPS TYPE, GPS FW, GPS MODULE in Control Panel  - *Confirmed*
+- confirm GPS FW version and GPS type in 360  - *Confirmed*
+
+2) Change in Control Panel GPS FW version GPS module LC79H from FW 1 to from FW 2 note FW version)
+- Confirm if GPS module LC79H updated successfuly - *Confirmed*
+- module detected - *Confirmed*
+- confirm GPS FW version in Asset Details Yamatrack - *Confirmed LC79HALNR11A02S*
+- confirm GPS TYPE, GPS FW, GPS MODULE in Control Panel - *Confirmed*
+- confirm GPS FW version and GPS type in 360 - *Confirmed*
+3) after step 2 - Change in Control Panel GPS FW version GPS module LC79H to LC79D
+- try update module and confirm if update is not available - Expected - *Confirmed*
+
+4) after step 3 - Change in Control Panel GPS FW version GPS module LC79D to Ublox
+- try update module and confirm if update is not available - Expected - *Confirmed*
+
+A) Flow LC79D
+
+1) Connect GPS module LC79D (GPS FW 1 - please note current FW version) to the device and confirm:
+- module detected - *Confirmed*
+- confirm GPS FW version in Asset Details Yamatrack - *Confirmed LC79DANR01A06S_BETA0322*
+- confirm GPS TYPE, GPS FW, GPS MODULE in Control Panel - *Confirmed*
+- confirm GPS FW version and GPS type in 360 - *Confirmed*
+
+2) Change in Control Panel GPS FW version GPS module LC79D from FW 1 to from FW 2 note FW version)
+- Confirm if GPS module LC79D updated successfuly - *Confirmed*
+- module detected - *Confirmed*
+- confirm GPS FW version in Asset Details Yamatrack - *Confirmed LC79DANR01A07S*
+- confirm GPS TYPE, GPS FW, GPS MODULE in Control Panel - *Confirmed*
+- confirm GPS FW version and GPS type in 360 - *Confirmed*
+
+3) after step 2 - Change in Control Panel GPS FW version GPS module LC79D to LC79H
+- try update module and confirm if update is not available - Expected - *Confirmed*
+
+4) after step 3 - Change in Control Panel GPS FW version GPS module LC79H to Ublox
+- try update module and confirm if update is not available - Expected - *Confirmed*
+
+A) Flow UBlox
+
+1) Connect GPS module UBlox (GPS FW 1 - please note current FW version) to the device and confirm:
+- module detected - *Confirmed*
+- confirm GPS FW version in Asset Details Yamatrack - *Confirmed UDR 1.31*
+- confirm GPS TYPE, GPS FW, GPS MODULE in Control Panel - *Confirmed*
+- confirm GPS FW version and GPS type in 360 - *Confirmed*
+
+2) Change in Control Panel GPS FW version GPS module UBlox from FW 1 to from FW 2 note FW version)
+- Confirm if GPS module UBlox updated successfuly - *Confirmed*
+- module detected - *Confirmed*
+- confirm GPS FW version in Asset Details Yamatrack - *Confirmed 1.00*
+- confirm GPS TYPE, GPS FW, GPS MODULE in Control Panel - *Confirmed*
+- confirm GPS FW version and GPS type in 360 - *Confirmed*
+3) after step 2 - Change in Control Panel GPS FW version GPS module UBlox to LC79D
+- try update module and confirm if update is not available - Expected - *Confirmed*
+
+4) after step 3 - Change in Control Panel GPS FW version GPS module LC79D to LC79H
+- try update module and confirm if update is not available - Expected - *Confirmed*
