@@ -16,36 +16,14 @@ from pages_chrome.superior_page_control import SuperiorPageControl
 from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 
 
-from common_test_steps import reboot_device_and_restart_appium
+from common_test_steps import DeviceScripts, ControlScripts, SyncWise360Scripts
+
 
 class TestSmokeUpdateGPSModule:
 
-
-
-    @staticmethod
-    def login_and_select_device_control(device_id: str):
-        LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
-        LoginPageControl().enter_login().enter_password().click_login_button()  # check URL
-        LoginPageControl.is_opened(LoginPageControl.MAIN_PAGE)
-        SuperiorPageControl.open(SuperiorPageControl.PAGE_URL)  # open Superior
-        SuperiorPageControl.is_opened(SuperiorPageControl.PAGE_URL)  # check URL
-        SuperiorPageControl().click_button_device_manager()
-        SuperiorPageControl().click_device_id_in_box(device_id)
-        time.sleep(5)
-
     # device -----------------------------------------------------------------------------------------------------------
-    # @staticmethod
-    # def reboot_device_and_restart_appium():
-    #     # Device Reboot
-    #     DriverAppium.finish()
-    #     android_utils.device_reboot()  # Device Reboot
-    #     time.sleep(70)  # wait for device reboot
-    #     android_utils.wait_for_the_device_to_boot()
-    #     DriverAppium.start(android_utils.get_driver_appium_options())
-    #     MainPage().wait_map_activity()
 
     # tests --------------------------------------------------------------------------------------------------
-
 
     @pytest.mark.skip
     @pytest.mark.wifi
@@ -65,6 +43,6 @@ class TestSmokeUpdateGPSModule:
         print()
         print(f"START {request.node.name}")
 
-        reboot_device_and_restart_appium()
+        DeviceScripts.reboot_device_and_restart_appium()
 
         print(f"FINISH {request.node.name}")

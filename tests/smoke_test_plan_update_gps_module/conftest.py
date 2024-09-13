@@ -9,21 +9,21 @@ from framework_chrome.driver_chrome import DriverChrome
 from chrome_utils import get_driver_chrome_options
 
 
-# def pytest_configure(config):
-#     # Выполняется один раз перед всеми тестами
-#     config.firmware_version = firmware
-#     print(f"Устанавливаем глобальную прошивку: {config.firmware_version}")
+def pytest_configure(config):
+    # Выполняется один раз перед всеми тестами
+    config.firmware_version = firmware
+    print(f"Устанавливаем глобальную прошивку: {config.firmware_version}")
 
 
 # def pytest_addoption(parser: pytest.Parser) -> None:
 #     parser.addoption('--login', action='store_true', default=False, help='Reset app and login before tests session')
 
 
-@pytest.fixture(scope="class", autouse=True)
-def setup(request: pytest.FixtureRequest):
-    print()
-    print("SETUP_METHOD")
-    request.cls.log_files = {}
+# @pytest.fixture(scope="class", autouse=True)
+# def setup(request: pytest.FixtureRequest):
+#     print()
+#     print("SETUP_METHOD")
+#     request.cls.log_files = {}
 
 
 @pytest.fixture(scope='session')
