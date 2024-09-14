@@ -1,5 +1,7 @@
 import pytest
-from ..config_data import firmware
+
+from common_test_steps import DeviceScripts
+from ..config_data import firmware, firmware_gps
 
 from framework_appium.appium import Appium
 from framework_appium.driver_appium import DriverAppium

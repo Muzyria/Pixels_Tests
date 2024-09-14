@@ -9,11 +9,9 @@ firmware = {"device_id": "S10150000211018049",
             "device_gps": None
             }
 
-firmware_gps = [
-            ('LC79DANR01A06S_BETA0322', 'LC79DANR01A07S'),
-            ('LC79HALNR11A01S', 'LC79HALNR11A02S'),
-            ('UDR1.00', 'UDR1.31')
-        ]
+firmware_gps = dict(LC79D=('LC79DANR01A06S_BETA0322', 'LC79DANR01A07S'),
+                    LC79H=('LC79HALNR11A01S', 'LC79HALNR11A02S'),
+                    U_BLOX=('UDR1.00', 'UDR1.31'))
 
 # ---------------------------------------------
 
