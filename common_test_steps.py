@@ -27,6 +27,14 @@ from pages_chrome.device_details_page_control import DeviceDetailsPageControl
 
 class DeviceScripts:
     @staticmethod
+    def restart_appium(func):
+        def inner(*args, **kwargs):
+            DriverAppium.finish()
+            func(*args, **kwargs)
+            DriverAppium.start(android_utils.get_driver_appium_options())
+        return inner
+
+    @staticmethod
     def reboot_device_and_restart_appium(wait_time: int = 70) -> None:
         """Device Reboot and restart appium (for update GPS use time 300 and 120)"""
         # Device Reboot
@@ -47,20 +55,28 @@ class DeviceScripts:
         SettingsPage().press_button_yes()
 
     @staticmethod
-    def get_tablet_info():
+    def get_tablet_asset_info() -> dict:
+        """
+        return device asset info
+        """
         MainPage().press_menu_button()
         MenuPage().press_settings_button()
         SettingsPage().enter_settings_password()
         SettingsPage().press_assets_details_button()
+
         tablet_os_version = AssetDetailsPage().get_os_version()
         tablet_apk_version = AssetDetailsPage().get_apk_version()
+        tablet_cable_version = AssetDetailsPage().get_cable_version()
+        tablet_gps_version = AssetDetailsPage().get_gps_version()
 
-        print(f'{tablet_os_version=} {tablet_apk_version=}')
+        # print(f'{tablet_os_version=} {tablet_apk_version=} {tablet_cable_version} {tablet_gps_version}')
         AssetDetailsPage().press_button_cancel()
         SettingsPage().press_button_cancel()
         MenuPage().press_play_golf_button()
-        return {"tablet_os_version": tablet_os_version, "tablet_apk_version": tablet_apk_version}
-
+        return {"tablet_os_version": tablet_os_version,
+                "tablet_apk_version": tablet_apk_version,
+                "tablet_cable_version": tablet_cable_version,
+                "tablet_gps_version": tablet_gps_version}
 
 
 class ControlScripts:

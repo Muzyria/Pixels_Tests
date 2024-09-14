@@ -5,8 +5,15 @@ firmware = {"device_id": "S10150000211018049",
             "os_current": "2.20.0",
             "os_to_update": "2.15.8_E",
             "apk_current": "2.2.12",
-            "apk_to_update": "2.2.11"
+            "apk_to_update": "2.2.11",
+            "device_gps": None
             }
+
+firmware_gps = [
+            ('LC79DANR01A06S_BETA0322', 'LC79DANR01A07S'),
+            ('LC79HALNR11A01S', 'LC79HALNR11A02S'),
+            ('UDR1.00', 'UDR1.31')
+        ]
 
 # ---------------------------------------------
 
