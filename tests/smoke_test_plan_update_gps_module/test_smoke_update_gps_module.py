@@ -27,6 +27,7 @@ class TestSmokeUpdateGPSModule:
     def get_current_gps_version(self, request):
         print("fixture get current gps version")
         device_gps_version = DeviceScripts.get_tablet_asset_info()["tablet_gps_version"]
+        print(f"{device_gps_version=}")
         request.config.firmware_version["device_gps"] = device_gps_version
         request.config.firmware_version["test_data"] = self.get_list_gps_version_ota(device_gps_version)
 
@@ -56,10 +57,10 @@ class TestSmokeUpdateGPSModule:
         """
         print()
         print(f"START {request.node.name}")
-        # ControlScripts.login_and_select_device_control(request.config.firmware_version["device_id"])
-        print(request.config.firmware_version["test_data"])
+        assert request.config.firmware_version["device_gps"] is not None
 
-        print()
+        ControlScripts.login_and_select_device_control(request.config.firmware_version["device_id"])
+
 
         # --------------------------------------------------------------------------------------------------------------
 

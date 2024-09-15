@@ -92,6 +92,18 @@ class ControlScripts:
         SuperiorPageControl().click_device_id_in_box(device_id)
         time.sleep(5)
 
+    @staticmethod
+    def get_info_control(device_id: str) -> dict[str, str]:
+        DeviceDetailsPageControl().click_button_info()
+        # get info
+        info_fw_version = DeviceDetailsPageControl().get_info_fw_version()
+        info_app_version = DeviceDetailsPageControl().get_info_app_version()
+        print(f"{info_fw_version=} {info_app_version=}")
+
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
+        return {"info_os_version": info_fw_version, "info_app_version": info_app_version}
+
 
 class SyncWise360Scripts:
     # @staticmethod
