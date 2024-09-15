@@ -38,7 +38,7 @@ class LoginPageSyncWise360(PageChrome):
     def check_spinner_is_invisible(self):
         self.invisibility_of_element_located(self.LOGIN_SUCCESSFUL)
         self.invisibility_of_element_located(self.SPINNER)
-        print("successful is invisible and spinner is invisible ___________________________________________")
+        print("successful is invisible and spinner is invisible 360")
 
     def click_logout_button(self):
         self.visibility_of_element_located(self.PROFILE_ICON).click()

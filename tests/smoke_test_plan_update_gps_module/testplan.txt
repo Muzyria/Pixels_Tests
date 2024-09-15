@@ -6,7 +6,7 @@ A) Flow LC79H
 - confirm GPS TYPE, GPS FW, GPS MODULE in Control Panel  - *Confirmed*
 - confirm GPS FW version and GPS type in 360  - *Confirmed*
 
-2) Change in Control Panel GPS FW version GPS module LC79H from FW 1 to from FW 2 note FW version)
+2) Change in Control Panel GPS FW version GPS module LC79H from FW 1 to from FW 2 note FW version
 - Confirm if GPS module LC79H updated successfuly - *Confirmed*
 - module detected - *Confirmed*
 - confirm GPS FW version in Asset Details Yamatrack - *Confirmed LC79HALNR11A02S*

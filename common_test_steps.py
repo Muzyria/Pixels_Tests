@@ -81,7 +81,7 @@ class DeviceScripts:
 
 class ControlScripts:
     @staticmethod
-    def login_and_select_device_control(device_id: str):
+    def login_and_select_device_control(device_id: str) -> None:
         """login on site Control and select device manager"""
         LoginPageControl.open(LoginPageControl.PAGE_URL)  # open Control
         LoginPageControl().enter_login().enter_password().click_login_button()  # check URL
@@ -93,32 +93,126 @@ class ControlScripts:
         time.sleep(5)
 
     @staticmethod
-    def get_info_control(device_id: str) -> dict[str, str]:
+    def get_info_control() -> dict[str, str]:
+        """return info about device OS, APK, GPS version and GPS Module"""
         DeviceDetailsPageControl().click_button_info()
         # get info
         info_fw_version = DeviceDetailsPageControl().get_info_fw_version()
         info_app_version = DeviceDetailsPageControl().get_info_app_version()
-        print(f"{info_fw_version=} {info_app_version=}")
+        info_gps_version = DeviceDetailsPageControl().get_info_gps_version()
+        info_gps_module = DeviceDetailsPageControl().get_info_gps_module()
+        print(f"{info_fw_version=} {info_app_version=} {info_gps_version=} {info_gps_module=}")
 
         LoginPageControl().click_logout_button()
         time.sleep(3)
-        return {"info_os_version": info_fw_version, "info_app_version": info_app_version}
+        return {"info_os_version": info_fw_version,
+                "info_app_version": info_app_version,
+                "info_gps_version": info_gps_version,
+                "info_gps_module": info_gps_module
+                }
+
+    @staticmethod
+    def set_gps_ota_version(device_id: str, gps_version: str) -> None:
+        ControlScripts.login_and_select_device_control(device_id)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        DeviceDetailsPageControl().select_gps_version(gps_version)
+        DeviceDetailsPageControl().click_button_save_version_ota()
+        print(f"set gps ota version {gps_version} for device {device_id} complete")
+        time.sleep(5)
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
+
+    @staticmethod
+    def set_os_ota_version(device_id: str, os_version: str) -> None:
+        ControlScripts.login_and_select_device_control(device_id)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        DeviceDetailsPageControl().select_os_version(os_version)
+        DeviceDetailsPageControl().click_button_save_version_ota()
+        print(f"set os ota version {os_version} for device {device_id} complete")
+        time.sleep(5)
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
+
+    @staticmethod
+    def set_app_ota_version(device_id: str, app_version: str) -> None:
+        """Set que an update APK on Control"""
+        ControlScripts.login_and_select_device_control(device_id)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        DeviceDetailsPageControl().select_app_version(app_version)
+        DeviceDetailsPageControl().click_button_save_version_ota()
+        print(f"set app ota version {app_version} for device {device_id} complete")
+        time.sleep(5)
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
+
+    @staticmethod
+    def remove_os_ota_version(device_id: str) -> None:
+        ControlScripts.login_and_select_device_control(device_id)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        if DeviceDetailsPageControl().check_button_remove_os_is_displayed():
+            DeviceDetailsPageControl().click_button_remove_os_update()
+            time.sleep(2)
+            print()
+            print("REMOVE OS UPDATE IS DONE")
+        else:
+            print()
+            print("REMOVE OS UPDATE IS NOT AVAILABLE")
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
+
+    @staticmethod
+    def remove_app_ota_version(device_id: str) -> None:
+        ControlScripts.login_and_select_device_control(device_id)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        if DeviceDetailsPageControl().check_button_remove_app_is_displayed():
+            DeviceDetailsPageControl().click_button_remove_app_update()
+            time.sleep(2)
+            print()
+            print("REMOVE APP UPDATE IS DONE")
+        else:
+            print()
+            print("REMOVE APP UPDATE IS NOT AVAILABLE")
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
+
+    @staticmethod
+    def remove_gps_ota_version(device_id: str) -> None:
+        ControlScripts.login_and_select_device_control(device_id)
+        DeviceDetailsPageControl().click_button_edit_version_ota()
+        if DeviceDetailsPageControl().check_button_remove_gps_is_displayed():
+            DeviceDetailsPageControl().click_button_remove_gps_update()
+            time.sleep(2)
+            print()
+            print("REMOVE GPS UPDATE IS DONE")
+        else:
+            print()
+            print("REMOVE GPS UPDATE IS NOT AVAILABLE")
+        LoginPageControl().click_logout_button()
+        time.sleep(3)
 
 
 class SyncWise360Scripts:
-    # @staticmethod
-    # def get_device_info_360(device_name: str) -> dict[str, str]:
-    #     LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
-    #     LoginPageSyncWise360().enter_login().enter_password().click_login_button()
-    #     CourseMapSyncWise360().click_assets_button()
-    #     AssetsSyncWise360().click_name_car_in_list(device_name)
-    #     CourseMapSyncWise360().click_tab_asset_details()
-    #     # get device info
-    #     device_info_os_version = CourseMapSyncWise360().get_device_info_os_version()
-    #     device_info_apk_version = CourseMapSyncWise360().get_device_info_apk_version()
-    #     print(f"{device_info_os_version=} {device_info_apk_version=}")
-    #
-    #     LoginPageSyncWise360().click_logout_button()
-    #     time.sleep(3)
-    #     return {"device_info_os_version": device_info_os_version, "device_info_apk_version": device_info_apk_version}
-    ...
+
+    @staticmethod
+    def get_info_360(device_name: str) -> dict[str, str]:
+        """return info about device OS, APK, GPS version and GPS Module"""
+        LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
+        LoginPageSyncWise360().enter_login().enter_password().click_login_button()
+        CourseMapSyncWise360().click_assets_button()
+        AssetsSyncWise360().click_name_car_in_list(device_name)
+        CourseMapSyncWise360().click_tab_asset_details()
+        # get device info
+        device_info_os_version = CourseMapSyncWise360().get_device_info_os_version()
+        device_info_apk_version = CourseMapSyncWise360().get_device_info_apk_version()
+        device_info_gps_version = CourseMapSyncWise360().get_device_info_gps_version()
+        device_info_cable_version = CourseMapSyncWise360().get_device_info_cable_version()
+        print(f"{device_info_os_version=} {device_info_apk_version=} {device_info_gps_version=} {device_info_cable_version=}")
+
+        LoginPageSyncWise360().click_logout_button()
+        time.sleep(3)
+        return {"device_info_os_version": device_info_os_version,
+                "device_info_apk_version": device_info_apk_version,
+                "device_info_gps_version": device_info_gps_version,
+                "device_info_cable_version": device_info_cable_version
+                }
+
