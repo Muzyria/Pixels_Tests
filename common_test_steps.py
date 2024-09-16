@@ -113,6 +113,8 @@ class ControlScripts:
 
     @staticmethod
     def set_gps_ota_version(device_id: str, gps_version: str) -> None:
+        gps_version = gps_version.replace(" ", "")
+        print(f"_____OTA GPS {gps_version=}")
         ControlScripts.login_and_select_device_control(device_id)
         DeviceDetailsPageControl().click_button_edit_version_ota()
         DeviceDetailsPageControl().select_gps_version(gps_version)
