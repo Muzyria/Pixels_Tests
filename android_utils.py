@@ -1,3 +1,4 @@
+import os
 import subprocess
 import time
 
@@ -170,6 +171,12 @@ def is_cellular_connected():
 
 # ----------------------------------------------------------------------------------------------------------------------
 
+def device_send_coordinate(location: str):
+    # os.system(rf'adb -s {self.ip_device}:5555 shell am broadcast -a ua.org.jeff.mockgps.ACTION_LOCATION --es location \"{location}\"')  # "50.012356,36.243361"
+    subprocess.run(["adb", "-s", udid, "shell", "am", "broadcast", "-a", "ua.org.jeff.mockgps.ACTION_LOCATION", "--es", "location", f'"{location}"'])
+
+
+
     # @staticmethod
     # def device_read_ip_address():
     #     """Получение IP адрес девайса при подключении по USB"""
@@ -214,9 +221,6 @@ def is_cellular_connected():
     #
     # def touch_screen(self, x=700, y=500):
     #     os.system(f'adb -s {self.ip_device} shell input tap {x} {y}')
-    #
-    # def device_send_coordinate(self, location):
-    #     os.system(rf'adb -s {self.ip_device}:5555 shell am broadcast -a ua.org.jeff.mockgps.ACTION_LOCATION --es location \"{location}\"')  # "50.012356,36.243361"
     #
     # def device_in_cart_barn(self):
     #     os.system(f'adb -s {self.ip_device} shell am broadcast -a com.l1inc.yamatrack3d.action.powermanagement.cart_barn_sleep')
@@ -271,6 +275,7 @@ def is_cellular_connected():
     #     os.system(f'adb -s {self.ip_device} shell am start -a android.settings.APPLICATION_DEVELOPMENT_SETTINGS')
 
 
+
 if __name__ == '__main__':
     get_udid()
-    device_reboot()
+    device_send_coordinate("41.12679364191967, -73.85881264988095")
