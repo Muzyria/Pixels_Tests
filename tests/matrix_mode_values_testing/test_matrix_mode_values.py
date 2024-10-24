@@ -2,6 +2,7 @@ import pytest
 from pages_chrome import PageChrome
 from pages_android import Page
 import time
+from datetime import datetime
 import subprocess
 from framework_appium.driver_appium import DriverAppium
 
@@ -18,6 +19,15 @@ import android_utils
 
 
 class TestMatrixMode:
+    @staticmethod
+    def log_to_file(message):
+        with open('log.txt', 'a') as log_file:
+            log_file.write(message)
+
+    @staticmethod
+    def get_current_time():
+        return datetime.now().strftime("%H:%M:%S")
+
     @staticmethod
     def run_adb_logcat():
         # Запуск команды adb logcat
@@ -47,12 +57,9 @@ class TestMatrixMode:
 
             # Выполняем adb logcat с интервалом
             if current_time - last_adb_execution_time >= interval:
-                # self.adb_command.swipe_screen(100, 500, 200, 500, 250)
-                # self.adb_command.swipe_screen(200, 500, 100, 500, 250)
                 android_utils.swipe_screen_up_to_down()
                 android_utils.swipe_screen_down_to_up()
-                # android_utils.touch_screen_by_coordinate()
-                # print("-----ADB COMMAND----------------------------------------------")
+
                 last_adb_execution_time = current_time
                 try:
                     output = TestMatrixMode.run_adb_logcat()
@@ -62,6 +69,9 @@ class TestMatrixMode:
                         duration = int(end_time - start_time)
                         print(
                             f"Сообщение '{message_to_find}' найдено в {end_time_readable}, время ожидания: {duration} секунд")
+                        TestMatrixMode.log_to_file(f"""*Expected result:*
+* {message_to_find}. - *Confirmed at {TestMatrixMode.get_current_time()}*
+* No audible signal is emitted. - *Confirmed*\n\n""")
                         return True
                 except Exception as e:
                     print(f"Ошибка при поиске сообщения в логе: {e}")
@@ -123,7 +133,18 @@ class TestMatrixMode:
         print(f"START {request.node.name}")
 
         TestMatrixMode.set_matrix_mode_360(speed, brake)
+        TestMatrixMode.log_to_file(f"""*Test Case {matrix_mode}: Verifying matrixMode {matrix_mode}*
+*Steps:*
+# Set the parameters at the site: "Max Speed {speed}", "{brake} Regenerative Braking". - *Confirmed at {TestMatrixMode.get_current_time()}*
+# Wait for synchronization with the tablet.
+# Verify that CartCommand MATRIX_MODE = {matrix_mode}.
+# Verify that no audible signal is emitted.\n""")
+
         TestMatrixMode.check_for_message(f"CartCommand MATRIX_MODE = {matrix_mode}")
         time.sleep(10)
 
         print(f"FINISH {request.node.name}")
+
+
+#  writeEvent level_changed STREAM_MUSIC 3    sound
+#  writeEvent level_changed STREAM_MUSIC 7    no sound
