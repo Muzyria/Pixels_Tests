@@ -1,5 +1,5 @@
 from pages_chrome import PageChrome
-from selenium.webdriver.support.select import Select
+
 
 class AssetTrackerSyncWise360(PageChrome):
 
@@ -33,8 +33,6 @@ class AssetTrackerSyncWise360(PageChrome):
     def select_dropdown_brake(self, value: str):
         self.visibility_of_element_located(self.SELECT_BRAKE).click()
         self.visibility_of_element_located(("xpath", f'//span[text()=" {value} "]')).click()
-
-
 
     def check_spinner_is_invisible(self):
         self.visibility_of_element_located(self.SPINNER)

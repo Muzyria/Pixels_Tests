@@ -2,12 +2,15 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support.select import Select
 
 from framework_chrome.driver_chrome import DriverChrome
 
 
 class PageChrome:
     TIMEOUT = 30
+    action_chains = ActionChains(DriverChrome.chrome_instance)
+    # select = Select
 
     @classmethod
     def _get_wait(cls) -> WebDriverWait:
