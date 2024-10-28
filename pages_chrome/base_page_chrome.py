@@ -12,7 +12,6 @@ class PageChrome:
     action_chains = ActionChains(DriverChrome.chrome_instance)
     # select = Select
 
-
     @classmethod
     def _get_wait(cls) -> WebDriverWait:
         return WebDriverWait(DriverChrome.chrome_instance, cls.TIMEOUT, poll_frequency=1)
