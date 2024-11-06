@@ -148,3 +148,18 @@ class TestMatrixMode:
 
 #  writeEvent level_changed STREAM_MUSIC 3    sound
 #  writeEvent level_changed STREAM_MUSIC 7    no sound
+
+
+    @pytest.mark.debug
+    def test_debug(self, request):
+        # print()
+        print(f"\nSTART {request.node.name}")
+
+        # Открываем страницу и выполняем авторизацию
+        LoginPageSyncWise360.open(LoginPageSyncWise360.PAGE_URL)
+        LoginPageSyncWise360().enter_login().enter_password().click_login_button()
+        time.sleep(10)  # Ожидаем, пока данные загружаются
+
+        # Завершаем тест
+        LoginPageSyncWise360().click_logout_button()
+        time.sleep(3)
