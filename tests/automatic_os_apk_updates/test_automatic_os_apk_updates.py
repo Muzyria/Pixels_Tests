@@ -271,7 +271,8 @@ class TestAutomaticOsApkUpdates:
     # tests --------------------------------------------------------------------------------------------------
 
     # APK ----------------------------------------------------------------------------------------------------
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.apk
     @pytest.mark.wifi
     def test_1_apk_cart_burn_sleep(self, request) -> None:
         """
@@ -325,7 +326,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.apk
     @pytest.mark.wifi
     def test_2_apk_off_hole_sleep(self, request) -> None:
         """
@@ -371,7 +373,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.apk
     @pytest.mark.wifi
     def test_3_apk_upon_boot_up(self, request) -> None:
         """
@@ -430,7 +433,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.apk
     @pytest.mark.wifi
     def test_4_apk_full_app_resset(self, request) -> None:
         """
@@ -476,7 +480,8 @@ class TestAutomaticOsApkUpdates:
 
     # OS -------------------------------------------------------------------------------------------------------
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.os
     @pytest.mark.wifi
     def test_1_os_cart_burn_sleep_part_1(self, request) -> None:
         """
@@ -543,7 +548,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.os
     @pytest.mark.wifi
     def test_1_os_cart_burn_sleep_part_2(self, request) -> None:
         """
@@ -627,7 +633,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.os
     @pytest.mark.wifi
     def test_2_os_off_hole_sleep(self, request) -> None:
         """
@@ -720,7 +727,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.os
     @pytest.mark.wifi
     def test_3_os_upon_boot_up(self, request) -> None:
         """
@@ -786,7 +794,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.os
     @pytest.mark.wifi
     def test_4_os_full_app_resset(self, request) -> None:
         """
@@ -854,7 +863,8 @@ class TestAutomaticOsApkUpdates:
     6. Note if there is any difference in precedence in what installs first (OS v. APK)
     """
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.os_apk
     @pytest.mark.wifi
     def test_1_os_and_apk_cart_burn_sleep(self, request) -> None:
         """
@@ -927,7 +937,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.os_apk
     @pytest.mark.wifi
     def test_2_os_and_apk_off_hole_sleep(self, request) -> None:
         """
@@ -993,7 +1004,8 @@ class TestAutomaticOsApkUpdates:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
+    @pytest.mark.os_apk
     @pytest.mark.wifi
     def test_3_os_and_apk_boot_up(self, request) -> None:
         """
@@ -1072,7 +1084,7 @@ class TestAutomaticOsApkUpdates:
     # TOLERANCE TEST CASES ---------------------------------------------------------------------------------------------
     # APK --------------------------------------------------------------------------------------------------------------
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_apk_download_is_unsuccessful(self, request) -> None:
         """
@@ -1129,7 +1141,7 @@ class TestAutomaticOsApkUpdates:
 
     # OS ---------------------------------------------------------------------------------------------------------------
 
-    @pytest.mark.skip
+    # @pytest.mark.skip
     @pytest.mark.wifi
     def test_1_os_download_is_unsuccessful(self, request) -> None:
         """
