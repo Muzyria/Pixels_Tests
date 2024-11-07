@@ -1,5 +1,6 @@
 import subprocess
 import time
+import os
 
 from appium.webdriver import WebElement
 
@@ -133,8 +134,12 @@ class Page:
         DriverAppium.appium_instance.press_keycode(key)
 
     @staticmethod
-    def save_screenshot(file_name, extra_name=''):     # Пример использования: self.save_screenshot('screenshot')
-        path_directory = 'tests/automatic_os_apk_updates/screenshots/'
+    def save_screenshot(request, file_name, extra_name=''):     # Пример использования: self.save_screenshot(reuest, 'screenshot')
+        path_directory = f'{os.path.dirname(request.fspath)}/screenshots/'
+
+        # Убедимся, что директория существует
+        os.makedirs(path_directory, exist_ok=True)
+
         try:
             DriverAppium.appium_instance.save_screenshot(f"{path_directory}{file_name}{extra_name}.jpg")
             print(f"Screenshot is saved: {file_name}")
