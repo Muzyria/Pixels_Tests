@@ -1205,19 +1205,23 @@ class TestAutomaticOsApkUpdates:
         print(f"FINISH {request.node.name}")
 
     # debug ------------------------------------------------------------------------------------------------------------
-    @pytest.mark.skip("BECAUSE DEBUG")
+    # @pytest.mark.skip("BECAUSE DEBUG")
     @pytest.mark.debug
     # @pytest.mark.parametrize("times", list(range(10)))
     def test_debug(self, request) -> None:
-        app_package_uua = "com.l1inc.yamatrack_util_2"
-        print("DEBUG TEST")
-        DriverAppium.terminate_app()
-        print("launc UUA")
-        DriverAppium.launch_app(app_package_uua)
-        UUAMainPage().wait_install_activity()
-        UUAMainPage().press_button_cancel()
-        time.sleep(1)
-        UUAMainPage.save_screenshot(request, "my_")
+        # app_package_uua = "com.l1inc.yamatrack_util_2"
+        # print("DEBUG TEST")
+        # DriverAppium.terminate_app()
+        # print("launc UUA")
+        # DriverAppium.launch_app(app_package_uua)
+        # UUAMainPage().wait_install_activity()
+        # UUAMainPage().press_button_cancel()
+        # time.sleep(1)
+        # UUAMainPage.save_screenshot(request, "my_")
+        print("next step to check")
+        check_version = request.config.firmware_version["os_to_update"]
+        result = self.check_version_installed_ota("OS", request, check_version_os=check_version)
+        assert result is True, f"Error: {result}"
 
 
 
@@ -1671,7 +1675,7 @@ class TestAutomaticOsApkUpdates:
         UUAUpdateFirmwarePage().wait_update_firmware_activity()
         assert UUAUpdateFirmwarePage().get_text_update_message() == "YOUR DEVICE IS UPDATED"
         assert UUAUpdateFirmwarePage().get_text_update_status() == "NO UPDATES AVAILABLE"
-        UUAUpdateFirmwarePage.save_screenshot("test_2_os_off_hole_sleep_UUA")
+        UUAUpdateFirmwarePage.save_screenshot(request, "test_2_os_off_hole_sleep_UUA")
 
         # close UUA and open YamaTrack
         DriverAppium.terminate_app(app_package_uua)
@@ -1820,6 +1824,7 @@ class TestAutomaticOsApkUpdates:
     6. Note if there is any difference in precedence in what installs first (OS v. APK)
     """
 
+    #  Тест Немного изменен для работы с сотовой связью
     # @pytest.mark.skip
     @pytest.mark.os_apk
     @pytest.mark.cell
@@ -1843,11 +1848,13 @@ class TestAutomaticOsApkUpdates:
         print()
         print(f"START {request.node.name}")
 
-        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
-        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
         # step 1
         android_utils.cart_burn_sleep_mode()  # Put Device in Cart Burn Sleep
-        time.sleep(10)
+        # time.sleep(10)
+
+        self.set_os_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["os_to_update"])  # set que an update OS on Control
+        self.set_app_ota_version(request.config.firmware_version["device_id"], request.config.firmware_version["apk_to_update"])  # set que an update APK on Control
+
         # step
         android_utils.wake_up_device()  # Wakeup device from Cart Burn sleep
         MainPage().wait_spinner_to_invisible()
