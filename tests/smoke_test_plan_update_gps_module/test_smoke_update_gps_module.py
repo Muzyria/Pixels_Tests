@@ -178,7 +178,7 @@ class TestSmokeUpdateGPSModule:
 
         print(f"FINISH {request.node.name}")
 
-    @pytest.mark.skip
+    @pytest.mark.skip("BECAUSE DEBUG")
     def test_debug(self, request):
         print()
         print(f"START {request.node.name}")
