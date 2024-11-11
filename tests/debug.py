@@ -80,12 +80,18 @@ def log_message(message):
 import math
 
 
-def calculate_circle_points(center, diameter, num_points=10):
-    latitude, longitude = center
-    radius = diameter / 2  # радиус в метрах
+def calculate_circle_points(center_shape: tuple[float, float], diameter_circle: int, num_points=16) -> list[dict[str, float]]:
+    """
+    :param center_shape:
+    :param diameter_circle:
+    :param num_points:
+    :return: [{'lat': 50.08198218275189, 'lng': 36.23138219274602}, {'lat': 50.08207567248972, 'lng': 36.23136687981551}]
+    """
+    latitude, longitude = center_shape
+    radius = diameter_circle / 2  # радиус в метрах
     earth_radius = 6371000  # радиус Земли в метрах
 
-    points = []
+    points_list = []
     for angle in range(0, 360, int(360 / num_points)):
         angle_rad = math.radians(angle)
 
@@ -97,10 +103,9 @@ def calculate_circle_points(center, diameter, num_points=10):
         new_lat = latitude + delta_lat * math.sin(angle_rad)
         new_lon = longitude + delta_lon * math.cos(angle_rad)
 
-        points.append((new_lat, new_lon))
-        points.append(points[0])
-
-    return points
+        points_list.append({'lat': new_lat, 'lng': new_lon})
+        # points_list.append(points[0])
+    return points_list
 
 
 # Пример использования
