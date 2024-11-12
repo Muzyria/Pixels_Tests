@@ -107,15 +107,14 @@ def calculate_circle_points(center_shape: tuple[float, float], diameter_circle: 
         # points_list.append(points[0])
     return points_list
 
-
-# Пример использования
-center = (36.2451303225386, 50.08329004978064)
-diameter = 50  # в метрах
-points = calculate_circle_points(center, diameter)
-
-for i, point in enumerate(points):
-    print(f"Point {i + 1}: {point}")
-
+#
+# # Пример использования
+# center = (36.2451303225386, 50.08329004978064)
+# diameter = 50  # в метрах
+# points = calculate_circle_points(center, diameter)
+#
+# for i, point in enumerate(points):
+#     print(f"Point {i + 1}: {point}")
 
 
 
@@ -124,4 +123,5 @@ if __name__ == '__main__':
     # android_utils.get_wakefulness_status()
     # android_utils.wake_up_device()
     # Пример использования
-    check_for_message("CartCommand MATRIX_MODE = 2")
+    # Включение мобильных данных
+    ...
