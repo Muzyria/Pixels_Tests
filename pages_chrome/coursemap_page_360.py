@@ -4,6 +4,11 @@ from pages_chrome import PageChrome
 class CourseMapSyncWise360(PageChrome):
 
     SETTINGS_ICON = ("xpath", '//button[@aria-label="settings-icon"]')
+    # ------------------------------------------------------------------------------------------------------------------
+    BUTTON_MENU_ICON = ("xpath", '//button[@aria-label="menu-icon"]')
+    BUTTON_MENU_ICON_DEVICE_SETUP = ("xpath", '//div[@class="gridMenuDrop active"]//div[@routerlink="/device-setup"]')
+
+    # ------------------------------------------------------------------------------------------------------------------
     BUTTON_ASSETS = ("xpath", '//button[@aria-label="assets"]')
     SPINNER = ("xpath", "//div[@class='loader']")
     # app_asset_details_____________________________________________________________________
@@ -19,6 +24,15 @@ class CourseMapSyncWise360(PageChrome):
     def click_settings_icon(self) -> None:
         self.presence_of_element_located(self.SETTINGS_ICON).click()
         self.check_spinner_is_invisible()
+
+    def click_button_menu_icon(self):
+        self.presence_of_element_located(self.BUTTON_MENU_ICON).click()
+        return self
+
+    def click_button_menu_icon_device_setup(self) -> None:
+        self.presence_of_element_located(self.BUTTON_MENU_ICON_DEVICE_SETUP).click()
+        self.check_spinner_is_invisible()
+
 
     def click_assets_button(self) -> None:
         self.presence_of_element_located(self.BUTTON_ASSETS).click()

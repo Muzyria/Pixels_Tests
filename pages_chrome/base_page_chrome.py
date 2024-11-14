@@ -40,6 +40,22 @@ class PageChrome:
     def find_elements(cls, locator):
         return DriverChrome.chrome_instance.find_elements(*locator)
 
+    @classmethod
+    def select_option_by_text(cls, locator, visible_text):
+        """
+        Метод для выбора значения в выпадающем списке "select" по видимому тексту.
+
+        :param locator: Кортеж с типом и значением локатора, например ("xpath", "//select[@id='example']")
+        :param visible_text: Видимый текст в опции, которую нужно выбрать
+        """
+        # Найти элемент на странице
+        element = DriverChrome.chrome_instance.find_element(*locator)
+        # Создать экземпляр Select и выбрать по тексту
+        select = Select(element)
+        select.select_by_visible_text(visible_text)
+
+
+
     # def wait_for_page_load(self):
     #     self._get_wait().until(
     #         lambda d: d.execute_script("return document.readyState") == "complete"
