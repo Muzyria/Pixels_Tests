@@ -54,12 +54,7 @@ class TestDownloadingLog:
     @pytest.mark.wifi
     def test_1_request_logs(self, request):
         """
-        3) Confirm press to “Request Logs” opens page “Request Logs Files”
-        4) Confirm On button tap action it will display zipping progress with ZIPPING FILES IN PROGRESS below Status text view
-        5) Confirm display download progress with DOWNLOADING FILES IN PROGRESS status message
-        6) Confirm then once it completes everything, it will display LOGS SUCCESSFULLY PROCESSED message
-        7) Check Control to verify when logs become available
-        8) Review logs to confirm they reflect logs for the requested All days
+
         """
         print()
         print(f"START {request.node.name}")
