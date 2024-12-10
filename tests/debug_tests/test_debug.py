@@ -7,7 +7,7 @@ from pages_android.main_screen import MainPage
 
 
 class TestDebug:
-    @pytest.mark.parametrize("i", range(50))
+    @pytest.mark.parametrize("i", range(500))
     def test_debug(self, request, i):
         print()
         print(f"START {request.node.name}")
