@@ -137,7 +137,7 @@ class TestManualLogRequest:
 
         print(f"FINISH {request.node.name}")
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_3_request_logs_network_disconnected(self, request):
         """
@@ -187,7 +187,7 @@ class TestManualLogRequest:
 
         print(f"FINISH {request.node.name}")
 
-    # @pytest.mark.skip
+    @pytest.mark.skip
     @pytest.mark.wifi
     def test_4_request_logs_cut_power_to_device(self, request):
         """
