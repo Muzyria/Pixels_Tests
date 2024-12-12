@@ -122,5 +122,5 @@ class TestAdjustBeepingLevel:
     def test_debug(self, request):
         # print()
         print(f"\nSTART {request.node.name}")
-        TestAdjustBeepingLevel.set_beeping_level_360("high")
+        TestAdjustBeepingLevel.set_beeping_level_360("low")
         time.sleep(5)
