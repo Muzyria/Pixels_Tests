@@ -3,18 +3,23 @@ import time
 import pytest
 
 from common_test_steps import DeviceScripts
-from pages_android.main_screen import MainPage
+
+import android_utils
+from pages_android.base_page_android import Page
 
 
 class TestDebug:
-    @pytest.mark.parametrize("i", range(500))
-    def test_debug(self, request, i):
+    def test_debug(self, request):
         print()
         print(f"START {request.node.name}")
 
-        DeviceScripts.device_full_app_reset()
-        MainPage().wait_spinner_to_invisible()
-        time.sleep(3)
-        assert MainPage().check_menu_button_is_visible(), "Play Golf is not loaded"  # check loads application
+        # time.sleep(120)
+
+        android_utils.is_wifi_connected()
+        print("---------------------------------- DEBUG")
+        Page.toggle_wifi()
+        print("----------------------------------------OK")
+        android_utils.is_wifi_connected()
+        print("----------------")
 
         print(f"FINISH {request.node.name}")
