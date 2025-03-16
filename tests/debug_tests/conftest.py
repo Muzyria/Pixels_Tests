@@ -15,8 +15,8 @@ from chrome_utils import get_driver_chrome_options
 #     print(f"Устанавливаем глобальную прошивку: {config.firmware_version}")
 
 
-# def pytest_addoption(parser: pytest.Parser) -> None:
-#     parser.addoption('--login', action='store_true', default=False, help='Reset app and login before tests session')
+def pytest_addoption(parser: pytest.Parser) -> None:
+    parser.addoption('--login', action='store_true', default=False, help='Reset app and login before tests session')
 
 
 # def login() -> None:
@@ -28,37 +28,39 @@ from chrome_utils import get_driver_chrome_options
 #     LoginPage().login()
 
 
-@pytest.fixture(scope='session')
-def appium_service():
-    Appium.start()
-    yield
-    Appium.stop()
+# @pytest.fixture(scope='session')
+# def appium_service():
+#     Appium.start()
+#     yield
+#     Appium.stop()
+#
+#
+# @pytest.fixture(scope='function', autouse=True)
+# def driver_appium(appium_service, request: pytest.FixtureRequest):
+#     print()
+#     print("__START DRIVER APPIUM__")
+#     get_udid()
+#     DriverAppium.start(get_driver_appium_options())
+#
+#     # DriverAppium.terminate_app()
+#     # DriverAppium.launch_app()
+#     yield
+#     print()
+#     print("__FINISH DRIVER APPIUM__")
+#     DriverAppium.finish()
 
 
 @pytest.fixture(scope='function', autouse=True)
-def driver_appium(appium_service, request: pytest.FixtureRequest):
+def driver_chrome(request: pytest.FixtureRequest):
     print()
-    print("__START DRIVER APPIUM__")
-    get_udid()
-    DriverAppium.start(get_driver_appium_options())
-
-    # DriverAppium.terminate_app()
-    # DriverAppium.launch_app()
+    print("__START DRIVER CHROME for automation__")
+    login = request.config.option.login
+    print(f"---------------------------------------{login=}")
+    DriverChrome.start(get_driver_chrome_options())
     yield
     print()
-    print("__FINISH DRIVER APPIUM__")
-    DriverAppium.finish()
-
-
-# @pytest.fixture(scope='function', autouse=True)
-# def driver_chrome(request: pytest.FixtureRequest):
-#     print()
-#     print("__START DRIVER CHROME for automation__")
-#     DriverChrome.start(get_driver_chrome_options())
-#     yield
-#     print()
-#     print("__FINISH DRIVER CHROME for automation__")
-#     DriverChrome.finish()
+    print("__FINISH DRIVER CHROME for automation__")
+    DriverChrome.finish()
 
 
 # @pytest.fixture(scope='function', autouse=True)
