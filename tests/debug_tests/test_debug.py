@@ -14,12 +14,12 @@ class TestDebug:
         print(f"START {request.node.name}")
 
         # time.sleep(120)
-        #
-        # android_utils.is_wifi_connected()
-        # print("---------------------------------- DEBUG")
-        # Page.toggle_wifi()
-        # print("----------------------------------------OK")
-        # android_utils.is_wifi_connected()
-        # print("----------------")
+
+        android_utils.is_wifi_connected()
+        print("---------------------------------- DEBUG")
+        Page.toggle_wifi()
+        print("----------------------------------------OK")
+        android_utils.is_wifi_connected()
+        print("----------------")
 
         print(f"FINISH {request.node.name}")
