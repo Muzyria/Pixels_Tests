@@ -18,8 +18,12 @@ class TestDebug:
         android_utils.is_wifi_connected()
         print("---------------------------------- DEBUG")
         Page.toggle_wifi()
-        print("----------------------------------------OK")
-        android_utils.is_wifi_connected()
-        print("----------------")
+        # print("----------------------------------------OK")
+        # android_utils.is_wifi_connected()
+        # print("----------------")
+
+
+        # DeviceScripts.reboot_device_and_restart_appium()
+
 
         print(f"FINISH {request.node.name}")
