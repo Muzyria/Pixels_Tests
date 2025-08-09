@@ -8,9 +8,11 @@ from framework_chrome.driver_chrome import DriverChrome
 
 
 class PageChrome:
-    TIMEOUT = 30
-    action_chains = ActionChains(DriverChrome.chrome_instance)
-    # select = Select
+    TIMEOUT = 10
+
+    @property
+    def action_chains(self):
+        return ActionChains(DriverChrome.chrome_instance)
 
     @classmethod
     def _get_wait(cls) -> WebDriverWait:
@@ -35,6 +37,10 @@ class PageChrome:
     @classmethod
     def is_opened(cls, url):
         cls._get_wait().until(EC.url_to_be(url))
+
+    @classmethod
+    def find_element(cls, locator):
+        return DriverChrome.chrome_instance.find_elements(*locator)
 
     @classmethod
     def find_elements(cls, locator):
@@ -87,17 +93,26 @@ class PageChrome:
     def go_to_element(element: WebElement) -> None:
         DriverChrome.chrome_instance.execute_script("arguments[0].scrollIntoView();", element)
 
-    @staticmethod
-    def action_double_click(element: WebElement) -> None:
-        action = ActionChains(DriverChrome.chrome_instance)
-        action.double_click(element)
-        action.perform()
-
-    @staticmethod
-    def action_right_click(element: WebElement):
-        action = ActionChains(DriverChrome.chrome_instance)
-        action.context_click(element)
-        action.perform()
+    # @staticmethod
+    # def action_move_to_element(element: WebElement) -> None:
+    #     PageChrome.action_chains.move_to_element(element).perform()
+    #
+    # def action_click(self, element: WebElement):
+    #     return self.action_chains.click(element)
+    #
+    #
+    #
+    # @staticmethod
+    # def action_double_click(element: WebElement) -> None:
+    #     action = ActionChains(DriverChrome.chrome_instance)
+    #     action.double_click(element)
+    #     action.perform()
+    #
+    # @staticmethod
+    # def action_right_click(element: WebElement):
+    #     action = ActionChains(DriverChrome.chrome_instance)
+    #     action.context_click(element)
+    #     action.perform()
 
     def visibility_of(self, element: WebElement):
         print("visibility_of")

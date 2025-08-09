@@ -1,5 +1,6 @@
-from pages_chrome import PageChrome
+import time
 
+from pages_chrome import PageChrome
 
 class CourseMapSyncWise360(PageChrome):
 
@@ -7,6 +8,12 @@ class CourseMapSyncWise360(PageChrome):
     # ------------------------------------------------------------------------------------------------------------------
     BUTTON_MENU_ICON = ("xpath", '//button[@aria-label="menu-icon"]')
     BUTTON_MENU_ICON_DEVICE_SETUP = ("xpath", '//div[@class="gridMenuDrop active"]//div[@routerlink="/device-setup"]')
+    #-------------------------------------------------------------------------------------------------------------------
+    BUTTON_SEARCH = ("xpath", '//button[@aria-label="search-icon"]')
+    INPUT_ASSET_NAME = ("xpath", '//input[@id="mat-input-0"]')
+    LIST_ASSET_NAMES = ("xpath", '//mat-option/span[@class="mat-option-text"]')
+
+
 
     # ------------------------------------------------------------------------------------------------------------------
     BUTTON_ASSETS = ("xpath", '//button[@aria-label="assets"]')
@@ -24,6 +31,31 @@ class CourseMapSyncWise360(PageChrome):
     def click_settings_icon(self) -> None:
         self.presence_of_element_located(self.SETTINGS_ICON).click()
         self.check_spinner_is_invisible()
+
+    def click_search_button(self) -> 'CourseMapSyncWise360':
+        self.element_to_be_clickable(self.BUTTON_SEARCH).click()
+        return self
+
+    def click_input_search_asset_name(self) -> 'CourseMapSyncWise360':
+        self.element_to_be_clickable(self.INPUT_ASSET_NAME).click()
+        return self
+
+    def get_list_of_names_in_input_asset_name(self) -> list[str]:
+        list_asset_names = self.find_elements(self.LIST_ASSET_NAMES)
+        return [name.text for name in list_asset_names]
+
+    def move_to_select_asset_name_in_list_asset_name(self, name: str):
+        time.sleep(1)
+        locator = ("xpath", f'//mat-option/span[@class="mat-option-text" and text()=" {name} "]')
+        el = self.presence_of_element_located(locator)
+
+        self.action_chains.scroll_to_element(el).move_to_element(el).click(el).perform()
+
+
+
+
+
+
 
     def click_button_menu_icon(self):
         self.presence_of_element_located(self.BUTTON_MENU_ICON).click()

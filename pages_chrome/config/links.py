@@ -1,7 +1,7 @@
 
 class LinksBetaSyncWise360:
 
-    HOST = "https://beta.syncwise360.com"
+    HOST = "https://beta2.syncwise360.com"
     LOGIN_PAGE = f"{HOST}/login"
     COURSE_MAP_PAGE = f"{HOST}/coursemap"
     ASSETS_PAGE = f"{HOST}/asset"
@@ -27,4 +27,6 @@ class LinksControl:
     LOGIN_PAGE = f"{HOST}/#login"
     MAIN_PAGE = f"{HOST}/#company"
     # SUPERIOR_COMPANY_PAGE = f"{HOST}/#company/4442"  # ----
-    SUPERIOR_COMPANY_PAGE = f"{HOST}/#companyv1/4442"
+    SUPERIOR_COMPANY_PAGE = f"{HOST}/#company/2800"  # ---- CCRB_COMPANY_PAGE = f"{HOST}/#company/2800"
+
+
