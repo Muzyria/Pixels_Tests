@@ -10,8 +10,8 @@ from framework_chrome.driver_chrome import DriverChrome
 class PageChrome:
     TIMEOUT = 10
 
-    @property
-    def action_chains(self):
+    @classmethod
+    def action_chains(cls):
         return ActionChains(DriverChrome.chrome_instance)
 
     @classmethod
