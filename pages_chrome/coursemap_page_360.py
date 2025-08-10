@@ -49,7 +49,7 @@ class CourseMapSyncWise360(PageChrome):
         locator = ("xpath", f'//mat-option/span[@class="mat-option-text" and text()=" {name} "]')
         el = self.presence_of_element_located(locator)
 
-        self.action_chains.scroll_to_element(el).move_to_element(el).click(el).perform()
+        self.action_chains().scroll_to_element(el).move_to_element(el).click(el).perform()
 
 
 
